@@ -2,13 +2,15 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0f172a">
     <meta name="description" content="Calculadora Anestésica PRO - Doses baseadas em evidência">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Calculadora Anestésica PRO</title>
     
-    <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
     
     <style>
         :root {
@@ -17,6 +19,7 @@
             --bg-card: #334155;
             --accent-cyan: #06b6d4;
             --accent-green: #10b981;
+            --accent-purple: #a855f7;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --success: #22c55e;
@@ -24,11 +27,7 @@
             --danger: #ef4444;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -36,12 +35,10 @@
             color: var(--text-primary);
             min-height: 100vh;
             padding: 1rem;
+            padding-bottom: 2rem;
         }
         
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .container { max-width: 800px; margin: 0 auto; }
         
         header {
             text-align: center;
@@ -59,11 +56,7 @@
             background-clip: text;
         }
         
-        header p {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-        }
+        header p { color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem; }
         
         .card {
             background: var(--bg-secondary);
@@ -76,21 +69,11 @@
             font-size: 1rem;
             color: var(--accent-cyan);
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
         
-        .form-group {
-            margin-bottom: 1rem;
-        }
+        .form-group { margin-bottom: 1rem; }
         
-        label {
-            display: block;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
+        label { display: block; font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
         
         input, select {
             width: 100%;
@@ -102,22 +85,10 @@
             font-size: 1rem;
         }
         
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--accent-cyan);
-        }
+        input:focus, select:focus { outline: none; border-color: var(--accent-cyan); }
         
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
-        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
         
         button {
             width: 100%;
@@ -135,20 +106,11 @@
             color: var(--bg-primary);
         }
         
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3); }
         
-        .btn-secondary {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            margin-top: 0.5rem;
-        }
+        .btn-secondary { background: var(--bg-card); color: var(--text-primary); margin-top: 0.5rem; }
         
-        #results {
-            display: none;
-        }
+        #results { display: none; }
         
         .result-section {
             background: var(--bg-secondary);
@@ -165,159 +127,162 @@
             border-bottom: 1px solid var(--bg-card);
         }
         
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.875rem;
-        }
+        .result-section h4 { font-size: 0.8rem; color: var(--accent-green); margin: 1rem 0 0.5rem; }
         
-        th, td {
-            padding: 0.5rem;
-            text-align: left;
-            border-bottom: 1px solid var(--bg-card);
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        th, td { padding: 0.5rem; text-align: left; border-bottom: 1px solid var(--bg-card); }
+        th { color: var(--text-secondary); font-weight: 500; }
         
-        th {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
+        .dose { color: var(--accent-green); font-weight: 600; }
+        .peso-tipo { color: var(--text-secondary); font-size: 0.75rem; }
         
-        .dose {
-            color: var(--accent-green);
-            font-weight: 600;
-        }
+        .alert { padding: 0.75rem; border-radius: 8px; margin-bottom: 0.5rem; font-size: 0.875rem; }
+        .alert-warning { background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--warning); color: var(--warning); }
+        .alert-danger { background: rgba(239, 68, 68, 0.1); border-left: 3px solid var(--danger); color: var(--danger); }
+        .alert-info { background: rgba(6, 182, 212, 0.1); border-left: 3px solid var(--accent-cyan); color: var(--accent-cyan); }
+        .alert-purple { background: rgba(168, 85, 247, 0.1); border-left: 3px solid var(--accent-purple); color: var(--accent-purple); }
         
-        .peso-tipo {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-        }
-        
-        .alert {
-            padding: 0.75rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-        }
-        
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border-left: 3px solid var(--warning);
-            color: var(--warning);
-        }
-        
-        .alert-danger {
-            background: rgba(239, 68, 68, 0.1);
-            border-left: 3px solid var(--danger);
-            color: var(--danger);
-        }
-        
-        .alert-info {
-            background: rgba(6, 182, 212, 0.1);
-            border-left: 3px solid var(--accent-cyan);
-            color: var(--accent-cyan);
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .badge-success {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--success);
-        }
-        
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-        }
-        
-        .badge-danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        
-        .stat-card {
-            background: var(--bg-card);
-            padding: 0.75rem;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .stat-card .value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent-cyan);
-        }
-        
-        .stat-card .label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
+        .stat-card { background: var(--bg-card); padding: 0.75rem; border-radius: 8px; text-align: center; }
+        .stat-card .value { font-size: 1.1rem; font-weight: 700; color: var(--accent-cyan); }
+        .stat-card .label { font-size: 0.7rem; color: var(--text-secondary); }
         
         .ficha-rapida {
             background: var(--bg-card);
             padding: 1rem;
             border-radius: 8px;
             font-family: monospace;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             white-space: pre-wrap;
             line-height: 1.6;
         }
         
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            overflow-x: auto;
-        }
-        
+        .tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; overflow-x: auto; padding-bottom: 0.5rem; }
         .tab {
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem;
             border-radius: 8px;
             background: var(--bg-card);
             color: var(--text-secondary);
             border: none;
             cursor: pointer;
             white-space: nowrap;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
+        }
+        .tab.active { background: var(--accent-cyan); color: var(--bg-primary); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .magic-header {
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .tab.active {
+        .toxic-table th { color: var(--danger); }
+        .status-ok { color: var(--success); }
+        .status-warning { color: var(--warning); }
+        .status-danger { color: var(--danger); }
+        
+        /* FOOTER */
+        .footer {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 1px solid var(--bg-card);
+        }
+        
+        .credits { margin-bottom: 1rem; }
+        .dev-name { font-size: 0.75rem; color: var(--text-secondary); }
+        .dev-title {
+            font-size: 1rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0.25rem 0;
+        }
+        .dev-institution { font-size: 0.8rem; color: var(--text-secondary); }
+        
+        .coffee-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(90deg, #f59e0b, #f97316);
+            color: var(--bg-primary);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .coffee-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
+        .version { font-size: 0.7rem; color: var(--bg-card); margin-top: 1rem; }
+        
+        /* MODAL PIX */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 90%;
+            width: 350px;
+            text-align: center;
+            position: relative;
+        }
+        .modal-content h3 { color: var(--accent-cyan); margin-bottom: 0.5rem; }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .close-modal:hover { color: var(--text-primary); }
+        .pix-info { background: var(--bg-card); padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+        .pix-key {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            word-break: break-all;
+            margin: 0.5rem 0;
+        }
+        .btn-copy {
             background: var(--accent-cyan);
             color: var(--bg-primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            width: auto;
         }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
+        .btn-copy:hover { background: var(--accent-green); }
+        .pix-note { font-size: 0.8rem; color: var(--text-secondary); margin-top: 1rem; }
         
         @media (max-width: 600px) {
-            .grid-2, .grid-3 {
-                grid-template-columns: 1fr;
-            }
-            
-            table {
-                font-size: 0.75rem;
-            }
-            
-            th, td {
-                padding: 0.375rem;
-            }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            table { font-size: 0.75rem; }
+            th, td { padding: 0.375rem; }
+            .tab { font-size: 0.7rem; padding: 0.4rem 0.6rem; }
         }
     </style>
 </head>
@@ -375,62 +340,119 @@
                 
                 <button class="btn-primary" onclick="calcular()">Calcular Doses</button>
             </div>
+            
+            <!-- FOOTER NO FORMULÁRIO -->
+            <footer class="footer">
+                <div class="credits">
+                    <p class="dev-name">Desenvolvido por</p>
+                    <p class="dev-title">Adilson Fernandes</p>
+                    <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
+                </div>
+                <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
+                <p class="version">v2.0 • 2026</p>
+            </footer>
         </div>
         
         <!-- RESULTADOS -->
         <div id="results">
             <button class="btn-secondary" onclick="voltar()">← Novo Cálculo</button>
             
-            <!-- Dados do Paciente -->
             <div class="result-section">
                 <h3>👤 Dados do Paciente</h3>
                 <div class="stats-grid" id="stats-paciente"></div>
                 <div id="alertas"></div>
             </div>
             
-            <!-- Escaladores -->
             <div class="result-section">
                 <h3>⚖️ Escaladores de Peso</h3>
                 <table id="tabela-escaladores"></table>
             </div>
             
-            <!-- Tabs de Resultados -->
             <div class="tabs">
                 <button class="tab active" onclick="showTab('indutores')">Indutores</button>
                 <button class="tab" onclick="showTab('bnm')">BNM</button>
                 <button class="tab" onclick="showTab('opioides')">Opioides</button>
                 <button class="tab" onclick="showTab('reversores')">Reversores</button>
                 <button class="tab" onclick="showTab('tci')">TCI</button>
+                <button class="tab" onclick="showTab('magica')">⭐ Mágica</button>
                 <button class="tab" onclick="showTab('emergencias')">Emergências</button>
                 <button class="tab" onclick="showTab('ventilacao')">Ventilação</button>
                 <button class="tab" onclick="showTab('last')">LAST</button>
             </div>
             
-            <!-- Conteúdo das Tabs -->
             <div id="indutores" class="tab-content active"></div>
             <div id="bnm" class="tab-content"></div>
             <div id="opioides" class="tab-content"></div>
             <div id="reversores" class="tab-content"></div>
             <div id="tci" class="tab-content"></div>
+            <div id="magica" class="tab-content"></div>
             <div id="emergencias" class="tab-content"></div>
             <div id="ventilacao" class="tab-content"></div>
             <div id="last" class="tab-content"></div>
             
-            <!-- Ficha Rápida -->
             <div class="result-section">
                 <h3>📋 Ficha Rápida</h3>
                 <div class="ficha-rapida" id="ficha-rapida"></div>
             </div>
+            
+            <!-- FOOTER NOS RESULTADOS -->
+            <footer class="footer">
+                <div class="credits">
+                    <p class="dev-name">Desenvolvido por</p>
+                    <p class="dev-title">Adilson Fernandes</p>
+                    <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
+                </div>
+                <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
+                <p class="version">v2.0 • 2026</p>
+            </footer>
+        </div>
+    </div>
+    
+    <!-- Modal PIX -->
+    <div id="pix-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePix()">&times;</span>
+            <h3>☕ Me pague um café!</h3>
+            <p>Obrigado por usar a calculadora!</p>
+            <div class="pix-info">
+                <p><strong>Chave PIX:</strong></p>
+                <p class="pix-key" id="pix-key">ahmf1204@gmail.com</p>
+                <button class="btn-copy" onclick="copyPix()">📋 Copiar Chave</button>
+            </div>
+            <p class="pix-note">Qualquer valor é bem-vindo! 🙏</p>
         </div>
     </div>
     
     <script>
-        // ========================================
-        // CALCULADORA ANESTÉSICA PRO v2.0
-        // ========================================
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
         
+        // PIX Modal
+        function showPix() {
+            document.getElementById('pix-modal').classList.add('active');
+        }
+        
+        function closePix() {
+            document.getElementById('pix-modal').classList.remove('active');
+        }
+        
+        function copyPix() {
+            const pixKey = document.getElementById('pix-key').innerText;
+            navigator.clipboard.writeText(pixKey).then(() => {
+                const btn = document.querySelector('.btn-copy');
+                btn.innerHTML = '✅ Copiado!';
+                setTimeout(() => { btn.innerHTML = '📋 Copiar Chave'; }, 2000);
+            });
+        }
+        
+        document.getElementById('pix-modal').addEventListener('click', function(e) {
+            if (e.target === this) closePix();
+        });
+        
+        // CALCULADORA
         function calcular() {
-            // Coleta de dados
             const nome = document.getElementById('nome').value || 'Paciente';
             const peso = parseFloat(document.getElementById('peso').value);
             const altura = parseFloat(document.getElementById('altura').value);
@@ -438,34 +460,18 @@
             const idade = parseInt(document.getElementById('idade').value);
             const asa = document.getElementById('asa').value;
             
-            if (!peso || !altura || !idade) {
-                alert('Preencha todos os campos obrigatórios!');
-                return;
-            }
+            if (!peso || !altura || !idade) { alert('Preencha todos os campos!'); return; }
             
-            // Cálculos de Peso
+            // Cálculos
             const tbw = peso;
             const imc = (peso / Math.pow(altura / 100, 2)).toFixed(1);
             const imc_num = parseFloat(imc);
             const ibw = Math.round(22 * Math.pow(altura / 100, 2) * 10) / 10;
-            
-            let pbw;
-            if (sexo === 'M') {
-                pbw = Math.round((50 + 0.91 * (altura - 152.4)) * 10) / 10;
-            } else {
-                pbw = Math.round((45.5 + 0.91 * (altura - 152.4)) * 10) / 10;
-            }
-            
-            let lbw;
-            if (sexo === 'M') {
-                lbw = Math.round((9270 * peso) / (6680 + 216 * imc_num) * 10) / 10;
-            } else {
-                lbw = Math.round((9270 * peso) / (8780 + 244 * imc_num) * 10) / 10;
-            }
-            
+            let pbw = sexo === 'M' ? Math.round((50 + 0.91 * (altura - 152.4)) * 10) / 10 : Math.round((45.5 + 0.91 * (altura - 152.4)) * 10) / 10;
+            let lbw = sexo === 'M' ? Math.round((9270 * peso) / (6680 + 216 * imc_num) * 10) / 10 : Math.round((9270 * peso) / (8780 + 244 * imc_num) * 10) / 10;
             const abw = Math.round((ibw + 0.4 * (peso - ibw)) * 10) / 10;
             
-            // Classificação de IMC
+            // Classificação
             const eh_baixo_peso = imc_num < 18.5;
             const eh_normopeso = imc_num >= 18.5 && imc_num < 25;
             const eh_sobrepeso = imc_num >= 25 && imc_num < 30;
@@ -478,75 +484,44 @@
             if (eh_baixo_peso) classificacao = 'BAIXO PESO';
             else if (eh_normopeso) classificacao = 'NORMAL';
             else if (eh_sobrepeso) classificacao = 'SOBREPESO';
-            else if (eh_obeso_classe1) classificacao = 'OBESO CLASSE 1';
-            else if (eh_obeso_classe2) classificacao = 'OBESO CLASSE 2';
-            else classificacao = 'OBESO MÓRBIDO';
+            else if (eh_obeso_classe1) classificacao = 'OBESO CL.1';
+            else if (eh_obeso_classe2) classificacao = 'OBESO CL.2';
+            else classificacao = 'OBESO MÓRB.';
             
-            // Lógica de Escalonamento
-            let propofol_peso, propofol_tipo;
-            if (eh_normopeso || eh_baixo_peso || eh_sobrepeso) {
-                propofol_peso = tbw; propofol_tipo = 'TBW';
-            } else if (eh_obeso_classe1) {
-                propofol_peso = abw; propofol_tipo = 'ABW';
-            } else {
-                propofol_peso = lbw; propofol_tipo = 'LBW';
-            }
-            
-            let etomidato_peso, etomidato_tipo;
-            if (eh_normopeso || eh_baixo_peso || eh_sobrepeso) {
-                etomidato_peso = tbw; etomidato_tipo = 'TBW';
-            } else if (eh_obeso_classe1) {
-                etomidato_peso = abw; etomidato_tipo = 'ABW';
-            } else {
-                etomidato_peso = lbw; etomidato_tipo = 'LBW';
-            }
-            
-            let bnm_peso, bnm_tipo;
-            if (eh_normopeso || eh_baixo_peso || eh_sobrepeso) {
-                bnm_peso = tbw; bnm_tipo = 'TBW';
-            } else if (eh_obeso_classe1) {
-                bnm_peso = abw; bnm_tipo = 'ABW';
-            } else {
-                bnm_peso = lbw; bnm_tipo = 'LBW';
-            }
-            
-            let opioide_peso, opioide_tipo;
-            if (eh_normopeso || eh_baixo_peso || eh_sobrepeso) {
-                opioide_peso = tbw; opioide_tipo = 'TBW';
-            } else if (eh_obeso_classe1) {
-                opioide_peso = abw; opioide_tipo = 'ABW';
-            } else {
-                opioide_peso = lbw; opioide_tipo = 'LBW';
-            }
+            // Escalonamento
+            let peso_escalonado, peso_tipo;
+            if (eh_normopeso || eh_baixo_peso || eh_sobrepeso) { peso_escalonado = tbw; peso_tipo = 'TBW'; }
+            else if (eh_obeso_classe1) { peso_escalonado = abw; peso_tipo = 'ABW'; }
+            else { peso_escalonado = lbw; peso_tipo = 'LBW'; }
             
             let remi_peso, remi_tipo;
-            if (eh_normopeso || eh_baixo_peso) {
-                remi_peso = tbw; remi_tipo = 'TBW';
-            } else if (eh_sobrepeso || eh_obeso_classe1) {
-                remi_peso = abw; remi_tipo = 'ABW';
-            } else {
-                remi_peso = lbw; remi_tipo = 'LBW';
-            }
+            if (eh_normopeso || eh_baixo_peso) { remi_peso = tbw; remi_tipo = 'TBW'; }
+            else if (eh_sobrepeso || eh_obeso_classe1) { remi_peso = abw; remi_tipo = 'ABW'; }
+            else { remi_peso = lbw; remi_tipo = 'LBW'; }
             
-            // Cálculo de Doses
+            let sufenta_peso_tci = peso_escalonado, sufenta_tipo_tci = peso_tipo;
+            
+            // Doses
             const doses = {
-                propofol: Math.round(propofol_peso * 2),
-                propofol_sed: Math.round(propofol_peso * 0.5),
-                etomidato: Math.round(etomidato_peso * 0.3),
+                propofol: Math.round(peso_escalonado * 2),
+                propofol_sed: Math.round(peso_escalonado * 0.5),
+                etomidato: Math.round(peso_escalonado * 0.3),
                 cetamina: Math.round(tbw * 1.5),
                 midazolam: (tbw * 0.05).toFixed(1),
-                rocuronio: Math.round(bnm_peso * 0.6),
-                rocuronio_isr: Math.round(bnm_peso * 1.2),
-                atracurio: Math.round(bnm_peso * 0.5),
-                cisatracurio: Math.round(bnm_peso * 0.15),
+                rocuronio: Math.round(peso_escalonado * 0.6),
+                rocuronio_isr: Math.round(peso_escalonado * 1.2),
+                atracurio: Math.round(peso_escalonado * 0.5),
+                cisatracurio: Math.round(peso_escalonado * 0.15),
                 succinilcolina: Math.round(tbw * 1),
-                fentanil: Math.round(opioide_peso * 3),
-                fentanil_max: Math.round(opioide_peso * 5),
-                sufentanil: (opioide_peso * 0.5).toFixed(1),
-                sufentanil_max: (opioide_peso * 0.7).toFixed(1),
+                fentanil: Math.round(peso_escalonado * 3),
+                fentanil_max: Math.round(peso_escalonado * 5),
+                sufentanil: (peso_escalonado * 0.5).toFixed(1),
+                sufentanil_max: (peso_escalonado * 0.7).toFixed(1),
+                sufentanil_manut_min: (sufenta_peso_tci * 0.3).toFixed(1),
+                sufentanil_manut_max: (sufenta_peso_tci * 0.5).toFixed(1),
                 remifentanil_min: (remi_peso * 0.1).toFixed(2),
                 remifentanil_max: (remi_peso * 0.3).toFixed(2),
-                morfina: (opioide_peso * 0.1).toFixed(1),
+                morfina: (peso_escalonado * 0.1).toFixed(1),
                 neostigmina: (tbw * 0.04).toFixed(1),
                 neostigmina_max: (tbw * 0.07).toFixed(1),
                 atropina: (tbw * 0.02).toFixed(1),
@@ -562,214 +537,208 @@
                 lido_max_adr: Math.round(ibw * 7),
                 ropi_max: Math.round(ibw * 3),
                 vc_min: Math.round(pbw * 6),
-                vc_max: Math.round(pbw * 8)
+                vc_max: Math.round(pbw * 8),
+                magica_cetamina_ind: (tbw * 0.2).toFixed(1),
+                magica_dex_ind: (tbw * 0.5).toFixed(1),
+                magica_lido_ind: Math.round(tbw * 1),
+                magica_mg_ind: Math.round(tbw * 30),
+                magica_cetamina_manut: Math.round(tbw * 0.2 * 4),
+                magica_dex_manut: Math.round(tbw * 0.5 * 4),
+                magica_lido_manut: Math.round(tbw * 1 * 4),
+                magica_mg_manut: Math.round(tbw * 10 * 4)
             };
             
-            // Renderização
+            const lido_mgkg = (doses.magica_lido_manut / tbw).toFixed(1);
+            const lido_status = (doses.magica_lido_manut / tbw) > 4 ? 'danger' : 'ok';
+            const cetamina_mgkgh = (doses.magica_cetamina_manut / 4 / tbw).toFixed(2);
+            const cetamina_status = (doses.magica_cetamina_manut / 4 / tbw) > 4.5 ? 'danger' : 'ok';
+            const dex_mcgkgh = (doses.magica_dex_manut / 4 / tbw).toFixed(2);
+            const dex_status = (doses.magica_dex_manut / 4 / tbw) > 1.4 ? 'warning' : 'ok';
+            
+            const remi_mlh_min = (remi_peso * 0.1 * 60 / 8).toFixed(1);
+            const remi_mlh_med = (remi_peso * 0.2 * 60 / 8).toFixed(1);
+            const remi_mlh_max = (remi_peso * 0.3 * 60 / 8).toFixed(1);
+            const sufenta_mlh_min = (parseFloat(doses.sufentanil_manut_min) / 5).toFixed(1);
+            const sufenta_mlh_max = (parseFloat(doses.sufentanil_manut_max) / 5).toFixed(1);
+            
+            let fr = idade < 18 ? '20-24 rpm' : (idade < 65 ? '12-16 rpm' : '10-14 rpm');
+            let peep = (eh_obeso_classe1 || eh_obeso_grave) ? '8-10 cmH2O' : '5-8 cmH2O';
+            
+            let modelo_propofol = 'Schnider ou Marsh';
+            let nota_propofol = 'Inserir TBW em qualquer modelo';
+            if (eh_obeso_classe1) { modelo_propofol = 'Schnider'; nota_propofol = 'Schnider corrige internamente'; }
+            else if (eh_obeso_classe2) { modelo_propofol = 'Schnider/Marsh+ABW'; nota_propofol = 'Considerar Marsh + ABW (' + abw + ' kg)'; }
+            else if (eh_obeso_morbido) { modelo_propofol = 'Marsh + ABW'; nota_propofol = 'Schnider impreciso! Usar Marsh + ABW'; }
+            
+            // Renderizar
             document.getElementById('form-section').style.display = 'none';
             document.getElementById('results').style.display = 'block';
             
-            // Stats do Paciente
             document.getElementById('stats-paciente').innerHTML = `
-                <div class="stat-card">
-                    <div class="value">${tbw}</div>
-                    <div class="label">TBW (kg)</div>
-                </div>
-                <div class="stat-card">
-                    <div class="value">${imc}</div>
-                    <div class="label">IMC</div>
-                </div>
-                <div class="stat-card">
-                    <div class="value">${classificacao}</div>
-                    <div class="label">Classificação</div>
-                </div>
-                <div class="stat-card">
-                    <div class="value">ASA ${asa}</div>
-                    <div class="label">Classificação</div>
-                </div>
+                <div class="stat-card"><div class="value">${tbw}</div><div class="label">TBW (kg)</div></div>
+                <div class="stat-card"><div class="value">${imc}</div><div class="label">IMC</div></div>
+                <div class="stat-card"><div class="value">${classificacao}</div><div class="label">Classe</div></div>
+                <div class="stat-card"><div class="value">ASA ${asa}</div><div class="label">Estado</div></div>
+                <div class="stat-card"><div class="value">${Math.round(tbw * 70)}</div><div class="label">Volemia (ml)</div></div>
             `;
             
-            // Alertas
             let alertasHtml = '';
-            if (eh_obeso_classe1) {
-                alertasHtml += `<div class="alert alert-warning">⚠️ OBESO CLASSE 1: Usar ABW como transição</div>`;
-            }
-            if (eh_obeso_classe2) {
-                alertasHtml += `<div class="alert alert-warning">⚠️ OBESO CLASSE 2: Usar LBW para maioria dos fármacos</div>`;
-            }
-            if (eh_obeso_morbido) {
-                alertasHtml += `<div class="alert alert-danger">🔴 OBESO MÓRBIDO: Schnider impreciso! Usar Marsh + ABW</div>`;
-            }
-            if (idade > 75) {
-                alertasHtml += `<div class="alert alert-warning">⚠️ IDOSO: Reduzir indutores 30-50%</div>`;
-            }
+            if (eh_obeso_classe1) alertasHtml += `<div class="alert alert-warning">⚠️ OBESO CLASSE 1: Usar ABW</div>`;
+            if (eh_obeso_classe2) alertasHtml += `<div class="alert alert-warning">⚠️ OBESO CLASSE 2: Usar LBW</div>`;
+            if (eh_obeso_morbido) alertasHtml += `<div class="alert alert-danger">🔴 OBESO MÓRBIDO: Marsh + ABW</div>`;
+            if (idade > 75) alertasHtml += `<div class="alert alert-warning">⚠️ IDOSO: Reduzir indutores 30-50%</div>`;
             document.getElementById('alertas').innerHTML = alertasHtml;
             
-            // Escaladores
             document.getElementById('tabela-escaladores').innerHTML = `
-                <tr><th>Escalador</th><th>Valor</th><th>Quando Usar</th></tr>
+                <tr><th>Escalador</th><th>Valor</th><th>Uso</th></tr>
                 <tr><td>TBW</td><td class="dose">${tbw} kg</td><td>Succinilcolina, Reversores</td></tr>
                 <tr><td>IBW</td><td class="dose">${ibw} kg</td><td>Anestésicos Locais</td></tr>
-                <tr><td>PBW</td><td class="dose">${pbw} kg</td><td>Ventilação (SEMPRE!)</td></tr>
-                <tr><td>LBW</td><td class="dose">${lbw} kg</td><td>BNM, Opioides (Obeso 2+)</td></tr>
-                <tr><td>ABW</td><td class="dose">${abw} kg</td><td>Transição Obeso Cl.1</td></tr>
+                <tr><td>PBW</td><td class="dose">${pbw} kg</td><td>Ventilação</td></tr>
+                <tr><td>LBW</td><td class="dose">${lbw} kg</td><td>Obeso Classe 2+</td></tr>
+                <tr><td>ABW</td><td class="dose">${abw} kg</td><td>Obeso Classe 1</td></tr>
             `;
             
-            // Indutores
-            document.getElementById('indutores').innerHTML = `
-                <div class="result-section">
-                    <h3>💊 Indutores</h3>
-                    <table>
-                        <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
-                        <tr><td>Propofol (bolus)</td><td class="dose">${doses.propofol} mg</td><td class="peso-tipo">${propofol_tipo} (${propofol_peso} kg)</td></tr>
-                        <tr><td>Propofol (sedação)</td><td class="dose">${doses.propofol_sed} mg</td><td class="peso-tipo">0.5 mg/kg</td></tr>
-                        <tr><td>Etomidato</td><td class="dose">${doses.etomidato} mg</td><td class="peso-tipo">${etomidato_tipo} (${etomidato_peso} kg)</td></tr>
-                        <tr><td>Cetamina</td><td class="dose">${doses.cetamina} mg</td><td class="peso-tipo">TBW (${tbw} kg)</td></tr>
-                        <tr><td>Midazolam</td><td class="dose">${doses.midazolam} mg</td><td class="peso-tipo">TBW (${tbw} kg)</td></tr>
-                    </table>
-                </div>
-            `;
+            document.getElementById('indutores').innerHTML = `<div class="result-section"><h3>💊 Indutores</h3><table>
+                <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
+                <tr><td>Propofol (bolus)</td><td class="dose">${doses.propofol} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Propofol (sedação)</td><td class="dose">${doses.propofol_sed} mg</td><td class="peso-tipo">0.5 mg/kg</td></tr>
+                <tr><td>Etomidato</td><td class="dose">${doses.etomidato} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Cetamina</td><td class="dose">${doses.cetamina} mg</td><td class="peso-tipo">TBW</td></tr>
+                <tr><td>Midazolam</td><td class="dose">${doses.midazolam} mg</td><td class="peso-tipo">TBW</td></tr>
+            </table></div>`;
             
-            // BNM
-            document.getElementById('bnm').innerHTML = `
-                <div class="result-section">
-                    <h3>💪 BNM - Não-Despolarizantes</h3>
-                    <table>
-                        <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
-                        <tr><td>Rocurônio</td><td class="dose">${doses.rocuronio} mg</td><td class="peso-tipo">${bnm_tipo} (${bnm_peso} kg)</td></tr>
-                        <tr><td>Rocurônio (ISR)</td><td class="dose">${doses.rocuronio_isr} mg</td><td class="peso-tipo">${bnm_tipo}</td></tr>
-                        <tr><td>Atracúrio</td><td class="dose">${doses.atracurio} mg</td><td class="peso-tipo">${bnm_tipo}</td></tr>
-                        <tr><td>Cisatracúrio</td><td class="dose">${doses.cisatracurio} mg</td><td class="peso-tipo">${bnm_tipo}</td></tr>
-                    </table>
-                    <h3 style="margin-top: 1rem;">💪 BNM - Despolarizante</h3>
-                    <table>
-                        <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
-                        <tr><td>Succinilcolina</td><td class="dose">${doses.succinilcolina} mg</td><td class="peso-tipo">TBW (${tbw} kg)</td></tr>
-                    </table>
-                </div>
-            `;
+            document.getElementById('bnm').innerHTML = `<div class="result-section"><h3>💪 BNM</h3><table>
+                <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
+                <tr><td>Rocurônio</td><td class="dose">${doses.rocuronio} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Rocurônio (ISR)</td><td class="dose">${doses.rocuronio_isr} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Atracúrio</td><td class="dose">${doses.atracurio} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Cisatracúrio</td><td class="dose">${doses.cisatracurio} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Succinilcolina</td><td class="dose">${doses.succinilcolina} mg</td><td class="peso-tipo">TBW</td></tr>
+            </table></div>`;
             
-            // Opioides
-            document.getElementById('opioides').innerHTML = `
-                <div class="result-section">
-                    <h3>💊 Opioides</h3>
-                    <table>
-                        <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
-                        <tr><td>Fentanil</td><td class="dose">${doses.fentanil}-${doses.fentanil_max} mcg</td><td class="peso-tipo">${opioide_tipo} (${opioide_peso} kg)</td></tr>
-                        <tr><td>Sufentanil</td><td class="dose">${doses.sufentanil}-${doses.sufentanil_max} mcg</td><td class="peso-tipo">${opioide_tipo}</td></tr>
-                        <tr><td>Remifentanil</td><td class="dose">${doses.remifentanil_min}-${doses.remifentanil_max} mcg/min</td><td class="peso-tipo">${remi_tipo} (${remi_peso} kg)</td></tr>
-                        <tr><td>Morfina</td><td class="dose">${doses.morfina} mg</td><td class="peso-tipo">${opioide_tipo}</td></tr>
-                    </table>
-                </div>
-            `;
+            document.getElementById('opioides').innerHTML = `<div class="result-section"><h3>💊 Opioides</h3><table>
+                <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
+                <tr><td>Fentanil</td><td class="dose">${doses.fentanil}-${doses.fentanil_max} mcg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Sufentanil</td><td class="dose">${doses.sufentanil}-${doses.sufentanil_max} mcg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Remifentanil</td><td class="dose">${doses.remifentanil_min}-${doses.remifentanil_max} mcg/min</td><td class="peso-tipo">${remi_tipo}</td></tr>
+                <tr><td>Morfina</td><td class="dose">${doses.morfina} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+            </table></div>`;
             
-            // Reversores
-            document.getElementById('reversores').innerHTML = `
-                <div class="result-section">
-                    <h3>🔄 Reversores (TBW!)</h3>
-                    <table>
-                        <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
-                        <tr><td>Neostigmina</td><td class="dose">${doses.neostigmina}-${doses.neostigmina_max} mg</td><td class="peso-tipo">TBW (${tbw} kg)</td></tr>
-                        <tr><td>Atropina</td><td class="dose">${doses.atropina} mg</td><td class="peso-tipo">TBW</td></tr>
-                        <tr><td>Sugammadex (TOF 2)</td><td class="dose">${doses.sugammadex_2} mg</td><td class="peso-tipo">TBW</td></tr>
-                        <tr><td>Sugammadex (profundo)</td><td class="dose">${doses.sugammadex_4} mg</td><td class="peso-tipo">TBW</td></tr>
-                    </table>
-                </div>
-            `;
-            
-            // TCI
-            let remi_mlh_min = (remi_peso * 0.1 * 60 / 8).toFixed(1);
-            let remi_mlh_med = (remi_peso * 0.2 * 60 / 8).toFixed(1);
-            let remi_mlh_max = (remi_peso * 0.3 * 60 / 8).toFixed(1);
-            
-            let modelo_propofol = 'Schnider ou Marsh';
-            if (eh_obeso_morbido) modelo_propofol = 'Marsh + ABW (' + abw + ' kg)';
+            document.getElementById('reversores').innerHTML = `<div class="result-section"><h3>🔄 Reversores (TBW!)</h3><table>
+                <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
+                <tr><td>Neostigmina</td><td class="dose">${doses.neostigmina}-${doses.neostigmina_max} mg</td><td class="peso-tipo">TBW</td></tr>
+                <tr><td>Atropina</td><td class="dose">${doses.atropina} mg</td><td class="peso-tipo">TBW</td></tr>
+                <tr><td>Sugammadex (TOF 2)</td><td class="dose">${doses.sugammadex_2} mg</td><td class="peso-tipo">TBW</td></tr>
+                <tr><td>Sugammadex (profundo)</td><td class="dose">${doses.sugammadex_4} mg</td><td class="peso-tipo">TBW</td></tr>
+            </table></div>`;
             
             document.getElementById('tci').innerHTML = `
                 <div class="result-section">
                     <h3>💉 TCI - Propofol</h3>
-                    <div class="alert alert-info">Modelo recomendado: ${modelo_propofol}</div>
+                    <div class="alert alert-info">Modelo: ${modelo_propofol}</div>
+                    <p style="font-size:0.85rem;color:var(--text-secondary);">${nota_propofol}</p>
                     <p>Alvos: Indução Ce 4-6 mcg/ml | Manutenção Ce 2-4 mcg/ml</p>
                 </div>
                 <div class="result-section">
                     <h3>💉 TCI - Remifentanil (Minto)</h3>
-                    <p>Inserir TBW (${tbw} kg) - modelo corrige internamente</p>
+                    <div class="alert alert-info">Inserir TBW (${tbw} kg) - modelo corrige</div>
                     <p>Alvos: Indução Ce 3-6 ng/ml | Manutenção Ce 2-4 ng/ml</p>
-                    <h4 style="margin-top: 1rem; color: var(--text-secondary);">Infusão Manual (8 mcg/ml)</h4>
+                    <h4>Infusão Manual (8 mcg/ml)</h4>
                     <table>
                         <tr><th>Dose</th><th>mcg/min</th><th>ml/h</th></tr>
-                        <tr><td>0.1 mcg/kg/min</td><td>${(remi_peso * 0.1).toFixed(1)}</td><td class="dose">${remi_mlh_min} ml/h</td></tr>
-                        <tr><td>0.2 mcg/kg/min</td><td>${(remi_peso * 0.2).toFixed(1)}</td><td class="dose">${remi_mlh_med} ml/h</td></tr>
-                        <tr><td>0.3 mcg/kg/min</td><td>${(remi_peso * 0.3).toFixed(1)}</td><td class="dose">${remi_mlh_max} ml/h</td></tr>
+                        <tr><td>0.1 mcg/kg/min</td><td>${(remi_peso*0.1).toFixed(1)}</td><td class="dose">${remi_mlh_min}</td></tr>
+                        <tr><td>0.2 mcg/kg/min</td><td>${(remi_peso*0.2).toFixed(1)}</td><td class="dose">${remi_mlh_med}</td></tr>
+                        <tr><td>0.3 mcg/kg/min</td><td>${(remi_peso*0.3).toFixed(1)}</td><td class="dose">${remi_mlh_max}</td></tr>
                     </table>
                 </div>
-            `;
-            
-            // Emergências
-            document.getElementById('emergencias').innerHTML = `
                 <div class="result-section">
-                    <h3>🚨 Emergências (TBW!)</h3>
+                    <h3>💉 TCI - Sufentanil (Gepts)</h3>
+                    <div class="alert alert-warning">⚠️ Gepts NÃO validado em extremos de peso</div>
+                    <p>Peso: <strong>${sufenta_tipo_tci} (${sufenta_peso_tci} kg)</strong></p>
+                    <p>Alvos: Indução Ce 0.4 ng/ml | Manutenção Ce 0.2-0.5 ng/ml</p>
+                    <h4>Infusão Manual (5 mcg/ml)</h4>
                     <table>
-                        <tr><th>Fármaco</th><th>Dose</th><th>Indicação</th></tr>
-                        <tr><td>Dantrolene</td><td class="dose">${doses.dantrolene} mg</td><td>Hipertermia Maligna</td></tr>
-                        <tr><td>TXA</td><td class="dose">${doses.txa}-${doses.txa_max} mg</td><td>Hemorragia</td></tr>
-                        <tr><td>Emulsão Lipídica 20%</td><td class="dose">${doses.lipid_bolus} ml bolus</td><td>LAST</td></tr>
+                        <tr><th>Uso</th><th>Dose</th><th>Volume</th></tr>
+                        <tr><td>Bolus</td><td>${doses.sufentanil}-${doses.sufentanil_max} mcg</td><td class="dose">${(parseFloat(doses.sufentanil)/5).toFixed(1)}-${(parseFloat(doses.sufentanil_max)/5).toFixed(1)} ml</td></tr>
+                        <tr><td>Infusão</td><td>${doses.sufentanil_manut_min}-${doses.sufentanil_manut_max} mcg/h</td><td class="dose">${sufenta_mlh_min}-${sufenta_mlh_max} ml/h</td></tr>
                     </table>
                 </div>
             `;
             
-            // Ventilação
-            let fr = idade < 18 ? '20-24 rpm' : (idade < 65 ? '12-16 rpm' : '10-14 rpm');
-            let peep = (eh_obeso_classe1 || eh_obeso_grave) ? '8-10 cmH2O' : '5-8 cmH2O';
-            
-            document.getElementById('ventilacao').innerHTML = `
+            document.getElementById('magica').innerHTML = `
                 <div class="result-section">
-                    <h3>🫁 Ventilação Mecânica (PBW!)</h3>
-                    <div class="alert alert-danger">⚠️ Sempre usar PBW (${pbw} kg) para VC!</div>
+                    <h3 class="magic-header">⭐ Anestesia "Mágica" (Opioide-Free)</h3>
+                    <div class="alert alert-purple">Estratégia multimodal</div>
+                    <h4>INDUÇÃO (SF 250ml)</h4>
                     <table>
-                        <tr><th>Parâmetro</th><th>Valor</th></tr>
-                        <tr><td>Volume Corrente</td><td class="dose">${doses.vc_min}-${doses.vc_max} ml</td></tr>
-                        <tr><td>FR</td><td class="dose">${fr}</td></tr>
-                        <tr><td>PEEP</td><td class="dose">${peep}</td></tr>
-                        <tr><td>Pplatô</td><td class="dose">< 30 cmH2O</td></tr>
+                        <tr><th>Fármaco</th><th>Dose</th><th>mg/kg</th></tr>
+                        <tr><td>Cetamina</td><td class="dose">${doses.magica_cetamina_ind} mg</td><td>0.2</td></tr>
+                        <tr><td>Dexmedetomidina</td><td class="dose">${doses.magica_dex_ind} mcg</td><td>0.5</td></tr>
+                        <tr><td>Lidocaína</td><td class="dose">${doses.magica_lido_ind} mg</td><td>1</td></tr>
+                        <tr><td>Sulfato Mg</td><td class="dose">${doses.magica_mg_ind} mg</td><td>30</td></tr>
+                    </table>
+                    <h4>MANUTENÇÃO (SF 100ml = 25ml/h)</h4>
+                    <table>
+                        <tr><th>Fármaco</th><th>Dose Total (4h)</th><th>Dose/h</th></tr>
+                        <tr><td>Cetamina</td><td class="dose">${doses.magica_cetamina_manut} mg</td><td>${Math.round(doses.magica_cetamina_manut/4)}</td></tr>
+                        <tr><td>Dexmedetomidina</td><td class="dose">${doses.magica_dex_manut} mcg</td><td>${Math.round(doses.magica_dex_manut/4)}</td></tr>
+                        <tr><td>Lidocaína</td><td class="dose">${doses.magica_lido_manut} mg</td><td>${Math.round(doses.magica_lido_manut/4)}</td></tr>
+                        <tr><td>Sulfato Mg</td><td class="dose">${doses.magica_mg_manut} mg</td><td>${Math.round(doses.magica_mg_manut/4)}</td></tr>
+                    </table>
+                    <h4 style="color:var(--danger);">⚠️ Doses Tóxicas</h4>
+                    <table class="toxic-table">
+                        <tr><th>Fármaco</th><th>Limite</th><th>Atual</th><th>Status</th></tr>
+                        <tr><td>Lidocaína</td><td>4-5 mg/kg</td><td>${lido_mgkg}</td><td class="${lido_status==='ok'?'status-ok':'status-danger'}">${lido_status==='ok'?'🟢':'🔴'}</td></tr>
+                        <tr><td>Cetamina</td><td>4.5 mg/kg/h</td><td>${cetamina_mgkgh}</td><td class="${cetamina_status==='ok'?'status-ok':'status-danger'}">${cetamina_status==='ok'?'🟢':'🔴'}</td></tr>
+                        <tr><td>Dexmedetomidina</td><td>1.4 mcg/kg/h</td><td>${dex_mcgkgh}</td><td class="${dex_status==='ok'?'status-ok':'status-warning'}">${dex_status==='ok'?'🟢':'🟡'}</td></tr>
                     </table>
                 </div>
             `;
             
-            // LAST
-            document.getElementById('last').innerHTML = `
-                <div class="result-section">
-                    <h3>🚨 LAST - Anestésicos Locais (IBW: ${ibw} kg)</h3>
-                    <table>
-                        <tr><th>Anestésico</th><th>Dose Máx</th><th>Dose (mg)</th></tr>
-                        <tr><td>Bupivacaína</td><td>2 mg/kg</td><td class="dose">${doses.bupi_max} mg</td></tr>
-                        <tr><td>Lidocaína (s/ adr)</td><td>4.5 mg/kg</td><td class="dose">${doses.lido_max} mg</td></tr>
-                        <tr><td>Lidocaína (c/ adr)</td><td>7 mg/kg</td><td class="dose">${doses.lido_max_adr} mg</td></tr>
-                        <tr><td>Ropivacaína</td><td>3 mg/kg</td><td class="dose">${doses.ropi_max} mg</td></tr>
-                    </table>
-                    <div class="alert alert-danger" style="margin-top: 1rem;">
-                        <strong>Se LAST:</strong> Emulsão Lipídica 20% → <strong>${doses.lipid_bolus} ml</strong> bolus + <strong>${doses.lipid_inf} ml/h</strong>
-                    </div>
-                </div>
-            `;
+            document.getElementById('emergencias').innerHTML = `<div class="result-section"><h3>🚨 Emergências</h3><table>
+                <tr><th>Fármaco</th><th>Dose</th><th>Indicação</th></tr>
+                <tr><td>Dantrolene</td><td class="dose">${doses.dantrolene} mg</td><td>HM</td></tr>
+                <tr><td>TXA</td><td class="dose">${doses.txa}-${doses.txa_max} mg</td><td>Hemorragia</td></tr>
+                <tr><td>Emulsão Lipídica</td><td class="dose">${doses.lipid_bolus} ml bolus</td><td>LAST</td></tr>
+            </table></div>`;
             
-            // Ficha Rápida
+            document.getElementById('ventilacao').innerHTML = `<div class="result-section"><h3>🫁 Ventilação (PBW!)</h3>
+                <div class="alert alert-danger">⚠️ Usar PBW (${pbw} kg) para VC!</div>
+                <table>
+                    <tr><th>Parâmetro</th><th>Valor</th></tr>
+                    <tr><td>Volume Corrente</td><td class="dose">${doses.vc_min}-${doses.vc_max} ml</td></tr>
+                    <tr><td>FR</td><td class="dose">${fr}</td></tr>
+                    <tr><td>PEEP</td><td class="dose">${peep}</td></tr>
+                </table>
+            </div>`;
+            
+            document.getElementById('last').innerHTML = `<div class="result-section"><h3>🚨 LAST (IBW: ${ibw} kg)</h3><table>
+                <tr><th>Anestésico</th><th>Dose Máx</th><th>mg</th></tr>
+                <tr><td>Bupivacaína</td><td>2 mg/kg</td><td class="dose">${doses.bupi_max}</td></tr>
+                <tr><td>Lidocaína (s/ adr)</td><td>4.5 mg/kg</td><td class="dose">${doses.lido_max}</td></tr>
+                <tr><td>Lidocaína (c/ adr)</td><td>7 mg/kg</td><td class="dose">${doses.lido_max_adr}</td></tr>
+                <tr><td>Ropivacaína</td><td>3 mg/kg</td><td class="dose">${doses.ropi_max}</td></tr>
+            </table>
+            <div class="alert alert-danger" style="margin-top:1rem;">Se LAST: Lipídica ${doses.lipid_bolus} ml bolus + ${doses.lipid_inf} ml/h</div>
+            </div>`;
+            
             document.getElementById('ficha-rapida').innerHTML = 
 `INDUÇÃO: Propofol ${doses.propofol} mg + Fentanil ${doses.fentanil} mcg + Rocurônio ${doses.rocuronio} mg
 
-ISR: Propofol ${doses.propofol} mg + Rocurônio ${doses.rocuronio_isr} mg (SUGAMMADEX ${doses.sugammadex_4} mg!)
+ISR: Propofol ${doses.propofol} mg + Rocurônio ${doses.rocuronio_isr} mg → SUGAMMADEX ${doses.sugammadex_4} mg
 
 VENTILAÇÃO: VC ${doses.vc_min}-${doses.vc_max} ml | FR ${fr} | PEEP ${peep}
 
-REVERSÃO: Sugammadex ${doses.sugammadex_2} mg (TOF 2) ou ${doses.sugammadex_4} mg (profundo)
+REVERSÃO: Sugammadex ${doses.sugammadex_2} mg (TOF2) ou ${doses.sugammadex_4} mg (profundo)
 
-TCI PROPOFOL: ${modelo_propofol}
-TCI REMI: Minto, TBW ${tbw} kg`;
+TCI: Propofol ${modelo_propofol} | Remi Minto TBW ${tbw} kg | Sufenta Gepts ${sufenta_tipo_tci} ${sufenta_peso_tci} kg`;
         }
         
         function voltar() {
             document.getElementById('form-section').style.display = 'block';
             document.getElementById('results').style.display = 'none';
+            document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===0));
+            document.querySelectorAll('.tab-content').forEach((c,i) => c.classList.toggle('active', i===0));
         }
         
         function showTab(tabId) {
