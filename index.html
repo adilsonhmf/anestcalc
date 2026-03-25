@@ -515,10 +515,10 @@
                 succinilcolina: Math.round(tbw * 1),
                 fentanil: Math.round(peso_escalonado * 3),
                 fentanil_max: Math.round(peso_escalonado * 5),
-                sufentanil: (peso_escalonado * 0.5).toFixed(1),
-                sufentanil_max: (peso_escalonado * 0.7).toFixed(1),
-                sufentanil_manut_min: (sufenta_peso_tci * 0.3).toFixed(1),
-                sufentanil_manut_max: (sufenta_peso_tci * 0.5).toFixed(1),
+                 sufentanil: (peso_escalonado * 0.5).toFixed(1),
+                sufentanil_max: (peso_escalonado * 1).toFixed(1),
+                sufentanil_manut_min: (sufenta_peso_tci * 0.1).toFixed(2),
+                sufentanil_manut_max: (sufenta_peso_tci * 0.5).toFixed(2),
                 remifentanil_min: (remi_peso * 0.1).toFixed(2),
                 remifentanil_max: (remi_peso * 0.3).toFixed(2),
                 morfina: (peso_escalonado * 0.1).toFixed(1),
@@ -659,8 +659,8 @@
                     <h4>Infusão Manual (5 mcg/ml)</h4>
                     <table>
                         <tr><th>Uso</th><th>Dose</th><th>Volume</th></tr>
-                        <tr><td>Bolus</td><td>${doses.sufentanil}-${doses.sufentanil_max} mcg</td><td class="dose">${(parseFloat(doses.sufentanil)/5).toFixed(1)}-${(parseFloat(doses.sufentanil_max)/5).toFixed(1)} ml</td></tr>
-                        <tr><td>Infusão</td><td>${doses.sufentanil_manut_min}-${doses.sufentanil_manut_max} mcg/h</td><td class="dose">${sufenta_mlh_min}-${sufenta_mlh_max} ml/h</td></tr>
+<tr><td>Bolus</td><td>${doses.sufentanil}-${doses.sufentanil_max} mcg</td><td class="dose">${(parseFloat(doses.sufentanil)/5).toFixed(1)}-${(parseFloat(doses.sufentanil_max)/5).toFixed(1)} ml</td></tr>
+<tr><td>Infusão</td><td>${doses.sufentanil_manut_min}-${doses.sufentanil_manut_max} mcg/kg/min</td><td class="dose">${(parseFloat(doses.sufentanil_manut_min)*sufenta_peso_tci*60/5).toFixed(1)}-${(parseFloat(doses.sufentanil_manut_max)*sufenta_peso_tci*60/5).toFixed(1)} ml/h</td></tr>
                     </table>
                 </div>
             `;
