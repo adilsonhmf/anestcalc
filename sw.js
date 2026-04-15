@@ -1,9 +1,23 @@
-const CACHE_NAME = 'anestesia-pro-v3';
+// sw.js - Atualize para v4 (ou o número seguinte)
+const CACHE_NAME = 'anestesia-pro-v2.2';
 const urlsToCache = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', event => {
+  self.skipWaiting(); // ← ADICIONE ISSO!
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+  );
+});
+
+self.addEventListener('activate', event => {
+  // Limpa caches antigos
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key !== CACHE_NAME)
+            .map(key => caches.delete(key))
+      );
+    })
   );
 });
 
