@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anestesia-pro-v1';
+const CACHE_NAME = 'anestesia-pro-v2';
 const urlsToCache = [
   './',
   './index.html',
