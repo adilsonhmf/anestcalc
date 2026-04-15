@@ -1351,5 +1351,24 @@ TCI: Propofol ${modelo_propofol} | Remi Minto TBW ${tbw} kg | Sufenta Gepts ${su
             document.getElementById(tabId).classList.add('active');
         }
     </script>
+    <script>
+// Força atualização do Service Worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+        reg.update(); // Verifica atualizações
+        
+        reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing;
+            newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'activated') {
+                    // Nova versão ativada - recarrega a página
+                    window.location.reload();
+                }
+            });
+        });
+    });
+}
+</script>
+
 </body>
 </html>
