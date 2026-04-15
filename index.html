@@ -184,6 +184,103 @@
         .status-warning { color: var(--warning); }
         .status-danger { color: var(--danger); }
         
+        /* ACCORDION EMERGÊNCIAS */
+        .accordion { margin-bottom: 0.5rem; }
+        .accordion-header {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--danger);
+        }
+        .accordion-header:hover { background: #3d4a5c; }
+        .accordion-header.active { 
+            border-radius: 8px 8px 0 0;
+            background: #3d4a5c;
+        }
+        .accordion-header .title {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .accordion-header .icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        .accordion-header.active .icon { transform: rotate(180deg); }
+        .accordion-content {
+            display: none;
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 0 0 8px 8px;
+            border: 1px solid var(--bg-card);
+            border-top: none;
+            font-size: 0.85rem;
+        }
+        .accordion-content.show { display: block; }
+        .accordion-content ul { 
+            margin-left: 1.2rem; 
+            margin-bottom: 0.75rem;
+        }
+        .accordion-content li { 
+            margin-bottom: 0.4rem;
+            line-height: 1.4;
+        }
+        .accordion-content .dose-box {
+            background: var(--bg-card);
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+        }
+        .accordion-content .dose-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid var(--bg-primary);
+        }
+        .accordion-content .dose-item:last-child { border-bottom: none; }
+        .accordion-content .drug { color: var(--text-primary); }
+        .accordion-content .dose-value { color: var(--accent-green); font-weight: 600; }
+        .accordion-content h5 {
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            margin: 1rem 0 0.5rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid var(--bg-card);
+        }
+        .accordion-content .fonte {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 0.75rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed var(--bg-card);
+        }
+        .accordion-header.acls { border-left-color: #ef4444; }
+        .accordion-header.anafilaxia { border-left-color: #a855f7; }
+        .accordion-header.hm { border-left-color: #f97316; }
+        .accordion-header.last { border-left-color: #06b6d4; }
+        .accordion-header.via-aerea { border-left-color: #3b82f6; }
+        .accordion-header.hemodinamica { border-left-color: #ec4899; }
+        .accordion-header.hemorragia { border-left-color: #dc2626; }
+        .accordion-header.outros { border-left-color: #6b7280; }
+        
+        .hs-ts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+        .hs-ts-item {
+            background: var(--bg-card);
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
         /* FOOTER */
         .footer {
             margin-top: 2rem;
@@ -283,6 +380,7 @@
             table { font-size: 0.75rem; }
             th, td { padding: 0.375rem; }
             .tab { font-size: 0.7rem; padding: 0.4rem 0.6rem; }
+            .hs-ts-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -349,7 +447,7 @@
                     <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
                 </div>
                 <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
-                <p class="version">v2.1 • 2026</p>
+                <p class="version">v2.2 • 2026</p>
             </footer>
         </div>
         
@@ -375,7 +473,7 @@
                 <button class="tab" onclick="showTab('reversores')">Reversores</button>
                 <button class="tab" onclick="showTab('tci')">TCI</button>
                 <button class="tab" onclick="showTab('magica')">⭐ Mágica</button>
-                <button class="tab" onclick="showTab('emergencias')">Emergências</button>
+                <button class="tab" onclick="showTab('emergencias')">🚨 Emergências</button>
                 <button class="tab" onclick="showTab('ventilacao')">Ventilação</button>
                 <button class="tab" onclick="showTab('last')">LAST</button>
             </div>
@@ -403,7 +501,7 @@
                     <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
                 </div>
                 <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
-                <p class="version">v2.1 • 2026</p>
+                <p class="version">v2.2 • 2026</p>
             </footer>
         </div>
     </div>
@@ -450,6 +548,24 @@
         document.getElementById('pix-modal').addEventListener('click', function(e) {
             if (e.target === this) closePix();
         });
+        
+        // ACCORDION
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const isActive = element.classList.contains('active');
+            
+            // Fecha todos os outros
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.classList.remove('active');
+                header.nextElementSibling.classList.remove('show');
+            });
+            
+            // Abre o clicado (se não estava ativo)
+            if (!isActive) {
+                element.classList.add('active');
+                content.classList.add('show');
+            }
+        }
         
         // CALCULADORA
         function calcular() {
@@ -515,12 +631,10 @@
                 succinilcolina: Math.round(tbw * 1),
                 fentanil: Math.round(peso_escalonado * 3),
                 fentanil_max: Math.round(peso_escalonado * 5),
-                // ========== SUFENTANIL CORRIGIDO - SBA 2016 ==========
-                sufentanil: (peso_escalonado * 0.3).toFixed(1),          // CORRIGIDO: era 0.5
-                sufentanil_max: (peso_escalonado * 0.5).toFixed(1),      // CORRIGIDO: era 0.7
+                sufentanil: (peso_escalonado * 0.3).toFixed(1),
+                sufentanil_max: (peso_escalonado * 0.5).toFixed(1),
                 sufentanil_manut_min: (sufenta_peso_tci * 0.3).toFixed(1),
-                sufentanil_manut_max: (sufenta_peso_tci * 0.6).toFixed(1), // CORRIGIDO: era 0.5
-                // =====================================================
+                sufentanil_manut_max: (sufenta_peso_tci * 0.6).toFixed(1),
                 remifentanil_min: (remi_peso * 0.1).toFixed(2),
                 remifentanil_max: (remi_peso * 0.3).toFixed(2),
                 morfina: (peso_escalonado * 0.1).toFixed(1),
@@ -529,17 +643,24 @@
                 atropina: (tbw * 0.02).toFixed(1),
                 sugammadex_2: Math.round(tbw * 2),
                 sugammadex_4: Math.round(tbw * 4),
+                // EMERGÊNCIAS
                 dantrolene: (tbw * 2.5).toFixed(1),
-                txa: Math.round(tbw * 30),
-                txa_max: Math.round(tbw * 50),
+                dantrolene_frascos: Math.ceil((tbw * 2.5) / 20),
+                txa: Math.round(tbw * 1000 / tbw), // 1g fixo
                 lipid_bolus: Math.round(lbw * 1.5),
-                lipid_inf: Math.round(lbw * 0.25 * 60),
+                lipid_inf: (lbw * 0.25).toFixed(1),
+                epinefrina_anafilaxia: '10-100',
+                epinefrina_pct: '1',
+                calcio: '1',
+                // LAST
                 bupi_max: Math.round(ibw * 2),
                 lido_max: Math.round(ibw * 4.5),
                 lido_max_adr: Math.round(ibw * 7),
                 ropi_max: Math.round(ibw * 3),
+                // Ventilação
                 vc_min: Math.round(pbw * 6),
                 vc_max: Math.round(pbw * 8),
+                // Mágica
                 magica_cetamina_ind: (tbw * 0.2).toFixed(1),
                 magica_dex_ind: (tbw * 0.5).toFixed(1),
                 magica_lido_ind: Math.round(tbw * 1),
@@ -700,12 +821,407 @@
                 </div>
             `;
             
-            document.getElementById('emergencias').innerHTML = `<div class="result-section"><h3>🚨 Emergências</h3><table>
-                <tr><th>Fármaco</th><th>Dose</th><th>Indicação</th></tr>
-                <tr><td>Dantrolene</td><td class="dose">${doses.dantrolene} mg</td><td>HM</td></tr>
-                <tr><td>TXA</td><td class="dose">${doses.txa}-${doses.txa_max} mg</td><td>Hemorragia</td></tr>
-                <tr><td>Emulsão Lipídica</td><td class="dose">${doses.lipid_bolus} ml bolus</td><td>LAST</td></tr>
-            </table></div>`;
+            // ============ ABA EMERGÊNCIAS REMODELADA ============
+            document.getElementById('emergencias').innerHTML = `
+                <div class="result-section">
+                    <h3>🚨 Protocolos de Emergência</h3>
+                    <p style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:1rem;">Clique para expandir cada protocolo</p>
+                    
+                    <!-- PCR - ASSISTOLIA/AESP -->
+                    <div class="accordion">
+                        <div class="accordion-header acls" onclick="toggleAccordion(this)">
+                            <span class="title">🔴 PCR - Assistolia / AESP</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>RCP de Alta Qualidade</h5>
+                            <ul>
+                                <li>Frequência: <strong>100-120 compressões/min</strong></li>
+                                <li>Profundidade: <strong>≥ 5 cm</strong>, permitir retorno do tórax</li>
+                                <li>Minimizar pausas nas compressões</li>
+                                <li>Trocar compressores a cada 2 min</li>
+                                <li>Manter EtCO₂ > 10 mmHg</li>
+                            </ul>
+                            <h5>Via Aérea</h5>
+                            <ul>
+                                <li>O₂ 100% a 10-15 L/min</li>
+                                <li>Bolsa-máscara: 30:2 (compressões:ventilações)</li>
+                                <li>IOT: 10 respirações/min, VC 6-7 ml/kg</li>
+                            </ul>
+                            <h5>Medicamentos</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Epinefrina</span><span class="dose-value">1 mg IV a cada 3-5 min</span></div>
+                                <div class="dose-item"><span class="drug">Se Hipercalemia:</span><span class="dose-value"></span></div>
+                                <div class="dose-item"><span class="drug">• Cloreto de Cálcio</span><span class="dose-value">1 g IV</span></div>
+                                <div class="dose-item"><span class="drug">• Bicarbonato</span><span class="dose-value">50 mEq IV</span></div>
+                                <div class="dose-item"><span class="drug">• Insulina + Glicose</span><span class="dose-value">10U + 25g D50</span></div>
+                            </div>
+                            <h5>H's e T's</h5>
+                            <div class="hs-ts-grid">
+                                <div class="hs-ts-item">Hipovolemia</div>
+                                <div class="hs-ts-item">Hipóxia</div>
+                                <div class="hs-ts-item">H+ (Acidose)</div>
+                                <div class="hs-ts-item">Hipo/Hipercalemia</div>
+                                <div class="hs-ts-item">Hipotermia</div>
+                                <div class="hs-ts-item">Tensão (Pneumotórax)</div>
+                                <div class="hs-ts-item">Tamponamento</div>
+                                <div class="hs-ts-item">Toxinas</div>
+                                <div class="hs-ts-item">TEP (Trombose)</div>
+                                <div class="hs-ts-item">Trombose Coronária</div>
+                            </div>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FV/TV -->
+                    <div class="accordion">
+                        <div class="accordion-header acls" onclick="toggleAccordion(this)">
+                            <span class="title">🔴 PCR - FV / TV sem pulso</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Desfibrilação IMEDIATA</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Choque Bifásico</span><span class="dose-value">120-200 J</span></div>
+                                <div class="dose-item"><span class="drug">Choque Monofásico</span><span class="dose-value">360 J</span></div>
+                            </div>
+                            <h5>Sequência</h5>
+                            <ul>
+                                <li>RCP → Choque → RCP 2 min → Checar ritmo</li>
+                                <li>Após 2º choque: <strong>Epinefrina 1 mg IV</strong> a cada 3-5 min</li>
+                                <li>Após 3º choque: <strong>Amiodarona 300 mg IV</strong></li>
+                                <li>Pode repetir: Amiodarona 150 mg</li>
+                            </ul>
+                            <h5>Alternativa à Amiodarona</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Lidocaína</span><span class="dose-value">1-1,5 mg/kg IV</span></div>
+                                <div class="dose-item"><span class="drug">Se Torsades</span><span class="dose-value">MgSO₄ 1-2 g IV</span></div>
+                            </div>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- BRADICARDIA -->
+                    <div class="accordion">
+                        <div class="accordion-header acls" onclick="toggleAccordion(this)">
+                            <span class="title">🔴 Bradicardia Sintomática</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Critérios: FC < 50 bpm + instabilidade</h5>
+                            <h5>Tratamento</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Atropina</span><span class="dose-value">0,5-1 mg IV (máx 3 mg)</span></div>
+                                <div class="dose-item"><span class="drug">Se refratário:</span><span class="dose-value"></span></div>
+                                <div class="dose-item"><span class="drug">• Epinefrina</span><span class="dose-value">5-10 mcg IV</span></div>
+                                <div class="dose-item"><span class="drug">• Dopamina</span><span class="dose-value">5-20 mcg/kg/min</span></div>
+                                <div class="dose-item"><span class="drug">• Marcapasso transcutâneo</span><span class="dose-value">≥ 80 bpm</span></div>
+                            </div>
+                            <h5>Interromper Estímulos Vagais</h5>
+                            <ul>
+                                <li>Desinsuflar abdômen</li>
+                                <li>Remover afastadores/compressas</li>
+                                <li>Remover pressão ocular/cervical</li>
+                            </ul>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- ANAFILAXIA -->
+                    <div class="accordion">
+                        <div class="accordion-header anafilaxia" onclick="toggleAccordion(this)">
+                            <span class="title">💜 Anafilaxia</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Sinais: Hipotensão + Broncoespasmo + Rash + Angioedema</h5>
+                            <h5>Tratamento PRIMÁRIO</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">🔥 EPINEFRINA IV</span><span class="dose-value">10-100 mcg IV</span></div>
+                                <div class="dose-item"><span class="drug">Se não houver IV: IM</span><span class="dose-value">500 mcg IM</span></div>
+                                <div class="dose-item"><span class="drug">Repetir a cada 2 min até melhora</span><span class="dose-value"></span></div>
+                            </div>
+                            <ul>
+                                <li>O₂ 100%, via aérea segura</li>
+                                <li>Volume: bolus rápido (pode precisar litros!)</li>
+                                <li>Desligar anestésicos voláteis</li>
+                                <li>Remover alérgenos (ATB, látex, BNM, clorexidina)</li>
+                            </ul>
+                            <h5>Tratamento SECUNDÁRIO</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Difenidramina (H1)</span><span class="dose-value">25-50 mg IV</span></div>
+                                <div class="dose-item"><span class="drug">Famotidina (H2)</span><span class="dose-value">20 mg IV</span></div>
+                                <div class="dose-item"><span class="drug">Hidrocortisona</span><span class="dose-value">100 mg IV</span></div>
+                                <div class="dose-item"><span class="drug">Broncoespasmo: Salbutamol</span><span class="dose-value">4-8 puffs</span></div>
+                            </div>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- HIPERTERMIA MALIGNA -->
+                    <div class="accordion">
+                        <div class="accordion-header hm" onclick="toggleAccordion(this)">
+                            <span class="title">🔥 Hipertermia Maligna</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Sinais Precoces</h5>
+                            <ul>
+                                <li>↑ EtCO₂ inexplicado (mais precoce!)</li>
+                                <li>Taquicardia, rigidez muscular</li>
+                                <li>Acidose mista</li>
+                                <li>Hipertermia (sinal tardio!)</li>
+                            </ul>
+                            <h5>Tratamento IMEDIATO</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">🔥 DANTROLENE</span><span class="dose-value">${doses.dantrolene} mg (2,5 mg/kg)</span></div>
+                                <div class="dose-item"><span class="drug">Frascos necessários (20mg)</span><span class="dose-value">${doses.dantrolene_frascos} frascos</span></div>
+                                <div class="dose-item"><span class="drug">Repetir a cada 5 min</span><span class="dose-value">até resolver</span></div>
+                            </div>
+                            <ul>
+                                <li><strong>PARAR</strong> anestésico inalatório e succinilcolina</li>
+                                <li>O₂ 100%, hiperventilar</li>
+                                <li>NÃO trocar aparelho/circuito</li>
+                                <li>Adicionar filtros de carvão se disponível</li>
+                            </ul>
+                            <h5>Tratar Hipercalemia</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Cloreto de Cálcio</span><span class="dose-value">10 mg/kg (máx 2g)</span></div>
+                                <div class="dose-item"><span class="drug">Insulina + D50</span><span class="dose-value">10U + 25g</span></div>
+                                <div class="dose-item"><span class="drug">Bicarbonato</span><span class="dose-value">50 mEq</span></div>
+                            </div>
+                            <h5>Resfriamento</h5>
+                            <ul>
+                                <li>SF gelado 20-30 ml/kg</li>
+                                <li>Compressas geladas (axila, virilha)</li>
+                                <li>Parar aquecimento ativo</li>
+                            </ul>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- LAST -->
+                    <div class="accordion">
+                        <div class="accordion-header last" onclick="toggleAccordion(this)">
+                            <span class="title">💉 LAST - Intoxicação por Anestésico Local</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Sinais</h5>
+                            <ul>
+                                <li><strong>Neurológicos:</strong> zumbido, gosto metálico, convulsão</li>
+                                <li><strong>Cardíacos:</strong> arritmia, bradicardia, PCR</li>
+                            </ul>
+                            <h5>Tratamento</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">🔥 EMULSÃO LIPÍDICA 20%</span><span class="dose-value"></span></div>
+                                <div class="dose-item"><span class="drug">Bolus (em 2-3 min)</span><span class="dose-value">${doses.lipid_bolus} ml (1,5 ml/kg)</span></div>
+                                <div class="dose-item"><span class="drug">Infusão contínua</span><span class="dose-value">${doses.lipid_inf} ml/kg/min</span></div>
+                                <div class="dose-item"><span class="drug">Dose máxima total</span><span class="dose-value">12 ml/kg</span></div>
+                            </div>
+                            <ul>
+                                <li>Parar injeção de AL</li>
+                                <li>O₂ 100%, via aérea segura</li>
+                                <li>Se convulsão: Midazolam 2-4 mg IV</li>
+                                <li>Se PCR: RCP prolongada, considerar ECMO</li>
+                            </ul>
+                            <h5>⚠️ Evitar</h5>
+                            <ul>
+                                <li>Vasopressina</li>
+                                <li>Bloqueadores de canal de cálcio</li>
+                                <li>Betabloqueadores</li>
+                            </ul>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- BRONCOESPASMO -->
+                    <div class="accordion">
+                        <div class="accordion-header via-aerea" onclick="toggleAccordion(this)">
+                            <span class="title">🫁 Broncoespasmo Grave</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Sinais</h5>
+                            <ul>
+                                <li>Sibilos, ↑ pressão de pico</li>
+                                <li>Curva de capnografia ascendente</li>
+                                <li>Dificuldade de ventilar</li>
+                            </ul>
+                            <h5>Tratamento</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Salbutamol</span><span class="dose-value">4-8 puffs ou 2,5mg neb</span></div>
+                                <div class="dose-item"><span class="drug">Se grave: Epinefrina</span><span class="dose-value">5-10 mcg IV</span></div>
+                                <div class="dose-item"><span class="drug">Cetamina</span><span class="dose-value">10-50 mg IV</span></div>
+                                <div class="dose-item"><span class="drug">MgSO₄</span><span class="dose-value">1-2 g IV</span></div>
+                            </div>
+                            <ul>
+                                <li>O₂ 100%</li>
+                                <li>Aprofundar anestesia (propofol, sevoflurano)</li>
+                                <li>Otimizar I:E (1:3 ou 1:4)</li>
+                                <li>Minimizar PEEP</li>
+                            </ul>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- PNEUMOTÓRAX -->
+                    <div class="accordion">
+                        <div class="accordion-header via-aerea" onclick="toggleAccordion(this)">
+                            <span class="title">💨 Pneumotórax Hipertensivo</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Sinais</h5>
+                            <ul>
+                                <li>↑ Pressão de pico, hipotensão</li>
+                                <li>MV assimétrico, hipertimpanismo</li>
+                                <li>Desvio traqueal (tardio)</li>
+                                <li>Ingurgitamento jugular</li>
+                            </ul>
+                            <h5>Tratamento de EMERGÊNCIA</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Descompressão com agulha</span><span class="dose-value">Jelco 14G ou 16G</span></div>
+                                <div class="dose-item"><span class="drug">Local (ATLS 2018)</span><span class="dose-value">4º-5º EIC, linha axilar média</span></div>
+                            </div>
+                            <ul>
+                                <li>NÃO esperar RX!</li>
+                                <li>Manter agulha até dreno torácico</li>
+                                <li>O₂ 100%</li>
+                            </ul>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- RAQUI ALTA -->
+                    <div class="accordion">
+                        <div class="accordion-header hemodinamica" onclick="toggleAccordion(this)">
+                            <span class="title">🧠 Raqui Alta / Bloqueio Total</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Sinais após bloqueio neuroaxial</h5>
+                            <ul>
+                                <li>Bloqueio motor/sensitivo extenso rápido</li>
+                                <li>Dispneia, apneia</li>
+                                <li>Hipotensão grave + bradicardia</li>
+                                <li>Perda de consciência</li>
+                            </ul>
+                            <h5>Tratamento</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">🔥 Epinefrina</span><span class="dose-value">10-100 mcg IV</span></div>
+                                <div class="dose-item"><span class="drug">Volume</span><span class="dose-value">Bolus rápido (litros!)</span></div>
+                                <div class="dose-item"><span class="drug">Atropina (se bradicardia)</span><span class="dose-value">0,5-1 mg IV</span></div>
+                            </div>
+                            <ul>
+                                <li>O₂ 100%, IOT se necessário</li>
+                                <li>Elevar membros inferiores</li>
+                                <li>Paciente pode estar consciente → sedação!</li>
+                                <li>Se gestante: DLE + chamar equipe OB</li>
+                            </ul>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- HIPOTENSÃO -->
+                    <div class="accordion">
+                        <div class="accordion-header hemodinamica" onclick="toggleAccordion(this)">
+                            <span class="title">⬇️ Hipotensão Refratária</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Diagnóstico Diferencial</h5>
+                            <div class="hs-ts-grid">
+                                <div class="hs-ts-item">↓ RVS (Anafilaxia, Sepse)</div>
+                                <div class="hs-ts-item">↓ Pré-carga (Hipovolemia)</div>
+                                <div class="hs-ts-item">↓ FC (Bradicardia)</div>
+                                <div class="hs-ts-item">↓ Contratilidade (IAM)</div>
+                                <div class="hs-ts-item">Auto-PEEP</div>
+                                <div class="hs-ts-item">Pneumotórax</div>
+                                <div class="hs-ts-item">TEP</div>
+                                <div class="hs-ts-item">Tamponamento</div>
+                            </div>
+                            <h5>Tratamento</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Efedrina</span><span class="dose-value">5-20 mg IV</span></div>
+                                <div class="dose-item"><span class="drug">Fenilefrina</span><span class="dose-value">100-300 mcg IV</span></div>
+                                <div class="dose-item"><span class="drug">Se refratário: Epinefrina</span><span class="dose-value">10-50 mcg IV</span></div>
+                                <div class="dose-item"><span class="drug">Vasopressina</span><span class="dose-value">0,5-1 U IV</span></div>
+                                <div class="dose-item"><span class="drug">Cloreto de Cálcio</span><span class="dose-value">1 g IV lento</span></div>
+                            </div>
+                            <ul>
+                                <li>Reduzir/desligar anestésico</li>
+                                <li>Volume + Trendelenburg</li>
+                                <li>Considerar ETE/ETT</li>
+                            </ul>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- HEMORRAGIA -->
+                    <div class="accordion">
+                        <div class="accordion-header hemorragia" onclick="toggleAccordion(this)">
+                            <span class="title">🩸 Hemorragia / PTM</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Ativar Protocolo de Transfusão Maciça (PTM)</h5>
+                            <h5>Proporção de Hemoderivados</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Concentrado Hemácias</span><span class="dose-value">1-2 U</span></div>
+                                <div class="dose-item"><span class="drug">Plasma Fresco</span><span class="dose-value">1 U</span></div>
+                                <div class="dose-item"><span class="drug">Plaquetas</span><span class="dose-value">1 U</span></div>
+                            </div>
+                            <h5>Adjuntos</h5>
+                            <div class="dose-box">
+                                <div class="dose-item"><span class="drug">Ácido Tranexâmico</span><span class="dose-value">1g IV em 10 min + 1g/8h</span></div>
+                                <div class="dose-item"><span class="drug">Fibrinogênio (se < 100)</span><span class="dose-value">Crio 10U ou 0,5-1g conc.</span></div>
+                                <div class="dose-item"><span class="drug">Cálcio (manter normal!)</span><span class="dose-value">1g CaCl₂ ou 3g Gluconato</span></div>
+                            </div>
+                            <h5>Metas</h5>
+                            <ul>
+                                <li>Hb > 7-10 g/dL</li>
+                                <li>Plaquetas > 50-100 mil</li>
+                                <li>Fibrinogênio > 100 mg/dL</li>
+                                <li>INR/PTT < 1,5x</li>
+                                <li>Normotermia!</li>
+                            </ul>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <!-- VAD/CRICO -->
+                    <div class="accordion">
+                        <div class="accordion-header via-aerea" onclick="toggleAccordion(this)">
+                            <span class="title">🫁 Via Aérea Difícil / Crico</span>
+                            <span class="icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h5>Se NÃO POSSO INTUBAR, NÃO POSSO OXIGENAR (CICO)</h5>
+                            <div class="alert alert-danger">VIA AÉREA CIRÚRGICA IMEDIATA!</div>
+                            <h5>Cricotireoidostomia de Emergência (eFONA)</h5>
+                            <ol>
+                                <li>Expor e estender pescoço, identificar linha média</li>
+                                <li>Incisão vertical 8 cm na pele</li>
+                                <li>Palpar membrana cricotireóidea</li>
+                                <li>Incisão horizontal na membrana</li>
+                                <li>Girar bisturi 90° (lâmina para os pés)</li>
+                                <li>Inserir bougie ao longo do bisturi</li>
+                                <li>Passar tubo 6.0 sobre o bougie</li>
+                                <li>Insuflar cuff, confirmar CO₂</li>
+                            </ol>
+                            <h5>Material Necessário</h5>
+                            <ul>
+                                <li>Bisturi (lâmina 10)</li>
+                                <li>Bougie</li>
+                                <li>Tubo ET 6.0</li>
+                            </ul>
+                            <p class="fonte">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            `;
             
             document.getElementById('ventilacao').innerHTML = `<div class="result-section"><h3>🫁 Ventilação (PBW!)</h3>
                 <div class="alert alert-danger">⚠️ Usar PBW (${pbw} kg) para VC!</div>
@@ -717,14 +1233,15 @@
                 </table>
             </div>`;
             
-            document.getElementById('last').innerHTML = `<div class="result-section"><h3>🚨 LAST (IBW: ${ibw} kg)</h3><table>
+            document.getElementById('last').innerHTML = `<div class="result-section"><h3>🚨 LAST - Doses Máximas (IBW: ${ibw} kg)</h3><table>
                 <tr><th>Anestésico</th><th>Dose Máx</th><th>mg</th></tr>
                 <tr><td>Bupivacaína</td><td>2 mg/kg</td><td class="dose">${doses.bupi_max}</td></tr>
                 <tr><td>Lidocaína (s/ adr)</td><td>4.5 mg/kg</td><td class="dose">${doses.lido_max}</td></tr>
                 <tr><td>Lidocaína (c/ adr)</td><td>7 mg/kg</td><td class="dose">${doses.lido_max_adr}</td></tr>
                 <tr><td>Ropivacaína</td><td>3 mg/kg</td><td class="dose">${doses.ropi_max}</td></tr>
             </table>
-            <div class="alert alert-danger" style="margin-top:1rem;">Se LAST: Lipídica ${doses.lipid_bolus} ml bolus + ${doses.lipid_inf} ml/h</div>
+            <div class="alert alert-danger" style="margin-top:1rem;">Se LAST: Emulsão Lipídica 20% ${doses.lipid_bolus} ml bolus + ${doses.lipid_inf} ml/kg/min</div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:0.5rem;">Fonte: Stanford Emergency Manual V4.4, 2022</p>
             </div>`;
             
             document.getElementById('ficha-rapida').innerHTML = 
@@ -735,6 +1252,8 @@ ISR: Propofol ${doses.propofol} mg + Rocurônio ${doses.rocuronio_isr} mg → SU
 VENTILAÇÃO: VC ${doses.vc_min}-${doses.vc_max} ml | FR ${fr} | PEEP ${peep}
 
 REVERSÃO: Sugammadex ${doses.sugammadex_2} mg (TOF2) ou ${doses.sugammadex_4} mg (profundo)
+
+EMERGÊNCIA: Dantrolene ${doses.dantrolene} mg | Lipídica ${doses.lipid_bolus} ml bolus
 
 TCI: Propofol ${modelo_propofol} | Remi Minto TBW ${tbw} kg | Sufenta Gepts ${sufenta_tipo_tci} ${sufenta_peso_tci} kg`;
         }
