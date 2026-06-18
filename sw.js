@@ -1,5 +1,5 @@
 // sw.js - Atualize para v4 (ou o número seguinte)
-const CACHE_NAME = 'anestesia-pro-v2.2';
+const CACHE_NAME = 'anestesia-pro-v4';
 const urlsToCache = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', event => {
