@@ -1,16 +1,14 @@
-// sw.js - Atualize para v4 (ou o número seguinte)
-const CACHE_NAME = 'anestesia-pro-v4';
+const CACHE_NAME = 'anestesia-pro-v5';
 const urlsToCache = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', event => {
-  self.skipWaiting(); // ← ADICIONE ISSO!
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
 });
 
 self.addEventListener('activate', event => {
-  // Limpa caches antigos
   event.waitUntil(
     caches.keys().then(keys => {
       return Promise.all(
