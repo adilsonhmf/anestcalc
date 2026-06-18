@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0f172a">
-    <meta name="description" content="Calculadora Anestésica PRO - Pediátrica">
+    <meta name="description" content="Calculadora Anestésica PRO - Adulto e Pediátrico">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Calculadora Anestésica PRO</title>
-    
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
     
@@ -22,6 +21,7 @@
             --accent-purple: #a855f7;
             --accent-pink: #ec4899;
             --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --success: #22c55e;
@@ -46,15 +46,25 @@
             text-align: center;
             padding: 1rem 0 2rem;
             border-bottom: 2px solid;
-            border-image: linear-gradient(90deg, var(--accent-pink), var(--accent-purple)) 1;
+            border-image: linear-gradient(90deg, var(--accent-cyan), var(--accent-green)) 1;
             margin-bottom: 2rem;
         }
         
         header h1 {
             font-size: 1.4rem;
-            background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        header.ped-header {
+            border-image: linear-gradient(90deg, var(--accent-pink), var(--accent-purple)) 1;
+        }
+        
+        header.ped-header h1 {
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
             background-clip: text;
         }
         
@@ -67,14 +77,10 @@
             margin-bottom: 1rem;
         }
         
-        .card h2 {
-            font-size: 1rem;
-            color: var(--accent-pink);
-            margin-bottom: 1rem;
-        }
+        .card h2 { font-size: 1rem; color: var(--accent-cyan); margin-bottom: 1rem; }
+        .card h2.ped { color: var(--accent-pink); }
         
         .form-group { margin-bottom: 1rem; }
-        
         label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
         
         input, select {
@@ -87,7 +93,7 @@
             font-size: 1rem;
         }
         
-        input:focus, select:focus { outline: none; border-color: var(--accent-pink); }
+        input:focus, select:focus { outline: none; border-color: var(--accent-cyan); }
         
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
@@ -103,6 +109,13 @@
             transition: all 0.3s ease;
         }
         
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
+            color: var(--bg-primary);
+        }
+        
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3); }
+        
         .btn-pediatric {
             background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
             color: white;
@@ -112,7 +125,7 @@
         
         .btn-secondary { background: var(--bg-card); color: var(--text-primary); margin-top: 0.5rem; }
         
-        #results-ped { display: none; }
+        #results, #results-ped { display: none; }
         
         .result-section {
             background: var(--bg-secondary);
@@ -123,28 +136,28 @@
         
         .result-section h3 {
             font-size: 0.9rem;
-            color: var(--accent-pink);
+            color: var(--accent-cyan);
             margin-bottom: 0.75rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--bg-card);
         }
         
+        .result-section h3.ped { color: var(--accent-pink); }
+        
         .result-section h4 { 
             font-size: 0.8rem; 
-            color: var(--accent-cyan); 
+            color: var(--accent-green); 
             margin: 1rem 0 0.5rem;
             padding-top: 0.5rem;
             border-top: 1px dashed var(--bg-card);
         }
         
-        table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
         th, td { padding: 0.4rem; text-align: left; border-bottom: 1px solid var(--bg-card); }
-        th { color: var(--text-secondary); font-weight: 500; font-size: 0.7rem; }
+        th { color: var(--text-secondary); font-weight: 500; font-size: 0.75rem; }
         
         .dose { color: var(--accent-green); font-weight: 600; }
-        .diluicao { color: var(--accent-cyan); font-size: 0.7rem; }
-        .faixa { color: var(--text-secondary); font-size: 0.65rem; }
-        .alerta-idade { color: var(--warning); font-size: 0.65rem; }
+        .peso-tipo { color: var(--text-secondary); font-size: 0.7rem; }
         
         .alert { padding: 0.75rem; border-radius: 8px; margin-bottom: 0.5rem; font-size: 0.8rem; }
         .alert-warning { background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--warning); color: var(--warning); }
@@ -153,9 +166,9 @@
         .alert-pink { background: rgba(236, 72, 153, 0.1); border-left: 3px solid var(--accent-pink); color: var(--accent-pink); }
         .alert-purple { background: rgba(168, 85, 247, 0.1); border-left: 3px solid var(--accent-purple); color: var(--accent-purple); }
         
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 0.5rem; margin-bottom: 1rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 0.5rem; margin-bottom: 1rem; }
         .stat-card { background: var(--bg-card); padding: 0.5rem; border-radius: 8px; text-align: center; }
-        .stat-card .value { font-size: 0.9rem; font-weight: 700; color: var(--accent-cyan); }
+        .stat-card .value { font-size: 1rem; font-weight: 700; color: var(--accent-cyan); }
         .stat-card .label { font-size: 0.6rem; color: var(--text-secondary); }
         
         .tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; overflow-x: auto; padding-bottom: 0.5rem; flex-wrap: wrap; }
@@ -168,13 +181,13 @@
             cursor: pointer;
             white-space: nowrap;
             font-size: 0.65rem;
-            flex-shrink: 0;
         }
+        .tab.active { background: var(--accent-cyan); color: var(--bg-primary); }
         .tab.active-ped { background: var(--accent-pink); color: white; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        /* BROSELOW */
+        /* BROSELOW ZONES */
         .broselow-cinza { background: #6b7280; color: white; }
         .broselow-rosa { background: #ec4899; color: white; }
         .broselow-vermelho { background: #ef4444; color: white; }
@@ -191,6 +204,80 @@
             border-radius: 15px;
             font-weight: 600;
             font-size: 0.75rem;
+        }
+        
+        /* DRUG CARD - ESTILO PARA SALA DE OPERAÇÃO */
+        .drug-card {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid var(--accent-green);
+        }
+        
+        .drug-card .drug-name {
+            font-weight: 700;
+            color: var(--accent-pink);
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .drug-card .drug-faixa {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            margin-bottom: 0.4rem;
+        }
+        
+        /* DOSE EM DESTAQUE GRANDE - PARA STRESS */
+        .drug-card .drug-dose-destaque {
+            color: #22c55e;
+            font-weight: 800;
+            font-size: 1.3rem;
+            background: rgba(34, 197, 94, 0.15);
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border-left: 5px solid #22c55e;
+            margin: 0.5rem 0;
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+        }
+        
+        /* APRESENTAÇÃO EM AMARELO - DESTAQUE */
+        .drug-card .drug-apresentacao {
+            background: #fbbf24;
+            color: #000;
+            font-weight: 700;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin: 0.4rem 0;
+        }
+        
+        .drug-card .drug-diluicao {
+            color: var(--accent-cyan);
+            font-size: 0.75rem;
+            background: rgba(6, 182, 212, 0.1);
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            margin-top: 0.4rem;
+            border: 1px dashed var(--accent-cyan);
+        }
+        
+        .drug-card .drug-diluicao strong {
+            color: #22c55e;
+        }
+        
+        /* ALERTA CRÍTICO - ALTA VISIBILIDADE */
+        .alerta-critico {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #ef4444;
+            color: #fca5a5;
+            padding: 0.6rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-align: center;
+            margin: 0.5rem 0;
+            font-size: 0.85rem;
         }
         
         /* ACCORDION */
@@ -222,7 +309,7 @@
         }
         .accordion-content.show { display: block; }
         .accordion-content ul { margin-left: 1rem; margin-bottom: 0.5rem; }
-        .accordion-content li { margin-bottom: 0.25rem; line-height: 1.3; font-size: 0.75rem; }
+        .accordion-content li { margin-bottom: 0.25rem; line-height: 1.3; }
         .accordion-content .dose-box {
             background: var(--bg-card);
             padding: 0.5rem;
@@ -232,7 +319,7 @@
         .accordion-content .dose-item {
             display: flex;
             justify-content: space-between;
-            padding: 0.2rem 0;
+            padding: 0.25rem 0;
             border-bottom: 1px solid var(--bg-primary);
             font-size: 0.75rem;
         }
@@ -251,65 +338,55 @@
             color: var(--text-secondary);
             font-style: italic;
             margin-top: 0.5rem;
-            padding-top: 0.3rem;
-            border-top: 1px dashed var(--bg-card);
         }
         
         .accordion-header.pals { border-left-color: #ef4444; }
         .accordion-header.fluidos { border-left-color: #3b82f6; }
         .accordion-header.infusao { border-left-color: #8b5cf6; }
-        .accordion-header.adjuvante { border-left-color: #10b981; }
         .accordion-header.cardiaca { border-left-color: #f97316; }
+        .accordion-header.vaso { border-left-color: #ec4899; }
         
-        /* DRUG CARD */
-        .drug-card {
-            background: var(--bg-card);
-            border-radius: 8px;
-            padding: 0.6rem;
-            margin-bottom: 0.5rem;
+        /* MODO SELECTOR */
+        .mode-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
         }
-        .drug-card .drug-name {
-            font-weight: 600;
-            color: var(--accent-pink);
-            font-size: 0.85rem;
-            margin-bottom: 0.3rem;
-        }
-        .drug-card .drug-faixa {
+        .mode-btn {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 3px solid var(--bg-card);
+            background: var(--bg-secondary);
             color: var(--text-secondary);
-            font-size: 0.7rem;
-            margin-bottom: 0.3rem;
-        }
-        .drug-card .drug-dose {
-            color: var(--accent-green);
             font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .drug-card .drug-diluicao {
+        .mode-btn.active-adulto {
+            border-color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.1);
             color: var(--accent-cyan);
-            font-size: 0.7rem;
-            background: var(--bg-primary);
-            padding: 0.3rem 0.5rem;
-            border-radius: 4px;
-            margin-top: 0.3rem;
         }
-        .drug-card .drug-apresentacao {
-            color: var(--text-secondary);
-            font-size: 0.65rem;
+        .mode-btn.active-ped {
+            border-color: var(--accent-pink);
+            background: rgba(236, 72, 153, 0.1);
+            color: var(--accent-pink);
         }
         
-        /* BOTÃO FLUTUANTE */
+        /* BOTÃO FLUTUANTE REGISTRO */
         .fab-registro {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 50px;
-            height: 50px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
             color: white;
             border: none;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
             z-index: 100;
@@ -319,7 +396,7 @@
         }
         .fab-registro.show { display: flex; }
         
-        /* MODAL */
+        /* MODAL REGISTRO */
         .modal-registro {
             display: none;
             position: fixed;
@@ -428,12 +505,11 @@
             text-align: center;
             border-top: 1px solid var(--bg-card);
         }
-        .credits { margin-bottom: 0.75rem; }
         .dev-name { font-size: 0.7rem; color: var(--text-secondary); }
         .dev-title {
             font-size: 0.9rem;
             font-weight: 600;
-            background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -474,6 +550,7 @@
             max-width: 90%;
             width: 320px;
             text-align: center;
+            position: relative;
         }
         .modal-content h3 { color: var(--accent-cyan); margin-bottom: 0.5rem; }
         .close-modal {
@@ -497,230 +574,85 @@
             width: auto;
         }
         
+        .ficha-rapida {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+        
+        .magic-header {
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .toxic-table th { color: var(--danger); }
+        .status-ok { color: var(--success); }
+        .status-warning { color: var(--warning); }
+        .status-danger { color: var(--danger); }
+        
+        .hs-ts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+        .hs-ts-item {
+            background: var(--bg-card);
+            padding: 0.4rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
         @media (max-width: 600px) {
             .grid-2, .grid-3 { grid-template-columns: 1fr; }
-            table { font-size: 0.65rem; }
-            th, td { padding: 0.25rem; }
+            table { font-size: 0.7rem; }
+            th, td { padding: 0.3rem; }
             .tab { font-size: 0.6rem; padding: 0.35rem 0.5rem; }
             .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .drug-card .drug-dose-destaque { font-size: 1.1rem; }
+            .hs-ts-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>🧒 Calculadora Pediátrica PRO</h1>
-            <p>PALS 2020 • ABRAMEDE 2022 • Cardíaca SCMBH</p>
-        </header>
-        
-        <!-- FORMULÁRIO -->
-        <div id="form-section">
-            <div class="card">
-                <h2>👶 Dados do Paciente Pediátrico</h2>
-                
-                <div class="alert alert-pink">
-                    📋 Baseada em evidências: PALS 2020, ABRAMEDE 2022, BJA Education 2023
-                </div>
-                
-                <div class="form-group">
-                    <label>Nome/Iniciais</label>
-                    <input type="text" id="nome-ped" placeholder="Ex: J.S.">
-                </div>
-                
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>Peso (kg) *</label>
-                        <input type="number" id="peso-ped" placeholder="Ex: 10" step="0.1" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Comprimento/Altura (cm)</label>
-                        <input type="number" id="altura-ped" placeholder="Ex: 75">
-                    </div>
-                </div>
-                
-                <div class="grid-3">
-                    <div class="form-group">
-                        <label>Idade (anos)</label>
-                        <input type="number" id="idade-anos-ped" placeholder="0-17" min="0" max="17" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label>Meses</label>
-                        <input type="number" id="idade-meses-ped" placeholder="0-11" min="0" max="11" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label>Sexo</label>
-                        <select id="sexo-ped">
-                            <option value="M">Masculino</option>
-                            <option value="F">Feminino</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <button class="btn-pediatric" onclick="calcularPediatrico()">🧒 Calcular Doses Pediátricas</button>
-            </div>
-            
-            <footer class="footer">
-                <div class="credits">
-                    <p class="dev-name">Desenvolvido por</p>
-                    <p class="dev-title">Adilson Fernandes</p>
-                    <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
-                </div>
-                <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
-                <p class="version">v3.1 • 2026 • Pediátrico Completo</p>
-            </footer>
-        </div>
-        
-        <!-- RESULTADOS -->
-        <div id="results-ped">
-            <button class="btn-secondary" onclick="voltarPed()">← Novo Cálculo</button>
-            
-            <div class="result-section">
-                <h3>🧒 Dados do Paciente</h3>
-                <div class="stats-grid" id="stats-ped"></div>
-                <div id="alertas-ped"></div>
-            </div>
-            
-            <div class="tabs" id="tabs-ped">
-                <button class="tab active-ped" onclick="showTabPed('equip-ped')">🩺 Equip</button>
-                <button class="tab" onclick="showTabPed('inducao-ped')">💊 Indução</button>
-                <button class="tab" onclick="showTabPed('bnm-ped')">💪 BNM</button>
-                <button class="tab" onclick="showTabPed('opioides-ped')">💉 Opioides</button>
-                <button class="tab" onclick="showTabPed('adjuvantes-ped')">💊 Adjuv</button>
-                <button class="tab" onclick="showTabPed('fluidos-ped')">💧 Fluidos</button>
-                <button class="tab" onclick="showTabPed('infusoes-ped')">📊 Infusões</button>
-                <button class="tab" onclick="showTabPed('emerg-ped')">🚨 Emerg</button>
-                <button class="tab" onclick="showTabPed('cardiaca-ped')">❤️ Cardíaca</button>
-                <button class="tab" onclick="showTabPed('reversores-ped')">🔄 Revers</button>
-            </div>
-            
-            <div id="equip-ped" class="tab-content active"></div>
-            <div id="inducao-ped" class="tab-content"></div>
-            <div id="bnm-ped" class="tab-content"></div>
-            <div id="opioides-ped" class="tab-content"></div>
-            <div id="adjuvantes-ped" class="tab-content"></div>
-            <div id="fluidos-ped" class="tab-content"></div>
-            <div id="infusoes-ped" class="tab-content"></div>
-            <div id="emerg-ped" class="tab-content"></div>
-            <div id="cardiaca-ped" class="tab-content"></div>
-            <div id="reversores-ped" class="tab-content"></div>
-            
-            <footer class="footer">
-                <div class="credits">
-                    <p class="dev-name">Desenvolvido por</p>
-                    <p class="dev-title">Adilson Fernandes</p>
-                    <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
-                </div>
-                <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
-                <p class="version">v3.1 • 2026 • Pediátrico Completo</p>
-            </footer>
-        </div>
-    </div>
-    
-    <!-- BOTÃO FLUTUANTE -->
-    <button class="fab-registro" id="fab-registro" onclick="openRegistro()">📝</button>
-    
-    <!-- MODAL REGISTRO -->
-    <div class="modal-registro" id="modal-registro">
-        <div class="modal-registro-content">
-            <div class="modal-registro-header">
-                <h3>📝 Registro da Anestesia</h3>
-                <button class="close-modal-reg" onclick="closeRegistro()">×</button>
-            </div>
-            
-            <div class="registro-section">
-                <h4>💊 Drogas</h4>
-                <div class="registro-input-row">
-                    <select id="reg-droga">
-                        <option value="">Selecione...</option>
-                        <optgroup label="Indutores">
-                            <option value="Propofol (mg)">Propofol</option>
-                            <option value="Etomidato (mg)">Etomidato</option>
-                            <option value="Cetamina (mg)">Cetamina</option>
-                            <option value="Midazolam (mg)">Midazolam</option>
-                        </optgroup>
-                        <optgroup label="Opioides">
-                            <option value="Fentanil (mcg)">Fentanil</option>
-                            <option value="Morfina (mg)">Morfina</option>
-                        </optgroup>
-                        <optgroup label="BNM">
-                            <option value="Rocurônio (mg)">Rocurônio</option>
-                            <option value="Cisatracúrio (mg)">Cisatracúrio</option>
-                        </optgroup>
-                        <optgroup label="Adjuvantes">
-                            <option value="Dipirona (mg)">Dipirona</option>
-                            <option value="Dexametasona (mg)">Dexametasona</option>
-                            <option value="Ondansetrona (mg)">Ondansetrona</option>
-                        </optgroup>
-                        <optgroup label="Emergência">
-                            <option value="Epinefrina (mg)">Epinefrina</option>
-                            <option value="Atropina (mg)">Atropina</option>
-                        </optgroup>
-                    </select>
-                    <input type="number" id="reg-dose" placeholder="Dose" step="0.01">
-                    <button onclick="addDroga()">+</button>
-                </div>
-                <div class="registro-lista" id="lista-drogas">
-                    <p style="color: var(--text-secondary); font-size: 0.7rem; text-align: center;">Nenhuma droga</p>
-                </div>
-            </div>
-            
-            <div class="registro-section">
-                <h4>💧 Fluidos</h4>
-                <div class="registro-input-row">
-                    <select id="reg-fluido">
-                        <option value="">Selecione...</option>
-                        <option value="SF 0,9%">SF 0,9%</option>
-                        <option value="Ringer Lactato">Ringer Lactato</option>
-                        <option value="Plasma-Lyte">Plasma-Lyte</option>
-                        <option value="Concentrado Hemácias">Conc. Hemácias</option>
-                        <option value="Plaquetas">Plaquetas</option>
-                    </select>
-                    <input type="number" id="reg-volume" placeholder="mL">
-                    <button onclick="addFluido()">+</button>
-                </div>
-                <div class="registro-lista" id="lista-fluidos">
-                    <p style="color: var(--text-secondary); font-size: 0.7rem; text-align: center;">Nenhum fluido</p>
-                </div>
-            </div>
-            
-            <div class="registro-totais" id="registro-totais">
-                <p><strong>Cristaloide:</strong> <span class="valor" id="total-cristaloide">0 ml</span> <span id="cristaloide-mlkg"></span></p>
-                <p><strong>Hemoderivados:</strong> <span class="valor" id="total-hemo">0 ml</span></p>
-            </div>
-            
-            <div class="registro-actions">
-                <button class="btn-exportar" onclick="exportarRegistro()">📤 Exportar</button>
-                <button class="btn-limpar" onclick="limparRegistro()">🗑️ Limpar</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- PIX MODAL -->
-    <div id="pix-modal" class="modal">
-        <div class="modal-content" style="position:relative;">
-            <span class="close-modal" onclick="closePix()">×</span>
-            <h3>☕ Me pague um café!</h3>
-            <div class="pix-info">
-                <p><strong>Chave PIX:</strong></p>
-                <p class="pix-key">ahmf1204@gmail.com</p>
-                <button class="btn-copy" onclick="copyPix()">📋 Copiar</button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Service Worker
+        <script>
+        // ==================== SERVICE WORKER ====================
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(() => {});
         }
         
-        // VARIÁVEIS GLOBAIS
+        // ==================== VARIÁVEIS GLOBAIS ====================
+        let modoAtual = 'adulto';
         let pesoPed = 0;
         let idadeMesesGlobal = 0;
         let registroDrogas = [];
         let registroFluidos = [];
         
-        // PIX
+        // ==================== MODO SELECTOR ====================
+        function setModo(modo) {
+            modoAtual = modo;
+            document.getElementById('btn-modo-adulto').classList.remove('active-adulto');
+            document.getElementById('btn-modo-ped').classList.remove('active-ped');
+            
+            if (modo === 'adulto') {
+                document.getElementById('btn-modo-adulto').classList.add('active-adulto');
+                document.getElementById('form-adulto').style.display = 'block';
+                document.getElementById('form-ped').style.display = 'none';
+                document.getElementById('main-header').classList.remove('ped-header');
+            } else {
+                document.getElementById('btn-modo-ped').classList.add('active-ped');
+                document.getElementById('form-adulto').style.display = 'none';
+                document.getElementById('form-ped').style.display = 'block';
+                document.getElementById('main-header').classList.add('ped-header');
+            }
+        }
+        
+        // ==================== PIX MODAL ====================
         function showPix() { document.getElementById('pix-modal').classList.add('active'); }
         function closePix() { document.getElementById('pix-modal').classList.remove('active'); }
         function copyPix() {
@@ -733,7 +665,7 @@
             if (e.target === this) closePix();
         });
         
-        // REGISTRO
+        // ==================== REGISTRO MODAL ====================
         function openRegistro() { document.getElementById('modal-registro').classList.add('active'); }
         function closeRegistro() { document.getElementById('modal-registro').classList.remove('active'); }
         
@@ -800,22 +732,25 @@
             });
             document.getElementById('total-cristaloide').textContent = `${cristaloide} ml`;
             document.getElementById('total-hemo').textContent = `${hemo} ml`;
-            if (pesoPed > 0) document.getElementById('cristaloide-mlkg').textContent = `(${(cristaloide/pesoPed).toFixed(1)} ml/kg)`;
+            const pesoAtual = modoAtual === 'adulto' ? parseFloat(document.getElementById('peso').value) || 0 : pesoPed;
+            if (pesoAtual > 0) document.getElementById('cristaloide-mlkg').textContent = `(${(cristaloide/pesoAtual).toFixed(1)} ml/kg)`;
         }
         
         function exportarRegistro() {
-            const nome = document.getElementById('nome-ped').value || 'Paciente';
-            let texto = `REGISTRO ANESTESIA PEDIÁTRICA\nPaciente: ${nome}\nPeso: ${pesoPed} kg\n\n`;
+            const nome = modoAtual === 'adulto' ? document.getElementById('nome').value : document.getElementById('nome-ped').value;
+            const pesoAtual = modoAtual === 'adulto' ? document.getElementById('peso').value : pesoPed;
+            let texto = `REGISTRO ANESTESIA ${modoAtual.toUpperCase()}\nPaciente: ${nome || 'Não informado'}\nPeso: ${pesoAtual} kg\nData: ${new Date().toLocaleDateString('pt-BR')}\n\n`;
             texto += `--- DROGAS ---\n`;
             registroDrogas.forEach(d => texto += `${d.hora} - ${d.droga}: ${d.dose}\n`);
             texto += `\n--- FLUIDOS ---\n`;
             registroFluidos.forEach(f => texto += `${f.fluido}: ${f.volume} ml\n`);
             texto += `\nCristaloide: ${document.getElementById('total-cristaloide').textContent}\n`;
-            navigator.clipboard.writeText(texto).then(() => alert('Registro copiado!'));
+            texto += `Hemoderivados: ${document.getElementById('total-hemo').textContent}\n`;
+            navigator.clipboard.writeText(texto).then(() => alert('Registro copiado para a área de transferência!'));
         }
         
         function limparRegistro() {
-            if (confirm('Limpar registro?')) {
+            if (confirm('Limpar todo o registro?')) {
                 registroDrogas = [];
                 registroFluidos = [];
                 renderDrogas();
@@ -823,13 +758,13 @@
             }
         }
         
-        // ACCORDION
+        // ==================== ACCORDION ====================
         function toggleAccordion(el) {
             const content = el.nextElementSibling;
             const isActive = el.classList.contains('active');
             document.querySelectorAll('.accordion-header').forEach(h => {
                 h.classList.remove('active');
-                h.nextElementSibling.classList.remove('show');
+                if (h.nextElementSibling) h.nextElementSibling.classList.remove('show');
             });
             if (!isActive) {
                 el.classList.add('active');
@@ -837,7 +772,321 @@
             }
         }
         
-        // CALCULADORA PRINCIPAL
+        // ==================== CALCULADORA ADULTO ====================
+        function calcularAdulto() {
+            const nome = document.getElementById('nome').value || 'Paciente';
+            const peso = parseFloat(document.getElementById('peso').value);
+            const altura = parseFloat(document.getElementById('altura').value);
+            const sexo = document.getElementById('sexo').value;
+            const idade = parseInt(document.getElementById('idade').value);
+            const asa = document.getElementById('asa').value;
+            
+            if (!peso || !altura || !idade) { alert('Preencha todos os campos!'); return; }
+            
+            // Cálculos de escaladores
+            const tbw = peso;
+            const imc = (peso / Math.pow(altura / 100, 2)).toFixed(1);
+            const imc_num = parseFloat(imc);
+            const ibw = Math.round(22 * Math.pow(altura / 100, 2) * 10) / 10;
+            let pbw = sexo === 'M' ? Math.round((50 + 0.91 * (altura - 152.4)) * 10) / 10 : Math.round((45.5 + 0.91 * (altura - 152.4)) * 10) / 10;
+            let lbw = sexo === 'M' ? Math.round((9270 * peso) / (6680 + 216 * imc_num) * 10) / 10 : Math.round((9270 * peso) / (8780 + 244 * imc_num) * 10) / 10;
+            const abw = Math.round((ibw + 0.4 * (peso - ibw)) * 10) / 10;
+            
+            // Classificação
+            const eh_baixo_peso = imc_num < 18.5;
+            const eh_normopeso = imc_num >= 18.5 && imc_num < 25;
+            const eh_sobrepeso = imc_num >= 25 && imc_num < 30;
+            const eh_obeso_classe1 = imc_num >= 30 && imc_num < 35;
+            const eh_obeso_classe2 = imc_num >= 35 && imc_num < 40;
+            const eh_obeso_morbido = imc_num >= 40;
+            
+            let classificacao;
+            if (eh_baixo_peso) classificacao = 'BAIXO PESO';
+            else if (eh_normopeso) classificacao = 'NORMAL';
+            else if (eh_sobrepeso) classificacao = 'SOBREPESO';
+            else if (eh_obeso_classe1) classificacao = 'OBESO CL.1';
+            else if (eh_obeso_classe2) classificacao = 'OBESO CL.2';
+            else classificacao = 'OBESO MÓRB.';
+            
+            // Escalonamento
+            let peso_escalonado, peso_tipo;
+            if (eh_normopeso || eh_baixo_peso || eh_sobrepeso) { peso_escalonado = tbw; peso_tipo = 'TBW'; }
+            else if (eh_obeso_classe1) { peso_escalonado = abw; peso_tipo = 'ABW'; }
+            else { peso_escalonado = lbw; peso_tipo = 'LBW'; }
+            
+            let remi_peso, remi_tipo;
+            if (eh_normopeso || eh_baixo_peso) { remi_peso = tbw; remi_tipo = 'TBW'; }
+            else if (eh_sobrepeso || eh_obeso_classe1) { remi_peso = abw; remi_tipo = 'ABW'; }
+            else { remi_peso = lbw; remi_tipo = 'LBW'; }
+            
+            // Doses
+            const doses = {
+                propofol: Math.round(peso_escalonado * 2),
+                propofol_sed: Math.round(peso_escalonado * 0.5),
+                etomidato: Math.round(peso_escalonado * 0.3),
+                cetamina: Math.round(tbw * 1.5),
+                midazolam: (tbw * 0.05).toFixed(1),
+                rocuronio: Math.round(peso_escalonado * 0.6),
+                rocuronio_isr: Math.round(peso_escalonado * 1.2),
+                atracurio: Math.round(peso_escalonado * 0.5),
+                cisatracurio: Math.round(peso_escalonado * 0.15),
+                succinilcolina: Math.round(tbw * 1),
+                fentanil: Math.round(peso_escalonado * 3),
+                fentanil_max: Math.round(peso_escalonado * 5),
+                sufentanil: (peso_escalonado * 0.3).toFixed(1),
+                sufentanil_max: (peso_escalonado * 0.5).toFixed(1),
+                sufentanil_manut_min: (peso_escalonado * 0.3).toFixed(1),
+                sufentanil_manut_max: (peso_escalonado * 0.6).toFixed(1),
+                remifentanil_min: (remi_peso * 0.1).toFixed(2),
+                remifentanil_max: (remi_peso * 0.3).toFixed(2),
+                morfina: (peso_escalonado * 0.1).toFixed(1),
+                neostigmina: (tbw * 0.04).toFixed(1),
+                neostigmina_max: (tbw * 0.07).toFixed(1),
+                atropina: (tbw * 0.02).toFixed(1),
+                sugammadex_2: Math.round(tbw * 2),
+                sugammadex_4: Math.round(tbw * 4),
+                dantrolene: (tbw * 2.5).toFixed(1),
+                dantrolene_frascos: Math.ceil((tbw * 2.5) / 20),
+                txa: Math.round(tbw * 30),
+                txa_max: Math.round(tbw * 50),
+                lipid_bolus: Math.round(lbw * 1.5),
+                lipid_inf: (lbw * 0.25).toFixed(1),
+                bupi_max: Math.round(ibw * 2),
+                lido_max: Math.round(ibw * 4.5),
+                lido_max_adr: Math.round(ibw * 7),
+                ropi_max: Math.round(ibw * 3),
+                vc_min: Math.round(pbw * 6),
+                vc_max: Math.round(pbw * 8),
+                magica_cetamina_ind: (tbw * 0.2).toFixed(1),
+                magica_dex_ind: (tbw * 0.5).toFixed(1),
+                magica_lido_ind: Math.round(tbw * 1),
+                magica_mg_ind: Math.round(tbw * 30),
+                magica_cetamina_manut: Math.round(tbw * 0.2 * 4),
+                magica_dex_manut: Math.round(tbw * 0.5 * 4),
+                magica_lido_manut: Math.round(tbw * 1 * 4),
+                magica_mg_manut: Math.round(tbw * 10 * 4)
+            };
+            
+            const lido_mgkg = (doses.magica_lido_manut / tbw).toFixed(1);
+            const lido_status = (doses.magica_lido_manut / tbw) > 4 ? 'danger' : 'ok';
+            const cetamina_mgkgh = (doses.magica_cetamina_manut / 4 / tbw).toFixed(2);
+            const cetamina_status = (doses.magica_cetamina_manut / 4 / tbw) > 4.5 ? 'danger' : 'ok';
+            const dex_mcgkgh = (doses.magica_dex_manut / 4 / tbw).toFixed(2);
+            const dex_status = (doses.magica_dex_manut / 4 / tbw) > 1.4 ? 'warning' : 'ok';
+            
+            const remi_mlh_min = (remi_peso * 0.1 * 60 / 8).toFixed(1);
+            const remi_mlh_med = (remi_peso * 0.2 * 60 / 8).toFixed(1);
+            const remi_mlh_max = (remi_peso * 0.3 * 60 / 8).toFixed(1);
+            const sufenta_mlh_min = (parseFloat(doses.sufentanil_manut_min) / 5).toFixed(1);
+            const sufenta_mlh_max = (parseFloat(doses.sufentanil_manut_max) / 5).toFixed(1);
+            
+            let fr = idade < 18 ? '20-24 rpm' : (idade < 65 ? '12-16 rpm' : '10-14 rpm');
+            let peep = (eh_obeso_classe1 || eh_obeso_classe2 || eh_obeso_morbido) ? '8-10 cmH2O' : '5-8 cmH2O';
+            
+            let modelo_propofol = 'Schnider ou Marsh';
+            let nota_propofol = 'Inserir TBW em qualquer modelo';
+            if (eh_obeso_classe1) { modelo_propofol = 'Schnider'; nota_propofol = 'Schnider corrige internamente'; }
+            else if (eh_obeso_classe2) { modelo_propofol = 'Schnider/Marsh+ABW'; nota_propofol = 'Considerar Marsh + ABW (' + abw + ' kg)'; }
+            else if (eh_obeso_morbido) { modelo_propofol = 'Marsh + ABW'; nota_propofol = 'Schnider impreciso! Usar Marsh + ABW'; }
+            
+            let sufenta_peso_tci = peso_escalonado, sufenta_tipo_tci = peso_tipo;
+            
+            // Renderizar
+            document.getElementById('form-section').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('fab-registro').classList.add('show');
+            
+            document.getElementById('stats-paciente').innerHTML = `
+                <div class="stat-card"><div class="value">${tbw}</div><div class="label">TBW (kg)</div></div>
+                <div class="stat-card"><div class="value">${imc}</div><div class="label">IMC</div></div>
+                <div class="stat-card"><div class="value">${classificacao}</div><div class="label">Classe</div></div>
+                <div class="stat-card"><div class="value">ASA ${asa}</div><div class="label">Estado</div></div>
+                <div class="stat-card"><div class="value">${Math.round(tbw * 70)}</div><div class="label">Volemia (ml)</div></div>
+            `;
+            
+            let alertasHtml = '';
+            if (eh_obeso_classe1) alertasHtml += `<div class="alert alert-warning">⚠️ OBESO CLASSE 1: Usar ABW</div>`;
+            if (eh_obeso_classe2) alertasHtml += `<div class="alert alert-warning">⚠️ OBESO CLASSE 2: Usar LBW</div>`;
+            if (eh_obeso_morbido) alertasHtml += `<div class="alert alert-danger">🔥 OBESO MÓRBIDO: Marsh + ABW</div>`;
+            if (idade > 75) alertasHtml += `<div class="alert alert-warning">⚠️ IDOSO: Reduzir indutores 30-50%</div>`;
+            document.getElementById('alertas').innerHTML = alertasHtml;
+            
+            document.getElementById('tabela-escaladores').innerHTML = `
+                <tr><th>Escalador</th><th>Valor</th><th>Uso</th></tr>
+                <tr><td>TBW</td><td class="dose">${tbw} kg</td><td>Succinilcolina, Reversores</td></tr>
+                <tr><td>IBW</td><td class="dose">${ibw} kg</td><td>Anestésicos Locais</td></tr>
+                <tr><td>PBW</td><td class="dose">${pbw} kg</td><td>Ventilação</td></tr>
+                <tr><td>LBW</td><td class="dose">${lbw} kg</td><td>Obeso Classe 2+</td></tr>
+                <tr><td>ABW</td><td class="dose">${abw} kg</td><td>Obeso Classe 1</td></tr>
+            `;
+            
+            document.getElementById('indutores').innerHTML = `<div class="result-section"><h3>💊 Indutores</h3><table>
+                <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
+                <tr><td>Propofol (bolus)</td><td class="dose">${doses.propofol} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Propofol (sedação)</td><td class="dose">${doses.propofol_sed} mg</td><td class="peso-tipo">0.5 mg/kg</td></tr>
+                <tr><td>Etomidato</td><td class="dose">${doses.etomidato} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Cetamina</td><td class="dose">${doses.cetamina} mg</td><td class="peso-tipo">TBW</td></tr>
+                <tr><td>Midazolam</td><td class="dose">${doses.midazolam} mg</td><td class="peso-tipo">TBW</td></tr>
+            </table></div>`;
+            
+            document.getElementById('bnm').innerHTML = `<div class="result-section"><h3>💪 BNM</h3><table>
+                <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
+                <tr><td>Rocurônio</td><td class="dose">${doses.rocuronio} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Rocurônio (ISR)</td><td class="dose">${doses.rocuronio_isr} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Atracúrio</td><td class="dose">${doses.atracurio} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Cisatracúrio</td><td class="dose">${doses.cisatracurio} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Succinilcolina</td><td class="dose">${doses.succinilcolina} mg</td><td class="peso-tipo">TBW</td></tr>
+            </table></div>`;
+            
+            document.getElementById('opioides').innerHTML = `<div class="result-section"><h3>💊 Opioides</h3><table>
+                <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
+                <tr><td>Fentanil</td><td class="dose">${doses.fentanil}-${doses.fentanil_max} mcg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Sufentanil (bolus indução)</td><td class="dose">${doses.sufentanil}-${doses.sufentanil_max} mcg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+                <tr><td>Remifentanil</td><td class="dose">${doses.remifentanil_min}-${doses.remifentanil_max} mcg/min</td><td class="peso-tipo">${remi_tipo}</td></tr>
+                <tr><td>Morfina</td><td class="dose">${doses.morfina} mg</td><td class="peso-tipo">${peso_tipo}</td></tr>
+            </table>
+            <p style="font-size:0.7rem; color:var(--text-secondary); margin-top:0.5rem;">Sufentanil: 0,3-0,5 µg/kg (SBA 2016)</p>
+            </div>`;
+            
+            document.getElementById('reversores').innerHTML = `<div class="result-section"><h3>🔄 Reversores (TBW!)</h3><table>
+                <tr><th>Fármaco</th><th>Dose</th><th>Peso</th></tr>
+                <tr><td>Neostigmina</td><td class="dose">${doses.neostigmina}-${doses.neostigmina_max} mg</td><td class="peso-tipo">TBW</td></tr>
+                <tr><td>Atropina</td><td class="dose">${doses.atropina} mg</td><td class="peso-tipo">TBW</td></tr>
+                <tr><td>Sugammadex (TOF 2)</td><td class="dose">${doses.sugammadex_2} mg</td><td class="peso-tipo">TBW</td></tr>
+                <tr><td>Sugammadex (profundo)</td><td class="dose">${doses.sugammadex_4} mg</td><td class="peso-tipo">TBW</td></tr>
+            </table></div>`;
+            
+            document.getElementById('tci').innerHTML = `
+                <div class="result-section">
+                    <h3>💉 TCI - Propofol</h3>
+                    <div class="alert alert-info">Modelo: ${modelo_propofol}</div>
+                    <p style="font-size:0.8rem;color:var(--text-secondary);">${nota_propofol}</p>
+                    <p>Alvos: Indução Ce 4-6 mcg/ml | Manutenção Ce 2-4 mcg/ml</p>
+                </div>
+                <div class="result-section">
+                    <h3>💉 TCI - Remifentanil (Minto)</h3>
+                    <div class="alert alert-info">Inserir TBW (${tbw} kg) - modelo corrige</div>
+                    <p>Alvos: Indução Ce 3-6 ng/ml | Manutenção Ce 2-4 ng/ml</p>
+                    <h4>Infusão Manual (8 mcg/ml)</h4>
+                    <table>
+                        <tr><th>Dose</th><th>mcg/min</th><th>ml/h</th></tr>
+                        <tr><td>0.1 mcg/kg/min</td><td>${(remi_peso*0.1).toFixed(1)}</td><td class="dose">${remi_mlh_min}</td></tr>
+                        <tr><td>0.2 mcg/kg/min</td><td>${(remi_peso*0.2).toFixed(1)}</td><td class="dose">${remi_mlh_med}</td></tr>
+                        <tr><td>0.3 mcg/kg/min</td><td>${(remi_peso*0.3).toFixed(1)}</td><td class="dose">${remi_mlh_max}</td></tr>
+                    </table>
+                </div>
+                <div class="result-section">
+                    <h3>💉 TCI - Sufentanil (Gepts)</h3>
+                    <div class="alert alert-warning">⚠️ Gepts NÃO validado em extremos de peso</div>
+                    <p>Peso: <strong>${sufenta_tipo_tci} (${sufenta_peso_tci} kg)</strong></p>
+                    <p>Alvos: Indução Ce 0.4 ng/ml | Manutenção Ce 0.2-0.5 ng/ml</p>
+                    <h4>Infusão Manual (5 mcg/ml)</h4>
+                    <table>
+                        <tr><th>Uso</th><th>Dose</th><th>Volume</th></tr>
+                        <tr><td>Bolus Indução</td><td>${doses.sufentanil}-${doses.sufentanil_max} mcg</td><td class="dose">${(parseFloat(doses.sufentanil)/5).toFixed(1)}-${(parseFloat(doses.sufentanil_max)/5).toFixed(1)} ml</td></tr>
+                        <tr><td>Infusão</td><td>${doses.sufentanil_manut_min}-${doses.sufentanil_manut_max} mcg/h</td><td class="dose">${sufenta_mlh_min}-${sufenta_mlh_max} ml/h</td></tr>
+                    </table>
+                    <p style="font-size:0.7rem; color:var(--text-secondary); margin-top:0.5rem;">Ref: SBA - Bases da Anestesia Venosa, 2016</p>
+                </div>
+            `;
+            
+            document.getElementById('magica').innerHTML = `
+                <div class="result-section">
+                    <h3 class="magic-header">⭐ Anestesia "Mágica" (Opioide-Free)</h3>
+                    <div class="alert alert-purple">Estratégia multimodal</div>
+                    <h4>INDUÇÃO (SF 250ml)</h4>
+                    <table>
+                        <tr><th>Fármaco</th><th>Dose</th><th>mg/kg</th></tr>
+                        <tr><td>Cetamina</td><td class="dose">${doses.magica_cetamina_ind} mg</td><td>0.2</td></tr>
+                        <tr><td>Dexmedetomidina</td><td class="dose">${doses.magica_dex_ind} mcg</td><td>0.5</td></tr>
+                        <tr><td>Lidocaína</td><td class="dose">${doses.magica_lido_ind} mg</td><td>1</td></tr>
+                        <tr><td>Sulfato Mg</td><td class="dose">${doses.magica_mg_ind} mg</td><td>30</td></tr>
+                    </table>
+                    <h4>MANUTENÇÃO (SF 100ml = 25ml/h)</h4>
+                    <table>
+                        <tr><th>Fármaco</th><th>Dose Total (4h)</th><th>Dose/h</th></tr>
+                        <tr><td>Cetamina</td><td class="dose">${doses.magica_cetamina_manut} mg</td><td>${Math.round(doses.magica_cetamina_manut/4)}</td></tr>
+                        <tr><td>Dexmedetomidina</td><td class="dose">${doses.magica_dex_manut} mcg</td><td>${Math.round(doses.magica_dex_manut/4)}</td></tr>
+                        <tr><td>Lidocaína</td><td class="dose">${doses.magica_lido_manut} mg</td><td>${Math.round(doses.magica_lido_manut/4)}</td></tr>
+                        <tr><td>Sulfato Mg</td><td class="dose">${doses.magica_mg_manut} mg</td><td>${Math.round(doses.magica_mg_manut/4)}</td></tr>
+                    </table>
+                    <h4 style="color:var(--danger);">⚠️ Doses Tóxicas</h4>
+                    <table class="toxic-table">
+                        <tr><th>Fármaco</th><th>Limite</th><th>Atual</th><th>Status</th></tr>
+                        <tr><td>Lidocaína</td><td>4-5 mg/kg</td><td>${lido_mgkg}</td><td class="${lido_status==='ok'?'status-ok':'status-danger'}">${lido_status==='ok'?'🟢':'🔥'}</td></tr>
+                        <tr><td>Cetamina</td><td>4.5 mg/kg/h</td><td>${cetamina_mgkgh}</td><td class="${cetamina_status==='ok'?'status-ok':'status-danger'}">${cetamina_status==='ok'?'🟢':'🔥'}</td></tr>
+                        <tr><td>Dexmedetomidina</td><td>1.4 mcg/kg/h</td><td>${dex_mcgkgh}</td><td class="${dex_status==='ok'?'status-ok':'status-warning'}">${dex_status==='ok'?'🟢':'🟡'}</td></tr>
+                    </table>
+                </div>
+            `;
+            
+            document.getElementById('emergencias').innerHTML = `
+                <div class="result-section">
+                    <h3>🚨 Emergências</h3>
+                    <table>
+                        <tr><th>Fármaco</th><th>Dose</th><th>Obs</th></tr>
+                        <tr><td>🔥 Dantrolene</td><td class="dose">${doses.dantrolene} mg (${doses.dantrolene_frascos} frascos)</td><td>HM</td></tr>
+                        <tr><td>TXA</td><td class="dose">${doses.txa}-${doses.txa_max} mg</td><td>Hemorragia</td></tr>
+                        <tr><td>Emulsão Lipídica 20%</td><td class="dose">${doses.lipid_bolus} ml bolus + ${doses.lipid_inf} ml/kg/min</td><td>LAST</td></tr>
+                    </table>
+                    <p style="font-size:0.7rem; color:var(--text-secondary); margin-top:0.5rem;">Fonte: Stanford Emergency Manual V4.4, 2022</p>
+                </div>
+            `;
+            
+            document.getElementById('ventilacao').innerHTML = `<div class="result-section"><h3>🫁 Ventilação (PBW!)</h3>
+                <div class="alert alert-danger">⚠️ Usar PBW (${pbw} kg) para VC!</div>
+                <table>
+                    <tr><th>Parâmetro</th><th>Valor</th></tr>
+                    <tr><td>Volume Corrente</td><td class="dose">${doses.vc_min}-${doses.vc_max} ml</td></tr>
+                    <tr><td>FR</td><td class="dose">${fr}</td></tr>
+                    <tr><td>PEEP</td><td class="dose">${peep}</td></tr>
+                </table>
+            </div>`;
+            
+            document.getElementById('last').innerHTML = `<div class="result-section"><h3>🚨 LAST (IBW: ${ibw} kg)</h3><table>
+                <tr><th>Anestésico</th><th>Dose Máx</th><th>mg</th></tr>
+                <tr><td>Bupivacaína</td><td>2 mg/kg</td><td class="dose">${doses.bupi_max}</td></tr>
+                <tr><td>Lidocaína (s/ adr)</td><td>4.5 mg/kg</td><td class="dose">${doses.lido_max}</td></tr>
+                <tr><td>Lidocaína (c/ adr)</td><td>7 mg/kg</td><td class="dose">${doses.lido_max_adr}</td></tr>
+                <tr><td>Ropivacaína</td><td>3 mg/kg</td><td class="dose">${doses.ropi_max}</td></tr>
+            </table>
+            <div class="alert alert-danger" style="margin-top:1rem;">Se LAST: Lipídica ${doses.lipid_bolus} ml bolus + ${doses.lipid_inf} ml/kg/min</div>
+            </div>`;
+            
+            document.getElementById('ficha-rapida').innerHTML = 
+`INDUÇÃO: Propofol ${doses.propofol} mg + Fentanil ${doses.fentanil} mcg + Rocurônio ${doses.rocuronio} mg
+
+ISR: Propofol ${doses.propofol} mg + Rocurônio ${doses.rocuronio_isr} mg → SUGAMMADEX ${doses.sugammadex_4} mg
+
+VENTILAÇÃO: VC ${doses.vc_min}-${doses.vc_max} ml | FR ${fr} | PEEP ${peep}
+
+REVERSÃO: Sugammadex ${doses.sugammadex_2} mg (TOF2) ou ${doses.sugammadex_4} mg (profundo)
+
+TCI: Propofol ${modelo_propofol} | Remi Minto TBW ${tbw} kg`;
+        }
+        
+        function voltar() {
+            document.getElementById('form-section').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('fab-registro').classList.remove('show');
+            document.querySelectorAll('.tab').forEach((t,i) => {
+                t.classList.remove('active');
+                if (i === 0) t.classList.add('active');
+            });
+            document.querySelectorAll('#results .tab-content').forEach((c,i) => {
+                c.classList.remove('active');
+                if (i === 0) c.classList.add('active');
+            });
+        }
+        
+        function showTab(tabId) {
+            document.querySelectorAll('#results .tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#results .tab-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+        
+        // ==================== CALCULADORA PEDIÁTRICA ====================
         function calcularPediatrico() {
             const nome = document.getElementById('nome-ped').value || 'Paciente';
             const peso = parseFloat(document.getElementById('peso-ped').value);
@@ -872,7 +1121,7 @@
             else if (peso < 30) { zonaBroselow = 'Laranja'; zoneClass = 'broselow-laranja'; }
             else { zonaBroselow = 'Verde'; zoneClass = 'broselow-verde'; }
             
-            // EQUIPAMENTOS
+            // EQUIPAMENTOS (PALS 2020)
             let tot, totCuff, profLip, lamina, lma, bolsa;
             if (peso < 6) { tot = '3,5'; totCuff = '3,0'; profLip = '9-10,5'; lamina = 'Reta 1'; lma = '1'; bolsa = '450'; }
             else if (peso < 8) { tot = '3,5'; totCuff = '3,0'; profLip = '10-10,5'; lamina = 'Reta 1'; lma = '1,5'; bolsa = '450'; }
@@ -884,13 +1133,13 @@
             else if (peso < 30) { tot = 'N/A'; totCuff = '5,5'; profLip = '17-18'; lamina = 'Curva 2-3'; lma = '2,5'; bolsa = '750-1000'; }
             else { tot = 'N/A'; totCuff = '6,0'; profLip = '18,5-19,5'; lamina = 'Curva 2-3'; lma = '3'; bolsa = '1000'; }
             
-            // FLUIDOS
+            // FLUIDOS (Holliday-Segar 4-2-1)
             let fluidoManut;
             if (peso <= 10) fluidoManut = peso * 4;
             else if (peso <= 20) fluidoManut = 40 + (peso - 10) * 2;
             else fluidoManut = 60 + (peso - 20) * 1;
             
-            // RENDERIZAR
+            // Renderizar
             document.getElementById('form-section').style.display = 'none';
             document.getElementById('results-ped').style.display = 'block';
             document.getElementById('fab-registro').classList.add('show');
@@ -905,14 +1154,14 @@
             `;
             
             let alertasPed = '';
-            if (peso < 5) alertasPed += `<div class="alert alert-danger">⚠️ Neonato/RN baixo peso</div>`;
-            if (faixaEtaria === 'Lactente') alertasPed += `<div class="alert alert-warning">👶 Lactente - maior sensibilidade</div>`;
+            if (peso < 5) alertasPed += `<div class="alert alert-danger">⚠️ Neonato/RN baixo peso - Atenção redobrada!</div>`;
+            if (faixaEtaria === 'Lactente') alertasPed += `<div class="alert alert-warning">👶 Lactente - Maior sensibilidade a drogas</div>`;
             document.getElementById('alertas-ped').innerHTML = alertasPed;
             
             // ========== ABA EQUIPAMENTOS ==========
             document.getElementById('equip-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>🩺 Via Aérea e Equipamentos</h3>
+                    <h3 class="ped">🩺 Via Aérea e Equipamentos</h3>
                     <div class="alert alert-pink">Zona Broselow: <span class="zona-badge ${zoneClass}">${zonaBroselow}</span></div>
                     <table>
                         <tr><th>Equipamento</th><th>Tamanho</th></tr>
@@ -927,183 +1176,184 @@
                 </div>
             `;
             
-            // ========== ABA INDUÇÃO ==========
+            // ========== ABA INDUÇÃO (DOSES CORRIGIDAS) ==========
             document.getElementById('inducao-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>💊 Indutores</h3>
+                    <h3 class="ped">💊 Indutores</h3>
                     
                     <div class="drug-card">
                         <div class="drug-name">Propofol</div>
-                        <div class="drug-faixa">Faixa: 2-3 mg/kg</div>
-                        <div class="drug-dose">${(peso * 2.5).toFixed(1)} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 10 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 2.5 / 10).toFixed(1)} mL sem diluir</div>
+                        <div class="drug-faixa">Dose: <strong>2,5 mg/kg</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 2.5).toFixed(1)} mg</div>
+                        <div class="drug-apresentacao">📦 10 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 2.5 / 10).toFixed(2)} mL</strong> sem diluir</div>
+                        <p class="fonte">Fonte: ABRAMEDE 2022</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Etomidato</div>
-                        <div class="drug-faixa">Faixa: 0,2-0,4 mg/kg</div>
-                        <div class="drug-dose">${(peso * 0.3).toFixed(2)} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 2 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 0.3 / 2).toFixed(2)} mL sem diluir</div>
+                        <div class="drug-faixa">Dose: <strong>0,2 mg/kg</strong> (ABRAMEDE) | <strong>0,3 mg/kg</strong> (Cardíaca)</div>
+                        <div class="drug-dose-destaque">${(peso * 0.2).toFixed(2)} mg (0,2 mg/kg)</div>
+                        <div class="drug-apresentacao">📦 2 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 0.2 / 2).toFixed(2)} mL</strong> sem diluir</div>
+                        <p class="fonte">Fonte: ABRAMEDE 2022; Cardíaca SCMBH</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Cetamina</div>
-                        <div class="drug-faixa">Faixa: 1-2 mg/kg IV | 4-5 mg/kg IM</div>
-                        <div class="drug-dose">${(peso * 2).toFixed(1)} mg (2 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 50 mg/mL</div>
+                        <div class="drug-faixa">Dose: <strong>2 mg/kg IV</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 2).toFixed(1)} mg</div>
+                        <div class="drug-apresentacao">📦 50 mg/mL</div>
                         ${peso * 2 < 5 ? 
-                            `<div class="drug-diluicao">💉 Diluir 1 mL (50mg) em 9 mL ABD = 5mg/mL → Fazer ${(peso * 2 / 5).toFixed(1)} mL</div>` : 
-                            `<div class="drug-diluicao">💉 Fazer ${(peso * 2 / 50).toFixed(2)} mL sem diluir</div>`
+                            `<div class="drug-diluicao">💉 Diluir 1 mL (50mg) em 9 mL ABD = <strong>5 mg/mL</strong> → Fazer <strong>${(peso * 2 / 5).toFixed(1)} mL</strong></div>` : 
+                            `<div class="drug-diluicao">💉 Fazer <strong>${(peso * 2 / 50).toFixed(2)} mL</strong> sem diluir</div>`
                         }
+                        <div class="alerta-critico">⚠️ CARDIOPATIA: 0,5 mg/kg = ${(peso * 0.5).toFixed(1)} mg</div>
+                        <p class="fonte">Fonte: ABRAMEDE 2022; Cardíaca SCMBH</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Midazolam</div>
-                        <div class="drug-faixa">Faixa: 0,1-0,3 mg/kg IV | 0,5 mg/kg IN</div>
-                        <div class="drug-dose">${(peso * 0.2).toFixed(2)} mg (0,2 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 5 mg/mL (3 mL)</div>
+                        <div class="drug-faixa">Dose: <strong>0,2 mg/kg</strong> (ABRAMEDE) | <strong>0,3 mg/kg</strong> (Cardíaca)</div>
+                        <div class="drug-dose-destaque">${(peso * 0.2).toFixed(2)} mg (0,2 mg/kg)</div>
+                        <div class="drug-apresentacao">📦 5 mg/mL (ampola 3 mL)</div>
                         ${peso * 0.2 < 0.5 ? 
-                            `<div class="drug-diluicao">💉 Diluir 1 mL (5mg) em 4 mL ABD = 1mg/mL → Fazer ${(peso * 0.2).toFixed(2)} mL</div>` : 
-                            `<div class="drug-diluicao">💉 Fazer ${(peso * 0.2 / 5).toFixed(2)} mL sem diluir</div>`
+                            `<div class="drug-diluicao">💉 Diluir 1 mL (5mg) em 4 mL ABD = <strong>1 mg/mL</strong> → Fazer <strong>${(peso * 0.2).toFixed(2)} mL</strong></div>` : 
+                            `<div class="drug-diluicao">💉 Fazer <strong>${(peso * 0.2 / 5).toFixed(2)} mL</strong> sem diluir</div>`
                         }
+                        <p class="fonte">Fonte: ABRAMEDE 2022; Cardíaca SCMBH</p>
                     </div>
-                    
-                    <div class="alert alert-warning">
-                        ⚠️ <strong>CARDIOPATIA:</strong> Cetamina 0,5 mg/kg = ${(peso * 0.5).toFixed(1)} mg
-                    </div>
-                    
-                    <p style="font-size:0.6rem; color:var(--text-secondary);">Fonte: ABRAMEDE 2022; Cardíaca Ped SCMBH</p>
                 </div>
             `;
             
-            // ========== ABA BNM ==========
+            // ========== ABA BNM (COM MANUTENÇÃO) ==========
+            const cisaInf1 = ((peso * 1 * 60) / 2000).toFixed(2);
+            const cisaInf4 = ((peso * 4 * 60) / 2000).toFixed(2);
+            
             document.getElementById('bnm-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>💪 Bloqueadores Neuromusculares</h3>
+                    <h3 class="ped">💪 Bloqueadores Neuromusculares</h3>
                     
                     <div class="drug-card">
                         <div class="drug-name">Rocurônio</div>
-                        <div class="drug-faixa">Faixa: 0,6-1,2 mg/kg</div>
-                        <div class="drug-dose">${(peso * 1).toFixed(1)} mg (1 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 10 mg/mL</div>
-                        ${peso * 1 < 3 ? 
-                            `<div class="drug-diluicao">💉 Diluir 1 mL (10mg) em 9 mL SF = 1mg/mL → Fazer ${(peso * 1).toFixed(1)} mL</div>` : 
-                            `<div class="drug-diluicao">💉 Fazer ${(peso * 1 / 10).toFixed(2)} mL sem diluir</div>`
+                        <div class="drug-faixa">Indução: <strong>1 mg/kg</strong> | ISR: <strong>1,2 mg/kg</strong></div>
+                        <div class="drug-dose-destaque">Indução: ${(peso * 1).toFixed(1)} mg</div>
+                        <div class="drug-apresentacao">📦 10 mg/mL</div>
+                        ${peso < 3 ? 
+                            `<div class="drug-diluicao">💉 Diluir 1 mL (10mg) em 9 mL SF = <strong>1 mg/mL</strong> → Fazer <strong>${(peso * 1).toFixed(1)} mL</strong></div>` : 
+                            `<div class="drug-diluicao">💉 Fazer <strong>${(peso * 1 / 10).toFixed(2)} mL</strong> sem diluir</div>`
                         }
-                    </div>
-                    
-                    <div class="drug-card">
-                        <div class="drug-name">Rocurônio ISR</div>
-                        <div class="drug-faixa">Faixa: 1,2 mg/kg</div>
-                        <div class="drug-dose">${(peso * 1.2).toFixed(1)} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 10 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 1.2 / 10).toFixed(2)} mL sem diluir</div>
+                        <div class="alert alert-info" style="margin-top:0.5rem;">
+                            <strong>🔄 MANUTENÇÃO:</strong> 0,6 mg/kg = <strong>${(peso * 0.6).toFixed(1)} mg</strong> (${(peso * 0.6 / 10).toFixed(2)} mL) a cada 20-30 min S/N
+                        </div>
+                        <p class="fonte">Fonte: ABRAMEDE 2022; Cardíaca SCMBH</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Cisatracúrio</div>
-                        <div class="drug-faixa">Faixa: 0,1-0,2 mg/kg</div>
-                        <div class="drug-dose">${(peso * 0.15).toFixed(2)} mg (0,15 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 2 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 0.15 / 2).toFixed(2)} mL sem diluir</div>
+                        <div class="drug-faixa">Indução: <strong>0,15 mg/kg</strong> (geral) | <strong>0,2 mg/kg</strong> (cardíaca)</div>
+                        <div class="drug-dose-destaque">Indução: ${(peso * 0.15).toFixed(2)} mg</div>
+                        <div class="drug-apresentacao">📦 2 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 0.15 / 2).toFixed(2)} mL</strong> sem diluir</div>
+                        
+                        <div class="alert alert-info" style="margin-top:0.5rem;">
+                            <strong>🔄 MANUTENÇÃO:</strong> 0,03 mg/kg = <strong>${(peso * 0.03).toFixed(2)} mg</strong> (${(peso * 0.03 / 2).toFixed(2)} mL)
+                        </div>
+                        
+                        <div class="alert alert-purple" style="margin-top:0.5rem;">
+                            <strong>📊 INFUSÃO:</strong> 1-4 mcg/kg/min (usar puro 2 mg/mL)<br>
+                            • 1 mcg/kg/min = <strong>${cisaInf1} mL/h</strong><br>
+                            • 4 mcg/kg/min = <strong>${cisaInf4} mL/h</strong>
+                        </div>
+                        
+                        <div class="alerta-critico">⚠️ CARDIOPATIA: 0,2 mg/kg = ${(peso * 0.2).toFixed(2)} mg</div>
+                        <p class="fonte">Fonte: ABRAMEDE 2022; Cardíaca SCMBH</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Succinilcolina</div>
-                        <div class="drug-faixa">Faixa: 1-2 mg/kg IV | 4 mg/kg IM</div>
-                        <div class="drug-dose">${(peso * 1).toFixed(1)} mg (1 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 100 mg/10 mL = 10 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 1 / 10).toFixed(2)} mL sem diluir</div>
+                        <div class="drug-faixa">Dose: <strong>1 mg/kg IV</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 1).toFixed(1)} mg</div>
+                        <div class="drug-apresentacao">📦 100 mg/10 mL = 10 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 1 / 10).toFixed(2)} mL</strong> sem diluir</div>
+                        <p class="fonte">Fonte: ABRAMEDE 2022</p>
                     </div>
-                    
-                    <div class="alert alert-warning">
-                        ⚠️ <strong>CARDIOPATIA:</strong> Cisatracúrio 0,2 mg/kg = ${(peso * 0.2).toFixed(2)} mg
-                    </div>
-                    
-                    <p style="font-size:0.6rem; color:var(--text-secondary);">Fonte: ABRAMEDE 2022; Cardíaca Ped SCMBH</p>
                 </div>
             `;
             
             // ========== ABA OPIOIDES ==========
             document.getElementById('opioides-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>💉 Opioides</h3>
+                    <h3 class="ped">💉 Opioides</h3>
                     
                     <div class="drug-card">
                         <div class="drug-name">Fentanil</div>
-                        <div class="drug-faixa">Faixa: 1-5 mcg/kg</div>
-                        <div class="drug-dose">${(peso * 2).toFixed(1)} mcg (2 mcg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 50 mcg/mL</div>
+                        <div class="drug-faixa">Dose: <strong>2 mcg/kg</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 2).toFixed(1)} mcg</div>
+                        <div class="drug-apresentacao">📦 50 mcg/mL</div>
                         ${peso * 2 < 25 ? 
-                            `<div class="drug-diluicao">💉 Diluir 1 mL (50mcg) em 4 mL SF = 10mcg/mL → Fazer ${(peso * 2 / 10).toFixed(2)} mL</div>` : 
-                            `<div class="drug-diluicao">💉 Fazer ${(peso * 2 / 50).toFixed(2)} mL sem diluir</div>`
+                            `<div class="drug-diluicao">💉 Diluir 1 mL (50mcg) em 4 mL SF = <strong>10 mcg/mL</strong> → Fazer <strong>${(peso * 2 / 10).toFixed(2)} mL</strong></div>` : 
+                            `<div class="drug-diluicao">💉 Fazer <strong>${(peso * 2 / 50).toFixed(2)} mL</strong> sem diluir</div>`
                         }
+                        <p class="fonte">Fonte: ABRAMEDE 2022; Cardíaca SCMBH</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Morfina</div>
-                        <div class="drug-faixa">Faixa: 0,05-0,1 mg/kg</div>
-                        <div class="drug-dose">${(peso * 0.1).toFixed(2)} mg (0,1 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 10 mg/mL</div>
-                        <div class="drug-diluicao">💉 Diluir 1 mL (10mg) em 9 mL SF = 1mg/mL → Fazer ${(peso * 0.1).toFixed(2)} mL</div>
+                        <div class="drug-faixa">Dose: <strong>0,1 mg/kg</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 0.1).toFixed(2)} mg</div>
+                        <div class="drug-apresentacao">📦 10 mg/mL</div>
+                        <div class="drug-diluicao">💉 Diluir 1 mL (10mg) em 9 mL SF = <strong>1 mg/mL</strong> → Fazer <strong>${(peso * 0.1).toFixed(2)} mL</strong></div>
+                        <p class="fonte">Fonte: ABRAMEDE 2022</p>
                     </div>
                     
                     <div class="drug-card">
-                        <div class="drug-name">Metadona</div>
-                        <div class="drug-faixa">Faixa: 0,1-0,2 mg/kg (cardíaca)</div>
-                        <div class="drug-dose">${(peso * 0.1).toFixed(2)} mg (0,1 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 10 mg/mL</div>
-                        <div class="drug-diluicao">💉 Diluir 1 mL (10mg) em 9 mL SF = 1mg/mL → Fazer ${(peso * 0.1).toFixed(2)} mL</div>
+                        <div class="drug-name">Metadona (cardíaca)</div>
+                        <div class="drug-faixa">Dose: <strong>0,1 mg/kg</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 0.1).toFixed(2)} mg</div>
+                        <div class="drug-apresentacao">📦 10 mg/mL</div>
+                        <div class="drug-diluicao">💉 Diluir 1 mL (10mg) em 9 mL SF = <strong>1 mg/mL</strong> → Fazer <strong>${(peso * 0.1).toFixed(2)} mL</strong></div>
+                        <p class="fonte">Fonte: Cardíaca SCMBH</p>
                     </div>
-                    
-                    <p style="font-size:0.6rem; color:var(--text-secondary);">Fonte: ABRAMEDE 2022; Cardíaca Ped SCMBH</p>
                 </div>
             `;
             
-            // ========== ABA ADJUVANTES ==========
-            const alertaCetoprofeno = idadeTotalMeses < 12 ? '<span class="alerta-idade">⚠️ CI < 1 ano</span>' : '';
-            const alertaCetoprofenoCard = idadeTotalMeses < 12 ? '<div class="alert alert-danger">⚠️ CONTRAINDICADO em menores de 1 ano!</div>' : '';
-            
+            // ========== ABA ADJUVANTES (CETOPROFENO CI < 15 ANOS) ==========
             document.getElementById('adjuvantes-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>💊 Adjuvantes</h3>
+                    <h3 class="ped">💊 Adjuvantes</h3>
                     
                     <div class="drug-card">
                         <div class="drug-name">Dipirona</div>
-                        <div class="drug-faixa">Faixa: 15-25 mg/kg (máx 1g)</div>
-                        <div class="drug-dose">${Math.min(peso * 25, 1000).toFixed(0)} mg (25 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 500 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(Math.min(peso * 25, 1000) / 500).toFixed(2)} mL - diluir em 10-20 mL SF</div>
+                        <div class="drug-faixa">Dose: <strong>50 mg/kg</strong> (máx 1g)</div>
+                        <div class="drug-dose-destaque">${Math.min(peso * 50, 1000).toFixed(0)} mg</div>
+                        <div class="drug-apresentacao">📦 500 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(Math.min(peso * 50, 1000) / 500).toFixed(2)} mL</strong> - diluir em 10-20 mL SF</div>
+                        <p class="fonte">Fonte: Cardíaca SCMBH</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Dexametasona</div>
-                        <div class="drug-faixa">Faixa: 0,1-0,5 mg/kg (máx 10 mg)</div>
-                        <div class="drug-dose">${Math.min(peso * 0.15, 10).toFixed(2)} mg (0,15 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 4 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(Math.min(peso * 0.15, 10) / 4).toFixed(2)} mL sem diluir</div>
+                        <div class="drug-faixa">Dose: <strong>150 mcg/kg</strong> (0,15 mg/kg)</div>
+                        <div class="drug-dose-destaque">${(peso * 0.15).toFixed(2)} mg</div>
+                        <div class="drug-apresentacao">📦 4 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 0.15 / 4).toFixed(2)} mL</strong> sem diluir</div>
+                        <p class="fonte">Fonte: Cardíaca SCMBH</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Ondansetrona</div>
-                        <div class="drug-faixa">Faixa: 0,1-0,15 mg/kg (máx 4 mg)</div>
-                        <div class="drug-dose">${Math.min(peso * 0.15, 4).toFixed(2)} mg (0,15 mg/kg)</div>
-                        <div class="drug-apresentacao">Apresentação: 2 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(Math.min(peso * 0.15, 4) / 2).toFixed(2)} mL sem diluir</div>
+                        <div class="drug-faixa">Dose: <strong>150 mcg/kg</strong> (0,15 mg/kg) - máx 4 mg</div>
+                        <div class="drug-dose-destaque">${Math.min(peso * 0.15, 4).toFixed(2)} mg</div>
+                        <div class="drug-apresentacao">📦 2 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(Math.min(peso * 0.15, 4) / 2).toFixed(2)} mL</strong> sem diluir</div>
+                        <p class="fonte">Fonte: Cardíaca SCMBH</p>
                     </div>
                     
-                    <div class="drug-card">
-                        <div class="drug-name">Cetoprofeno ${alertaCetoprofeno}</div>
-                        <div class="drug-faixa">Faixa: 1 mg/kg (máx 100 mg) - <strong>≥ 1 ano</strong></div>
-                        <div class="drug-dose">${Math.min(peso * 1, 100).toFixed(0)} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 100 mg/2 mL = 50 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(Math.min(peso * 1, 100) / 50).toFixed(2)} mL - diluir em 100 mL SF</div>
+                    <div class="alerta-critico">
+                        ⛔ CETOPROFENO IV: CONTRAINDICADO EM < 15 ANOS<br>
+                        <span style="font-size:0.75rem;">Segurança e eficácia não estabelecidas por via IV na faixa pediátrica</span>
                     </div>
-                    ${alertaCetoprofenoCard}
-                    
-                    <p style="font-size:0.6rem; color:var(--text-secondary);">Fonte: Cardíaca Pediátrica SCMBH</p>
                 </div>
             `;
             
@@ -1116,7 +1366,7 @@
             
             document.getElementById('fluidos-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>💧 Fluidos Intraoperatórios</h3>
+                    <h3 class="ped">💧 Fluidos Intraoperatórios</h3>
                     
                     <div class="alert alert-info">
                         <strong>RECOMENDAÇÃO:</strong> Cristaloide isotônico balanceado (Ringer, Plasma-Lyte)
@@ -1141,10 +1391,65 @@
                 </div>
             `;
             
+            // ========== ABA VASOPRESSORES ==========
+            document.getElementById('vaso-ped').innerHTML = `
+                <div class="result-section">
+                    <h3 class="ped">💉 Vasopressores</h3>
+                    
+                    <div class="drug-card">
+                        <div class="drug-name">Fenilefrina</div>
+                        <div class="drug-faixa">Bolus: <strong>5 mcg/kg</strong></div>
+                        <div class="drug-dose-destaque">Bolus: ${(peso * 5).toFixed(0)} mcg</div>
+                        <div class="drug-apresentacao">📦 10 mg/mL (Neosinefrina)</div>
+                        
+                        <div class="alert alert-info" style="margin-top:0.5rem;">
+                            <strong>💉 DILUIÇÃO BOLUS:</strong><br>
+                            Diluir 1 mL (10mg) em 9 mL ABD = <strong>1 mg/mL (1000 mcg/mL)</strong><br>
+                            → Fazer <strong>${(peso * 5 / 1000).toFixed(3)} mL</strong> EV
+                        </div>
+                        
+                        <div class="alert alert-purple" style="margin-top:0.5rem;">
+                            <strong>📊 INFUSÃO em 100 mL:</strong><br>
+                            5 mL da solução 1:9 (5mg) em 100 mL SG5% = <strong>50 mcg/mL</strong><br>
+                            Para 0,1 mcg/kg/min → <strong>${((peso * 0.1 * 60) / 50).toFixed(1)} mL/h</strong>
+                        </div>
+                        
+                        <div class="alert alert-purple" style="margin-top:0.5rem;">
+                            <strong>📊 INFUSÃO em 250 mL:</strong><br>
+                            5 mL da solução 1:9 (5mg) em 250 mL SG5% = <strong>20 mcg/mL</strong><br>
+                            Para 0,1 mcg/kg/min → <strong>${((peso * 0.1 * 60) / 20).toFixed(1)} mL/h</strong>
+                        </div>
+                        
+                        <p class="fonte">Fonte: ABRAMEDE 2022; Cardíaca SCMBH</p>
+                    </div>
+                    
+                    <div class="drug-card">
+                        <div class="drug-name">Efedrina</div>
+                        <div class="drug-faixa">Dose: <strong>0,1-0,2-0,5 mg/kg</strong> | < 6 meses: <strong>1 mg/kg</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 0.2).toFixed(1)} mg (0,2 mg/kg)</div>
+                        <div class="drug-apresentacao">📦 50 mg/mL</div>
+                        
+                        <div class="alert alert-info" style="margin-top:0.5rem;">
+                            <strong>💉 DILUIÇÃO (em 10 mL):</strong><br>
+                            Diluir 1 mL (50mg) em 9 mL ABD = <strong>5 mg/mL</strong><br>
+                            → Para 0,2 mg/kg: Fazer <strong>${(peso * 0.2 / 5).toFixed(2)} mL</strong> EV
+                        </div>
+                        
+                        ${idadeTotalMeses < 6 ? `
+                        <div class="alerta-critico">
+                            ⚠️ < 6 MESES: Dose 1 mg/kg = ${(peso * 1).toFixed(1)} mg (${(peso * 1 / 5).toFixed(2)} mL da diluição)
+                        </div>
+                        ` : ''}
+                        
+                        <p class="fonte">Fonte: Cardíaca SCMBH</p>
+                    </div>
+                </div>
+            `;
+            
             // ========== ABA INFUSÕES ==========
             document.getElementById('infusoes-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>📊 Infusões Contínuas (BIC)</h3>
+                    <h3 class="ped">📊 Infusões Contínuas (BIC)</h3>
                     
                     <div class="accordion">
                         <div class="accordion-header infusao" onclick="toggleAccordion(this)">
@@ -1158,7 +1463,7 @@
                                 <div class="dose-item"><span class="drug">0,1 mcg/kg/min</span><span class="dose-value">${((peso * 0.1 * 60) / 36).toFixed(1)} mL/h</span></div>
                                 <div class="dose-item"><span class="drug">0,2 mcg/kg/min</span><span class="dose-value">${((peso * 0.2 * 60) / 36).toFixed(1)} mL/h</span></div>
                             </div>
-                            <p class="fonte">Fonte: PALS 2020</p>
+                            <p class="fonte">Fonte: PALS 2020; ABRAMEDE 2022</p>
                         </div>
                     </div>
                     
@@ -1222,7 +1527,7 @@
                                 <div class="dose-item"><span class="drug">0,5 mcg/kg/h</span><span class="dose-value">${((peso * 0.5) / 4).toFixed(1)} mL/h</span></div>
                                 <div class="dose-item"><span class="drug">1,0 mcg/kg/h</span><span class="dose-value">${((peso * 1) / 4).toFixed(1)} mL/h</span></div>
                             </div>
-                            <p class="fonte">Fonte: Cardíaca Ped SCMBH</p>
+                            <p class="fonte">Fonte: Cardíaca SCMBH</p>
                         </div>
                     </div>
                 </div>
@@ -1238,56 +1543,60 @@
             const dDefib1 = (peso * 2).toFixed(0);
             const dDefib2 = (peso * 4).toFixed(0);
             const dGlicose = (peso * 0.5).toFixed(1);
-            const dGlicoseML = (peso * 1).toFixed(1); // mL de Glicose 50%
-            const dGlicoseD10 = (peso * 5).toFixed(0); // mL de D10W
+            const dGlicoseML = (peso * 1).toFixed(1);
+            const dGlicoseD10 = (peso * 5).toFixed(0);
             const dCaCl = (peso * 20).toFixed(0);
             const dBicarbonato = peso.toFixed(0);
             const dLidocaina = (peso * 1).toFixed(1);
             
             document.getElementById('emerg-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>🚨 Drogas de Emergência - Consulta Rápida</h3>
+                    <h3 class="ped">🚨 Emergências - Consulta Rápida</h3>
                     
-                    <div class="alert alert-danger">
-                        <strong>PCR:</strong> RCP 100-120/min, ≥1/3 diâmetro AP, relação 15:2
+                    <div class="alerta-critico">
+                        PCR: RCP 100-120/min | ≥1/3 diâmetro AP | Relação 15:2
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">🔥 EPINEFRINA (PCR/Bradicardia)</div>
                         <div class="drug-faixa">Dose: 0,01 mg/kg IV/IO a cada 3-5 min</div>
-                        <div class="drug-dose">${dEpiPCR} mg = ${dEpiPCRml} mL (1:10.000)</div>
-                        <div class="drug-apresentacao">Apresentação: 1 mg/mL (1:1.000)</div>
-                        <div class="drug-diluicao">💉 Diluir 1 mL (1mg) em 9 mL ABD = 0,1mg/mL (1:10.000) → Fazer ${dEpiPCRml} mL</div>
+                        <div class="drug-dose-destaque">${dEpiPCR} mg = ${dEpiPCRml} mL (1:10.000)</div>
+                        <div class="drug-apresentacao">📦 1 mg/mL (1:1.000)</div>
+                        <div class="drug-diluicao">💉 Diluir 1 mL em 9 mL ABD = <strong>0,1 mg/mL (1:10.000)</strong> → Fazer <strong>${dEpiPCRml} mL</strong></div>
+                        <p class="fonte">Fonte: PALS 2020</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Atropina (Bradicardia)</div>
-                        <div class="drug-faixa">Dose: 0,02 mg/kg (mín 0,1 mg, máx 0,5 mg)</div>
-                        <div class="drug-dose">${dAtropina} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 0,25 mg/mL ou 0,5 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(parseFloat(dAtropina) / 0.25).toFixed(1)} mL (da 0,25mg/mL) sem diluir</div>
+                        <div class="drug-faixa">Dose: 0,02 mg/kg (mín 0,1; máx 0,5 mg)</div>
+                        <div class="drug-dose-destaque">${dAtropina} mg</div>
+                        <div class="drug-apresentacao">📦 0,25 mg/mL ou 0,5 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(parseFloat(dAtropina) / 0.25).toFixed(1)} mL</strong> (da 0,25mg/mL)</div>
+                        <p class="fonte">Fonte: PALS 2020</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Amiodarona (FV/TV)</div>
                         <div class="drug-faixa">Dose: 5 mg/kg IV/IO bolus</div>
-                        <div class="drug-dose">${dAmiodarona} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 50 mg/mL</div>
-                        <div class="drug-diluicao">💉 Diluir ${(dAmiodarona / 50).toFixed(2)} mL em 10-20 mL SG5% → Fazer EV lento</div>
+                        <div class="drug-dose-destaque">${dAmiodarona} mg</div>
+                        <div class="drug-apresentacao">📦 50 mg/mL</div>
+                        <div class="drug-diluicao">💉 Diluir <strong>${(dAmiodarona / 50).toFixed(2)} mL</strong> em 10-20 mL SG5%</div>
+                        <p class="fonte">Fonte: PALS 2020</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Adenosina (TSV)</div>
-                        <div class="drug-faixa">1ª dose: 0,1 mg/kg (máx 6mg) | 2ª dose: 0,2 mg/kg (máx 12mg)</div>
-                        <div class="drug-dose">1ª: ${dAdenosina1} mg | 2ª: ${dAdenosina2} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 3 mg/mL (6mg/2mL)</div>
-                        <div class="drug-diluicao">💉 Fazer ${(parseFloat(dAdenosina1) / 3).toFixed(2)} mL - BOLUS RÁPIDO + FLUSH!</div>
+                        <div class="drug-faixa">1ª: 0,1 mg/kg (máx 6mg) | 2ª: 0,2 mg/kg (máx 12mg)</div>
+                        <div class="drug-dose-destaque">1ª: ${dAdenosina1} mg | 2ª: ${dAdenosina2} mg</div>
+                        <div class="drug-apresentacao">📦 3 mg/mL (6mg/2mL)</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(parseFloat(dAdenosina1) / 3).toFixed(2)} mL</strong> - BOLUS RÁPIDO + FLUSH!</div>
+                        <p class="fonte">Fonte: PALS 2020</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">🔌 Desfibrilação/Cardioversão</div>
-                        <div class="drug-faixa">1º: 2 J/kg | 2º: 4 J/kg | Cardioversão: 0,5-1 J/kg</div>
-                        <div class="drug-dose">1º: ${dDefib1} J | 2º: ${dDefib2} J | Cardio: ${(peso * 0.5).toFixed(0)}-${peso.toFixed(0)} J</div>
+                        <div class="drug-faixa">1º: 2 J/kg | 2º: 4 J/kg | Cardio: 0,5-1 J/kg</div>
+                        <div class="drug-dose-destaque">1º: ${dDefib1} J | 2º: ${dDefib2} J | Cardio: ${(peso * 0.5).toFixed(0)}-${peso.toFixed(0)} J</div>
                     </div>
                     
                     <h4>💊 Outras Emergências</h4>
@@ -1295,47 +1604,47 @@
                     <div class="drug-card">
                         <div class="drug-name">GLICOSE (Hipoglicemia)</div>
                         <div class="drug-faixa">Dose: 0,5-1 g/kg</div>
-                        <div class="drug-dose">${dGlicose} g = ${dGlicoseML} mL da Glicose 50%</div>
-                        <div class="drug-apresentacao">Apresentação: Glicose 50% (500mg/mL) - ampola 10mL</div>
-                        <div class="drug-diluicao">💉 Diluir ${dGlicoseML} mL (G50%) em ${(parseFloat(dGlicoseML) * 4).toFixed(0)} mL ABD = D10W → Fazer ${dGlicoseD10} mL</div>
+                        <div class="drug-dose-destaque">${dGlicose} g = ${dGlicoseML} mL da Glicose 50%</div>
+                        <div class="drug-apresentacao">📦 Glicose 50% (500mg/mL) - ampola 10mL</div>
+                        <div class="drug-diluicao">💉 Diluir ${dGlicoseML} mL (G50%) em ${(parseFloat(dGlicoseML) * 4).toFixed(0)} mL ABD = D10W → Fazer <strong>${dGlicoseD10} mL</strong></div>
+                        <p class="fonte">Fonte: PALS 2020; ABRAMEDE 2022</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Cloreto de Cálcio 10%</div>
                         <div class="drug-faixa">Dose: 20 mg/kg (0,2 mL/kg)</div>
-                        <div class="drug-dose">${dCaCl} mg = ${(peso * 0.2).toFixed(1)} mL</div>
-                        <div class="drug-apresentacao">Apresentação: 100 mg/mL (10%)</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 0.2).toFixed(1)} mL EV LENTO (pode causar bradicardia)</div>
+                        <div class="drug-dose-destaque">${dCaCl} mg = ${(peso * 0.2).toFixed(1)} mL</div>
+                        <div class="drug-apresentacao">📦 100 mg/mL (10%)</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 0.2).toFixed(1)} mL</strong> EV LENTO</div>
+                        <p class="fonte">Fonte: PALS 2020</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Bicarbonato de Sódio 8,4%</div>
                         <div class="drug-faixa">Dose: 1 mEq/kg</div>
-                        <div class="drug-dose">${dBicarbonato} mEq = ${dBicarbonato} mL</div>
-                        <div class="drug-apresentacao">Apresentação: 1 mEq/mL (8,4%)</div>
-                        <div class="drug-diluicao">💉 Diluir ${dBicarbonato} mL em igual volume ABD → Fazer ${(peso * 2).toFixed(0)} mL EV lento</div>
+                        <div class="drug-dose-destaque">${dBicarbonato} mEq = ${dBicarbonato} mL</div>
+                        <div class="drug-apresentacao">📦 1 mEq/mL (8,4%)</div>
+                        <div class="drug-diluicao">💉 Diluir ${dBicarbonato} mL em igual volume ABD → Fazer <strong>${(peso * 2).toFixed(0)} mL</strong> EV lento</div>
+                        <p class="fonte">Fonte: ABRAMEDE 2022</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Lidocaína 1%</div>
                         <div class="drug-faixa">Dose: 1 mg/kg (FV/TV refratária)</div>
-                        <div class="drug-dose">${dLidocaina} mg = ${(parseFloat(dLidocaina) / 10).toFixed(2)} mL</div>
-                        <div class="drug-apresentacao">Apresentação: 10 mg/mL (1%)</div>
-                        <div class="drug-diluicao">💉 Fazer ${(parseFloat(dLidocaina) / 10).toFixed(2)} mL EV</div>
+                        <div class="drug-dose-destaque">${dLidocaina} mg = ${(parseFloat(dLidocaina) / 10).toFixed(2)} mL</div>
+                        <div class="drug-apresentacao">📦 10 mg/mL (1%)</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(parseFloat(dLidocaina) / 10).toFixed(2)} mL</strong> EV</div>
+                        <p class="fonte">Fonte: PALS 2020</p>
                     </div>
-                    
-                    <p style="font-size:0.6rem; color:var(--text-secondary);">Fonte: PALS 2020; ABRAMEDE 2022</p>
                 </div>
             `;
             
-            // ========== ABA CARDÍACA PEDIÁTRICA ==========
+            // ========== ABA CARDÍACA ==========
             document.getElementById('cardiaca-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>❤️ Cardíaca Pediátrica - SCMBH</h3>
+                    <h3 class="ped">❤️ Cardíaca Pediátrica - SCMBH</h3>
                     
-                    <div class="alert alert-purple">
-                        Doses específicas para cirurgia cardíaca pediátrica
-                    </div>
+                    <div class="alert alert-purple">Doses específicas para cirurgia cardíaca</div>
                     
                     <div class="accordion">
                         <div class="accordion-header cardiaca" onclick="toggleAccordion(this)">
@@ -1362,9 +1671,8 @@
                         <div class="accordion-content">
                             <div class="dose-box">
                                 <div class="dose-item"><span class="drug">Heparina 150 UI/kg</span><span class="dose-value">${(peso * 150).toFixed(0)} UI</span></div>
-                                <div class="dose-item"><span class="drug">Ácido Tranexâmico 30 mg/kg</span><span class="dose-value">${(peso * 30).toFixed(0)} mg bolus</span></div>
+                                <div class="dose-item"><span class="drug">Ác. Tranexâmico 30 mg/kg bolus</span><span class="dose-value">${(peso * 30).toFixed(0)} mg</span></div>
                                 <div class="dose-item"><span class="drug">+ TXA 10 mg/kg/h manutenção</span><span class="dose-value">${(peso * 10).toFixed(0)} mg/h</span></div>
-                                <div class="dose-item"><span class="drug">Complexo Protrombínico 25 UI/kg</span><span class="dose-value">${(peso * 25).toFixed(0)} UI</span></div>
                             </div>
                             <p class="fonte">Fonte: Cardíaca Pediátrica SCMBH</p>
                         </div>
@@ -1372,30 +1680,13 @@
                     
                     <div class="accordion">
                         <div class="accordion-header cardiaca" onclick="toggleAccordion(this)">
-                            <span class="title">💊 Vasopressores/Inotrópicos</span>
+                            <span class="title">💊 Corticoide/Proteção</span>
                             <span class="icon">▼</span>
                         </div>
                         <div class="accordion-content">
+                            ${idadeTotalMeses < 12 ? `<div class="alert alert-warning">⚠️ LACTENTE < 1 ano - dose maior</div>` : ''}
                             <div class="dose-box">
-                                <div class="dose-item"><span class="drug">Fenilefrina 5 mcg/kg</span><span class="dose-value">${(peso * 5).toFixed(0)} mcg</span></div>
-                                <div class="dose-item"><span class="drug">Efedrina 0,1-0,5 mg/kg</span><span class="dose-value">${(peso * 0.2).toFixed(1)} mg</span></div>
-                                <div class="dose-item"><span class="drug">Vasopressina 0,0003-0,002 UI/kg/min</span><span class="dose-value">Ver tabela CTI</span></div>
-                            </div>
-                            <p class="fonte">Fonte: Cardíaca Pediátrica SCMBH</p>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion">
-                        <div class="accordion-header cardiaca" onclick="toggleAccordion(this)">
-                            <span class="title">💊 Corticoide/Proteção Miocárdica</span>
-                            <span class="icon">▼</span>
-                        </div>
-                        <div class="accordion-content">
-                            ${idadeTotalMeses < 12 ? 
-                                `<div class="alert alert-warning">⚠️ LACTENTE < 1 ano - dose maior de metilprednisolona</div>` : ''
-                            }
-                            <div class="dose-box">
-                                <div class="dose-item"><span class="drug">Metilprednisolona ${idadeTotalMeses < 12 ? '30 mg/kg (< 1 ano)' : '2 mg/kg'}</span><span class="dose-value">${idadeTotalMeses < 12 ? (peso * 30).toFixed(0) : (peso * 2).toFixed(0)} mg</span></div>
+                                <div class="dose-item"><span class="drug">Metilprednisolona ${idadeTotalMeses < 12 ? '30 mg/kg' : '2 mg/kg'}</span><span class="dose-value">${idadeTotalMeses < 12 ? (peso * 30).toFixed(0) : (peso * 2).toFixed(0)} mg</span></div>
                                 <div class="dose-item"><span class="drug">Lidocaína S/A 1,5 mg/kg</span><span class="dose-value">${(peso * 1.5).toFixed(1)} mg</span></div>
                             </div>
                             <p class="fonte">Fonte: Cardíaca Pediátrica SCMBH</p>
@@ -1410,40 +1701,7 @@
                         <div class="accordion-content">
                             <div class="dose-box">
                                 <div class="dose-item"><span class="drug">Cefazolina 50 mg/kg</span><span class="dose-value">${(peso * 50).toFixed(0)} mg</span></div>
-                                <div class="dose-item"><span class="drug">Vancomicina 15 mg/kg</span><span class="dose-value">${(peso * 15).toFixed(0)} mg (infusão 1h)</span></div>
-                            </div>
-                            <p class="fonte">Fonte: Cardíaca Pediátrica SCMBH</p>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion">
-                        <div class="accordion-header cardiaca" onclick="toggleAccordion(this)">
-                            <span class="title">💊 Especiais Cardíaca</span>
-                            <span class="icon">▼</span>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="dose-box">
-                                <div class="dose-item"><span class="drug">PGE1 0,01 mcg/kg/min</span><span class="dose-value">Ducto-dependente</span></div>
-                                <div class="dose-item"><span class="drug">Sildenafil 0,5 mg/kg</span><span class="dose-value">${(peso * 0.5).toFixed(1)} mg (máx 25mg)</span></div>
-                                <div class="dose-item"><span class="drug">Azul de Metileno 2 mg/kg</span><span class="dose-value">${(peso * 2).toFixed(0)} mg</span></div>
-                                <div class="dose-item"><span class="drug">Magnésio 30-50 mg/kg</span><span class="dose-value">${(peso * 40).toFixed(0)} mg</span></div>
-                                <div class="dose-item"><span class="drug">Cálcio 10% 50-60 mg/kg</span><span class="dose-value">${(peso * 55).toFixed(0)} mg</span></div>
-                            </div>
-                            <p class="fonte">Fonte: Cardíaca Pediátrica SCMBH</p>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion">
-                        <div class="accordion-header cardiaca" onclick="toggleAccordion(this)">
-                            <span class="title">🩸 Hemoderivados Cardíaca</span>
-                            <span class="icon">▼</span>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="dose-box">
-                                <div class="dose-item"><span class="drug">CH 10-20 mL/kg</span><span class="dose-value">${peso * 10}-${peso * 20} mL</span></div>
-                                <div class="dose-item"><span class="drug">Plaquetas 10 mL/kg</span><span class="dose-value">${peso * 10} mL</span></div>
-                                <div class="dose-item"><span class="drug">Crioprecipitado 1 UI/3 kg</span><span class="dose-value">${Math.ceil(peso / 3)} UI</span></div>
-                                <div class="dose-item"><span class="drug">Albumina 20% 0,5-1 g/kg</span><span class="dose-value">${(peso * 0.75).toFixed(1)} g</span></div>
+                                <div class="dose-item"><span class="drug">Vancomicina 15 mg/kg (1h)</span><span class="dose-value">${(peso * 15).toFixed(0)} mg</span></div>
                             </div>
                             <p class="fonte">Fonte: Cardíaca Pediátrica SCMBH</p>
                         </div>
@@ -1454,57 +1712,50 @@
             // ========== ABA REVERSORES ==========
             document.getElementById('reversores-ped').innerHTML = `
                 <div class="result-section">
-                    <h3>🔄 Reversores</h3>
+                    <h3 class="ped">🔄 Reversores</h3>
                     
                     <div class="drug-card">
                         <div class="drug-name">Neostigmina</div>
-                        <div class="drug-faixa">Dose: 0,04-0,07 mg/kg (máx 5 mg)</div>
-                        <div class="drug-dose">${(peso * 0.04).toFixed(3)} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 0,5 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 0.04 / 0.5).toFixed(2)} mL - sempre com ATROPINA</div>
+                        <div class="drug-faixa">Dose: <strong>0,04 mg/kg</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 0.04).toFixed(3)} mg</div>
+                        <div class="drug-apresentacao">📦 0,5 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 0.04 / 0.5).toFixed(2)} mL</strong> - sempre com ATROPINA antes!</div>
+                        <p class="fonte">Fonte: Cardíaca SCMBH</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Atropina (reversão)</div>
-                        <div class="drug-faixa">Dose: 0,02 mg/kg</div>
-                        <div class="drug-dose">${(peso * 0.02).toFixed(3)} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 0,25 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 0.02 / 0.25).toFixed(2)} mL - aplicar ANTES da neostigmina</div>
+                        <div class="drug-faixa">Dose: <strong>0,02 mg/kg</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 0.02).toFixed(3)} mg</div>
+                        <div class="drug-apresentacao">📦 0,25 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 0.02 / 0.25).toFixed(2)} mL</strong> - aplicar ANTES da neostigmina</div>
+                        <p class="fonte">Fonte: Cardíaca SCMBH</p>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Sugammadex (TOF 2)</div>
-                        <div class="drug-faixa">Dose: 2 mg/kg</div>
-                        <div class="drug-dose">${(peso * 2).toFixed(0)} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 100 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 2 / 100).toFixed(2)} mL sem diluir</div>
+                        <div class="drug-faixa">Dose: <strong>2 mg/kg</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 2).toFixed(0)} mg</div>
+                        <div class="drug-apresentacao">📦 100 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 2 / 100).toFixed(2)} mL</strong> sem diluir</div>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Sugammadex (profundo)</div>
-                        <div class="drug-faixa">Dose: 4 mg/kg</div>
-                        <div class="drug-dose">${(peso * 4).toFixed(0)} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 100 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(peso * 4 / 100).toFixed(2)} mL sem diluir</div>
+                        <div class="drug-faixa">Dose: <strong>4 mg/kg</strong></div>
+                        <div class="drug-dose-destaque">${(peso * 4).toFixed(0)} mg</div>
+                        <div class="drug-apresentacao">📦 100 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(peso * 4 / 100).toFixed(2)} mL</strong> sem diluir</div>
                     </div>
                     
                     <div class="drug-card">
                         <div class="drug-name">Naloxona</div>
-                        <div class="drug-faixa">Dose: 0,01-0,1 mg/kg (máx 2 mg) - titular!</div>
-                        <div class="drug-dose">${Math.min(peso * 0.1, 2).toFixed(2)} mg (dose total)</div>
-                        <div class="drug-apresentacao">Apresentação: 0,4 mg/mL</div>
-                        <div class="drug-diluicao">💉 Diluir 1 mL (0,4mg) em 9 mL SF = 0,04mg/mL → Titular 1-5 mcg/kg</div>
+                        <div class="drug-faixa">Dose: <strong>0,1 mg/kg</strong> (máx 2 mg) - titular!</div>
+                        <div class="drug-dose-destaque">${Math.min(peso * 0.1, 2).toFixed(2)} mg</div>
+                        <div class="drug-apresentacao">📦 0,4 mg/mL</div>
+                        <div class="drug-diluicao">💉 Fazer <strong>${(Math.min(peso * 0.1, 2) / 0.4).toFixed(2)} mL</strong> - TITULAR!</div>
+                        <p class="fonte">Fonte: PALS 2020</p>
                     </div>
-                    
-                    <div class="drug-card">
-                        <div class="drug-name">Flumazenil</div>
-                        <div class="drug-faixa">Dose: 0,01 mg/kg (máx 0,2 mg/dose)</div>
-                        <div class="drug-dose">${Math.min(peso * 0.01, 0.2).toFixed(3)} mg</div>
-                        <div class="drug-apresentacao">Apresentação: 0,1 mg/mL</div>
-                        <div class="drug-diluicao">💉 Fazer ${(Math.min(peso * 0.01, 0.2) / 0.1).toFixed(2)} mL - pode repetir a cada 1 min</div>
-                    </div>
-                    
-                    <p style="font-size:0.6rem; color:var(--text-secondary);">Fonte: PALS 2020; Cardíaca Ped SCMBH</p>
                 </div>
             `;
         }
@@ -1532,3 +1783,323 @@
     </script>
 </body>
 </html>
+
+<body>
+    <div class="container">
+        <header id="main-header">
+            <h1>🧮 Calculadora Anestésica PRO</h1>
+            <p>Adulto & Pediátrico • Baseada em Evidências</p>
+        </header>
+        
+        <!-- SELETOR DE MODO -->
+        <div id="form-section">
+            <div class="card">
+                <h2>👤 Selecione o Modo</h2>
+                
+                <div class="mode-selector">
+                    <button class="mode-btn active-adulto" id="btn-modo-adulto" onclick="setModo('adulto')">🧑 Adulto</button>
+                    <button class="mode-btn" id="btn-modo-ped" onclick="setModo('pediatrico')">🧒 Pediátrico</button>
+                </div>
+                <!-- FORMULÁRIO ADULTO -->
+                <div id="form-adulto">
+                    <div class="form-group">
+                        <label>Nome/Iniciais</label>
+                        <input type="text" id="nome" placeholder="Ex: J.S.">
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Peso Real (kg)</label>
+                            <input type="number" id="peso" placeholder="Ex: 70" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Altura (cm)</label>
+                            <input type="number" id="altura" placeholder="Ex: 170" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Sexo</label>
+                            <select id="sexo">
+                                <option value="M">Masculino</option>
+                                <option value="F">Feminino</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Idade (anos)</label>
+                            <input type="number" id="idade" placeholder="Ex: 45" required>
+                        </div>
+                        <div class="form-group">
+                            <label>ASA</label>
+                            <select id="asa">
+                                <option value="I">ASA I</option>
+                                <option value="II">ASA II</option>
+                                <option value="III">ASA III</option>
+                                <option value="IV">ASA IV</option>
+                                <option value="V">ASA V</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="calcularAdulto()">🧑 Calcular Doses Adulto</button>
+                </div>
+                
+                <!-- FORMULÁRIO PEDIÁTRICO -->
+                <div id="form-ped" style="display: none;">
+                    <div class="alert alert-pink">
+                        🧒 <strong>Modo Pediátrico</strong> - PALS 2020 + ABRAMEDE 2022 + Cardíaca SCMBH
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nome/Iniciais</label>
+                        <input type="text" id="nome-ped" placeholder="Ex: J.S.">
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Peso (kg) *</label>
+                            <input type="number" id="peso-ped" placeholder="Ex: 10" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Comprimento/Altura (cm)</label>
+                            <input type="number" id="altura-ped" placeholder="Ex: 75">
+                        </div>
+                    </div>
+                    
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Idade (anos)</label>
+                            <input type="number" id="idade-anos-ped" placeholder="0-17" min="0" max="17" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Meses</label>
+                            <input type="number" id="idade-meses-ped" placeholder="0-11" min="0" max="11" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Sexo</label>
+                            <select id="sexo-ped">
+                                <option value="M">Masculino</option>
+                                <option value="F">Feminino</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-pediatric" onclick="calcularPediatrico()">🧒 Calcular Doses Pediátricas</button>
+                </div>
+            </div>
+            
+            <!-- FOOTER FORMULÁRIO -->
+            <footer class="footer">
+                <div class="credits">
+                    <p class="dev-name">Desenvolvido por</p>
+                    <p class="dev-title">Adilson Fernandes</p>
+                    <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
+                </div>
+                <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
+                <p class="version">v3.2 • 2026 • Adulto + Pediátrico</p>
+            </footer>
+        </div>
+        
+        <!-- RESULTADOS ADULTO -->
+        <div id="results">
+            <button class="btn-secondary" onclick="voltar()">← Novo Cálculo</button>
+            
+            <div class="result-section">
+                <h3>👤 Dados do Paciente</h3>
+                <div class="stats-grid" id="stats-paciente"></div>
+                <div id="alertas"></div>
+            </div>
+            
+            <div class="result-section">
+                <h3>⚖️ Escaladores de Peso</h3>
+                <table id="tabela-escaladores"></table>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('indutores')">Indutores</button>
+                <button class="tab" onclick="showTab('bnm')">BNM</button>
+                <button class="tab" onclick="showTab('opioides')">Opioides</button>
+                <button class="tab" onclick="showTab('reversores')">Reversores</button>
+                <button class="tab" onclick="showTab('tci')">TCI</button>
+                <button class="tab" onclick="showTab('magica')">⭐ Mágica</button>
+                <button class="tab" onclick="showTab('emergencias')">🚨 Emerg</button>
+                <button class="tab" onclick="showTab('ventilacao')">Ventilação</button>
+                <button class="tab" onclick="showTab('last')">LAST</button>
+            </div>
+            
+            <div id="indutores" class="tab-content active"></div>
+            <div id="bnm" class="tab-content"></div>
+            <div id="opioides" class="tab-content"></div>
+            <div id="reversores" class="tab-content"></div>
+            <div id="tci" class="tab-content"></div>
+            <div id="magica" class="tab-content"></div>
+            <div id="emergencias" class="tab-content"></div>
+            <div id="ventilacao" class="tab-content"></div>
+            <div id="last" class="tab-content"></div>
+            
+            <div class="result-section">
+                <h3>📋 Ficha Rápida</h3>
+                <div class="ficha-rapida" id="ficha-rapida"></div>
+            </div>
+            
+            <footer class="footer">
+                <div class="credits">
+                    <p class="dev-name">Desenvolvido por</p>
+                    <p class="dev-title">Adilson Fernandes</p>
+                    <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
+                </div>
+                <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
+                <p class="version">v3.2 • 2026 • Adulto + Pediátrico</p>
+            </footer>
+        </div>
+        
+        <!-- RESULTADOS PEDIÁTRICOS -->
+        <div id="results-ped">
+            <button class="btn-secondary" onclick="voltarPed()">← Novo Cálculo</button>
+            
+            <div class="result-section">
+                <h3 class="ped">🧒 Dados do Paciente Pediátrico</h3>
+                <div class="stats-grid" id="stats-ped"></div>
+                <div id="alertas-ped"></div>
+            </div>
+            
+            <div class="tabs" id="tabs-ped">
+                <button class="tab active-ped" onclick="showTabPed('equip-ped')">🩺 Equip</button>
+                <button class="tab" onclick="showTabPed('inducao-ped')">💊 Indução</button>
+                <button class="tab" onclick="showTabPed('bnm-ped')">💪 BNM</button>
+                <button class="tab" onclick="showTabPed('opioides-ped')">💉 Opioides</button>
+                <button class="tab" onclick="showTabPed('adjuvantes-ped')">💊 Adjuv</button>
+                <button class="tab" onclick="showTabPed('fluidos-ped')">💧 Fluidos</button>
+                <button class="tab" onclick="showTabPed('vaso-ped')">💉 Vaso</button>
+                <button class="tab" onclick="showTabPed('infusoes-ped')">📊 Infusões</button>
+                <button class="tab" onclick="showTabPed('emerg-ped')">🚨 Emerg</button>
+                <button class="tab" onclick="showTabPed('cardiaca-ped')">❤️ Cardíaca</button>
+                <button class="tab" onclick="showTabPed('reversores-ped')">🔄 Revers</button>
+            </div>
+            
+            <div id="equip-ped" class="tab-content active"></div>
+            <div id="inducao-ped" class="tab-content"></div>
+            <div id="bnm-ped" class="tab-content"></div>
+            <div id="opioides-ped" class="tab-content"></div>
+            <div id="adjuvantes-ped" class="tab-content"></div>
+            <div id="fluidos-ped" class="tab-content"></div>
+            <div id="vaso-ped" class="tab-content"></div>
+            <div id="infusoes-ped" class="tab-content"></div>
+            <div id="emerg-ped" class="tab-content"></div>
+            <div id="cardiaca-ped" class="tab-content"></div>
+            <div id="reversores-ped" class="tab-content"></div>
+            
+            <footer class="footer">
+                <div class="credits">
+                    <p class="dev-name">Desenvolvido por</p>
+                    <p class="dev-title">Adilson Fernandes</p>
+                    <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
+                </div>
+                <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
+                <p class="version">v3.2 • 2026 • Adulto + Pediátrico</p>
+            </footer>
+        </div>
+    </div>
+    
+    <!-- BOTÃO FLUTUANTE REGISTRO -->
+    <button class="fab-registro" id="fab-registro" onclick="openRegistro()">📝</button>
+    
+    <!-- MODAL REGISTRO -->
+    <div class="modal-registro" id="modal-registro">
+        <div class="modal-registro-content">
+            <div class="modal-registro-header">
+                <h3>📝 Registro da Anestesia</h3>
+                <button class="close-modal-reg" onclick="closeRegistro()">×</button>
+            </div>
+            
+            <div class="registro-section">
+                <h4>💊 Drogas</h4>
+                <div class="registro-input-row">
+                    <select id="reg-droga">
+                        <option value="">Selecione...</option>
+                        <optgroup label="Indutores">
+                            <option value="Propofol (mg)">Propofol</option>
+                            <option value="Etomidato (mg)">Etomidato</option>
+                            <option value="Cetamina (mg)">Cetamina</option>
+                            <option value="Midazolam (mg)">Midazolam</option>
+                        </optgroup>
+                        <optgroup label="Opioides">
+                            <option value="Fentanil (mcg)">Fentanil</option>
+                            <option value="Morfina (mg)">Morfina</option>
+                            <option value="Metadona (mg)">Metadona</option>
+                        </optgroup>
+                        <optgroup label="BNM">
+                            <option value="Rocurônio (mg)">Rocurônio</option>
+                            <option value="Cisatracúrio (mg)">Cisatracúrio</option>
+                            <option value="Succinilcolina (mg)">Succinilcolina</option>
+                        </optgroup>
+                        <optgroup label="Adjuvantes">
+                            <option value="Dipirona (mg)">Dipirona</option>
+                            <option value="Dexametasona (mg)">Dexametasona</option>
+                            <option value="Ondansetrona (mg)">Ondansetrona</option>
+                        </optgroup>
+                        <optgroup label="Vasopressores">
+                            <option value="Efedrina (mg)">Efedrina</option>
+                            <option value="Fenilefrina (mcg)">Fenilefrina</option>
+                            <option value="Epinefrina (mg)">Epinefrina</option>
+                        </optgroup>
+                        <optgroup label="Reversores">
+                            <option value="Neostigmina (mg)">Neostigmina</option>
+                            <option value="Atropina (mg)">Atropina</option>
+                            <option value="Sugammadex (mg)">Sugammadex</option>
+                        </optgroup>
+                    </select>
+                    <input type="number" id="reg-dose" placeholder="Dose" step="0.01">
+                    <button onclick="addDroga()">+</button>
+                </div>
+                <div class="registro-lista" id="lista-drogas">
+                    <p style="color: var(--text-secondary); font-size: 0.7rem; text-align: center;">Nenhuma droga</p>
+                </div>
+            </div>
+            
+            <div class="registro-section">
+                <h4>💧 Fluidos</h4>
+                <div class="registro-input-row">
+                    <select id="reg-fluido">
+                        <option value="">Selecione...</option>
+                        <option value="SF 0,9%">SF 0,9%</option>
+                        <option value="Ringer Lactato">Ringer Lactato</option>
+                        <option value="Plasma-Lyte">Plasma-Lyte</option>
+                        <option value="Concentrado Hemácias">Conc. Hemácias</option>
+                        <option value="Plaquetas">Plaquetas</option>
+                        <option value="Plasma Fresco">Plasma Fresco</option>
+                    </select>
+                    <input type="number" id="reg-volume" placeholder="mL">
+                    <button onclick="addFluido()">+</button>
+                </div>
+                <div class="registro-lista" id="lista-fluidos">
+                    <p style="color: var(--text-secondary); font-size: 0.7rem; text-align: center;">Nenhum fluido</p>
+                </div>
+            </div>
+            
+            <div class="registro-totais">
+                <p><strong>Cristaloide:</strong> <span class="valor" id="total-cristaloide">0 ml</span> <span id="cristaloide-mlkg"></span></p>
+                <p><strong>Hemoderivados:</strong> <span class="valor" id="total-hemo">0 ml</span></p>
+            </div>
+            
+            <div class="registro-actions">
+                <button class="btn-exportar" onclick="exportarRegistro()">📤 Exportar</button>
+                <button class="btn-limpar" onclick="limparRegistro()">🗑️ Limpar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PIX MODAL -->
+    <div id="pix-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePix()">×</span>
+            <h3>☕ Me pague um café!</h3>
+            <p>Obrigado por usar a calculadora!</p>
+            <div class="pix-info">
+                <p><strong>Chave PIX:</strong></p>
+                <p class="pix-key">ahmf1204@gmail.com</p>
+                <button class="btn-copy" onclick="copyPix()">📋 Copiar</button>
+            </div>
+        </div>
+    </div>
