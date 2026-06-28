@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anestesia-pro-v2.0 (downgrade)';
+const CACHE_NAME = 'anestesia-pro-v2.3.0 (newversion)';
 const urlsToCache = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', event => {
