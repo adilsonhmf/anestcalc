@@ -26,7 +26,7 @@
             --warning: #f59e0b;
             --danger: #ef4444;
         }
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
@@ -447,7 +447,7 @@
                     <p class="dev-institution">Residente Anestesiologia • SCMBH</p>
                 </div>
                 <button class="coffee-btn" onclick="showPix()">☕ Me pague um café!</button>
-                <p class="version">v2.2 • 2026</p>
+                <p class="version">v2.3 • 2026</p>
             </footer>
         </div>
         
@@ -567,6 +567,138 @@
             }
         }
         
+        // ─────────────────────────────────────────────
+        // DRUG_CONFIG — Fonte única de verdade para doses
+        // Para alterar uma dose: edite APENAS aqui.
+        // Referências inline por fármaco.
+        // ─────────────────────────────────────────────
+        const DRUG_CONFIG = {
+            // ── INDUTORES ──
+            propofol: {
+                ind_mgkg: 2,          // mg/kg (peso_escalonado)
+                sed_mgkg: 0.5,        // mg/kg sedação
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.23 | SBA 2020'
+            },
+            etomidato: {
+                ind_mgkg: 0.3,        // mg/kg (peso_escalonado)
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.23'
+            },
+            cetamina: {
+                ind_mgkg: 1.5,        // mg/kg TBW
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.23'
+            },
+            midazolam: {
+                ind_mgkg: 0.05,       // mg/kg TBW
+                ref: 'SBA 2020'
+            },
+
+            // ── BNM ──
+            rocuronio: {
+                ind_mgkg: 0.6,        // mg/kg (peso_escalonado)
+                isr_mgkg: 1.2,        // mg/kg ISR
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.29'
+            },
+            atracurio: {
+                ind_mgkg: 0.5,        // mg/kg (peso_escalonado)
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.29'
+            },
+            cisatracurio: {
+                ind_mgkg: 0.15,       // mg/kg (peso_escalonado)
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.29'
+            },
+            succinilcolina: {
+                ind_mgkg: 1,          // mg/kg TBW
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.29'
+            },
+
+            // ── OPIOIDES ──
+            fentanil: {
+                ind_min_mgkg: 3,      // mcg/kg (peso_escalonado)
+                ind_max_mgkg: 5,      // mcg/kg
+                ref: 'SBA 2016 | Miller\'s Anesthesia 9th ed., Cap.31'
+            },
+            sufentanil: {
+                ind_min_mgkg: 0.3,    // mcg/kg (peso_escalonado)
+                ind_max_mgkg: 0.5,    // mcg/kg
+                manut_min_mgkg: 0.3,  // mcg/kg/h
+                manut_max_mgkg: 0.6,  // mcg/kg/h
+                ref: 'SBA 2016'
+            },
+            remifentanil: {
+                min_mgkgmin: 0.1,     // mcg/kg/min (remi_peso)
+                max_mgkgmin: 0.3,     // mcg/kg/min
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.31'
+            },
+            morfina: {
+                ind_mgkg: 0.1,        // mg/kg (peso_escalonado)
+                ref: 'SBA 2020'
+            },
+
+            // ── REVERSORES ──
+            neostigmina: {
+                min_mgkg: 0.04,       // mg/kg TBW
+                max_mgkg: 0.07,       // mg/kg TBW
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.29'
+            },
+            atropina: {
+                mgkg: 0.02,           // mg/kg TBW
+                ref: 'SBA 2020'
+            },
+            sugammadex: {
+                tof2_mgkg: 2,         // mg/kg TBW
+                profundo_mgkg: 4,     // mg/kg TBW
+                ref: 'Miller\'s Anesthesia 9th ed., Cap.29 | SBA 2020'
+            },
+
+            // ── EMERGÊNCIAS ──
+            dantrolene: {
+                mgkg: 2.5,            // mg/kg TBW — Hipertermia Maligna
+                mg_por_frasco: 20,
+                ref: 'Stanford Emergency Manual V4.4, 2022'
+            },
+            lipidica: {
+                bolus_mgkg: 1.5,      // ml/kg LBW — Emulsão 20%
+                inf_mgkgmin: 0.25,    // ml/kg/min
+                ref: 'Stanford Emergency Manual V4.4, 2022 | ASRA 2018'
+            },
+
+            // ── ANESTÉSICOS LOCAIS (LAST) ──
+            bupivacaina: {
+                max_mgkg: 2,          // mg/kg IBW
+                ref: 'Stanford Emergency Manual V4.4, 2022'
+            },
+            lidocaina: {
+                max_mgkg: 4.5,        // mg/kg IBW sem adrenalina
+                max_adr_mgkg: 7,      // mg/kg IBW com adrenalina
+                ref: 'Stanford Emergency Manual V4.4, 2022'
+            },
+            ropivacaina: {
+                max_mgkg: 3,          // mg/kg IBW
+                ref: 'Stanford Emergency Manual V4.4, 2022'
+            },
+
+            // ── ANESTESIA MULTIMODAL ("MÁGICA") ──
+            // ⚠️ PENDENTE VALIDAÇÃO CIENTÍFICA — Passo 2A
+            magica: {
+                cetamina_ind_mgkg: 0.2,      // mg/kg TBW subdissociativa
+                cetamina_manut_mgkgh: 0.2,   // mg/kg/h
+                dex_ind_mcgkg: 0.5,          // mcg/kg dexmedetomidina
+                dex_manut_mcgkgh: 0.5,       // mcg/kg/h
+                lido_ind_mgkg: 1,            // mg/kg lidocaína IV
+                lido_manut_mgkgh: 1,         // mg/kg/h (acumulado 4h)
+                mg_ind_mgkg: 30,             // mg/kg MgSO4
+                mg_manut_mgkgh: 10,          // mg/kg/h (acumulado 4h)
+                ref: 'PENDENTE — Jouguelet-Lacoste 2015 (cetamina) | Blaudszun 2012 (dex) | Weibel 2016 Cochrane (lido) | De Oliveira 2013 (Mg)'
+            },
+
+            // ── VENTILAÇÃO ──
+            ventilacao: {
+                vc_min_mlkg: 6,       // ml/kg PBW
+                vc_max_mlkg: 8,       // ml/kg PBW
+                ref: 'ARDSnet | Miller\'s Anesthesia 9th ed., Cap.41'
+            }
+        };
+
         // CALCULADORA
         function calcular() {
             const nome = document.getElementById('nome').value || 'Paciente';
@@ -617,58 +749,63 @@
             
             let sufenta_peso_tci = peso_escalonado, sufenta_tipo_tci = peso_tipo;
             
-            // Doses
+            // Doses — calculadas a partir do DRUG_CONFIG
+            const C = DRUG_CONFIG; // atalho local
             const doses = {
-                propofol: Math.round(peso_escalonado * 2),
-                propofol_sed: Math.round(peso_escalonado * 0.5),
-                etomidato: Math.round(peso_escalonado * 0.3),
-                cetamina: Math.round(tbw * 1.5),
-                midazolam: (tbw * 0.05).toFixed(1),
-                rocuronio: Math.round(peso_escalonado * 0.6),
-                rocuronio_isr: Math.round(peso_escalonado * 1.2),
-                atracurio: Math.round(peso_escalonado * 0.5),
-                cisatracurio: Math.round(peso_escalonado * 0.15),
-                succinilcolina: Math.round(tbw * 1),
-                fentanil: Math.round(peso_escalonado * 3),
-                fentanil_max: Math.round(peso_escalonado * 5),
-                sufentanil: (peso_escalonado * 0.3).toFixed(1),
-                sufentanil_max: (peso_escalonado * 0.5).toFixed(1),
-                sufentanil_manut_min: (sufenta_peso_tci * 0.3).toFixed(1),
-                sufentanil_manut_max: (sufenta_peso_tci * 0.6).toFixed(1),
-                remifentanil_min: (remi_peso * 0.1).toFixed(2),
-                remifentanil_max: (remi_peso * 0.3).toFixed(2),
-                morfina: (peso_escalonado * 0.1).toFixed(1),
-                neostigmina: (tbw * 0.04).toFixed(1),
-                neostigmina_max: (tbw * 0.07).toFixed(1),
-                atropina: (tbw * 0.02).toFixed(1),
-                sugammadex_2: Math.round(tbw * 2),
-                sugammadex_4: Math.round(tbw * 4),
-                // EMERGÊNCIAS
-                dantrolene: (tbw * 2.5).toFixed(1),
-                dantrolene_frascos: Math.ceil((tbw * 2.5) / 20),
-                txa: Math.round(tbw * 1000 / tbw), // 1g fixo
-                lipid_bolus: Math.round(lbw * 1.5),
-                lipid_inf: (lbw * 0.25).toFixed(1),
+                // Indutores
+                propofol:       Math.round(peso_escalonado * C.propofol.ind_mgkg),
+                propofol_sed:   Math.round(peso_escalonado * C.propofol.sed_mgkg),
+                etomidato:      Math.round(peso_escalonado * C.etomidato.ind_mgkg),
+                cetamina:       Math.round(tbw * C.cetamina.ind_mgkg),
+                midazolam:      (tbw * C.midazolam.ind_mgkg).toFixed(1),
+                // BNM
+                rocuronio:      Math.round(peso_escalonado * C.rocuronio.ind_mgkg),
+                rocuronio_isr:  Math.round(peso_escalonado * C.rocuronio.isr_mgkg),
+                atracurio:      Math.round(peso_escalonado * C.atracurio.ind_mgkg),
+                cisatracurio:   Math.round(peso_escalonado * C.cisatracurio.ind_mgkg),
+                succinilcolina: Math.round(tbw * C.succinilcolina.ind_mgkg),
+                // Opioides
+                fentanil:               Math.round(peso_escalonado * C.fentanil.ind_min_mgkg),
+                fentanil_max:           Math.round(peso_escalonado * C.fentanil.ind_max_mgkg),
+                sufentanil:             (peso_escalonado * C.sufentanil.ind_min_mgkg).toFixed(1),
+                sufentanil_max:         (peso_escalonado * C.sufentanil.ind_max_mgkg).toFixed(1),
+                sufentanil_manut_min:   (sufenta_peso_tci * C.sufentanil.manut_min_mgkg).toFixed(1),
+                sufentanil_manut_max:   (sufenta_peso_tci * C.sufentanil.manut_max_mgkg).toFixed(1),
+                remifentanil_min:       (remi_peso * C.remifentanil.min_mgkgmin).toFixed(2),
+                remifentanil_max:       (remi_peso * C.remifentanil.max_mgkgmin).toFixed(2),
+                morfina:                (peso_escalonado * C.morfina.ind_mgkg).toFixed(1),
+                // Reversores
+                neostigmina:    (tbw * C.neostigmina.min_mgkg).toFixed(1),
+                neostigmina_max:(tbw * C.neostigmina.max_mgkg).toFixed(1),
+                atropina:       (tbw * C.atropina.mgkg).toFixed(1),
+                sugammadex_2:   Math.round(tbw * C.sugammadex.tof2_mgkg),
+                sugammadex_4:   Math.round(tbw * C.sugammadex.profundo_mgkg),
+                // Emergências
+                dantrolene:         (tbw * C.dantrolene.mgkg).toFixed(1),
+                dantrolene_frascos: Math.ceil((tbw * C.dantrolene.mgkg) / C.dantrolene.mg_por_frasco),
+                txa: 1000, // 1g fixo — dose independente de peso (CRASH-2)
+                lipid_bolus:    Math.round(lbw * C.lipidica.bolus_mgkg),
+                lipid_inf:      (lbw * C.lipidica.inf_mgkgmin).toFixed(1),
                 epinefrina_anafilaxia: '10-100',
                 epinefrina_pct: '1',
                 calcio: '1',
                 // LAST
-                bupi_max: Math.round(ibw * 2),
-                lido_max: Math.round(ibw * 4.5),
-                lido_max_adr: Math.round(ibw * 7),
-                ropi_max: Math.round(ibw * 3),
+                bupi_max:       Math.round(ibw * C.bupivacaina.max_mgkg),
+                lido_max:       Math.round(ibw * C.lidocaina.max_mgkg),
+                lido_max_adr:   Math.round(ibw * C.lidocaina.max_adr_mgkg),
+                ropi_max:       Math.round(ibw * C.ropivacaina.max_mgkg),
                 // Ventilação
-                vc_min: Math.round(pbw * 6),
-                vc_max: Math.round(pbw * 8),
+                vc_min: Math.round(pbw * C.ventilacao.vc_min_mlkg),
+                vc_max: Math.round(pbw * C.ventilacao.vc_max_mlkg),
                 // Mágica
-                magica_cetamina_ind: (tbw * 0.2).toFixed(1),
-                magica_dex_ind: (tbw * 0.5).toFixed(1),
-                magica_lido_ind: Math.round(tbw * 1),
-                magica_mg_ind: Math.round(tbw * 30),
-                magica_cetamina_manut: Math.round(tbw * 0.2 * 4),
-                magica_dex_manut: Math.round(tbw * 0.5 * 4),
-                magica_lido_manut: Math.round(tbw * 1 * 4),
-                magica_mg_manut: Math.round(tbw * 10 * 4)
+                magica_cetamina_ind:  (tbw * C.magica.cetamina_ind_mgkg).toFixed(1),
+                magica_dex_ind:       (tbw * C.magica.dex_ind_mcgkg).toFixed(1),
+                magica_lido_ind:      Math.round(tbw * C.magica.lido_ind_mgkg),
+                magica_mg_ind:        Math.round(tbw * C.magica.mg_ind_mgkg),
+                magica_cetamina_manut:Math.round(tbw * C.magica.cetamina_manut_mgkgh * 4),
+                magica_dex_manut:     Math.round(tbw * C.magica.dex_manut_mcgkgh * 4),
+                magica_lido_manut:    Math.round(tbw * C.magica.lido_manut_mgkgh * 4),
+                magica_mg_manut:      Math.round(tbw * C.magica.mg_manut_mgkgh * 4)
             };
             
             const lido_mgkg = (doses.magica_lido_manut / tbw).toFixed(1);
