@@ -382,6 +382,240 @@
             .tab { font-size: 0.7rem; padding: 0.4rem 0.6rem; }
             .hs-ts-grid { grid-template-columns: 1fr; }
         }
+
+        /* ── REGISTRO INTRAOPERATÓRIO ──────────────────────────────── */
+
+        .log-timer-hero {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .log-timer-display {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            color: var(--accent-cyan);
+            letter-spacing: 0.05em;
+            line-height: 1;
+        }
+        .log-timer-label { font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.25rem; }
+        .log-timer-status { font-size: 0.8rem; color: var(--accent-green); margin-top: 0.5rem; min-height: 1.2em; }
+
+        .log-times-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .log-time-btn {
+            background: var(--bg-card);
+            border: 1.5px solid var(--bg-card);
+            border-radius: 8px;
+            padding: 0.75rem 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-align: left;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+        .log-time-btn.set { border-color: var(--accent-green); }
+        .log-time-btn .lbt-label { color: var(--text-secondary); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .log-time-btn.set .lbt-value { font-size: 0.95rem; font-weight: 700; color: var(--accent-green); }
+        .log-time-btn.unset .lbt-value { font-size: 0.75rem; color: var(--text-secondary); }
+        .log-time-btn .lbt-tap { font-size: 0.65rem; color: var(--accent-cyan); margin-top: 0.1rem; }
+
+        .log-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .log-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--bg-card);
+        }
+        .log-section-title { font-size: 0.875rem; color: var(--accent-cyan); font-weight: 600; }
+        .log-section-total { font-size: 0.8rem; font-weight: 700; color: var(--accent-green); }
+
+        .log-quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
+            margin-bottom: 0.75rem;
+        }
+        .log-quick-btn {
+            background: var(--bg-card);
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 0.25rem;
+            color: var(--text-primary);
+            font-size: 0.68rem;
+            text-align: center;
+            cursor: pointer;
+            min-height: 52px;
+            line-height: 1.3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.15rem;
+        }
+        .log-quick-btn:active { background: #475569; }
+        .log-quick-btn .qb-name { font-weight: 600; }
+        .log-quick-btn .qb-dose { color: var(--accent-green); font-size: 0.62rem; }
+
+        .log-fluid-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .log-fluid-btn {
+            background: var(--bg-card);
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.72rem;
+            text-align: left;
+            cursor: pointer;
+            min-height: 48px;
+            line-height: 1.4;
+        }
+        .log-fluid-btn:active { background: #475569; }
+        .log-fluid-btn .fb-vol { color: var(--accent-cyan); font-weight: 700; }
+
+        .log-subsection-label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin: 0.75rem 0 0.4rem;
+        }
+
+        .log-entry {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 0.5rem 0.6rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.78rem;
+        }
+        .log-entry-time { color: var(--text-secondary); font-variant-numeric: tabular-nums; min-width: 36px; font-size: 0.68rem; flex-shrink: 0; }
+        .log-entry-name { flex: 1; font-weight: 600; min-width: 0; }
+        .log-entry-detail { color: var(--accent-green); font-size: 0.72rem; white-space: nowrap; }
+        .log-entry-delete {
+            background: none; border: none; color: var(--danger);
+            font-size: 1rem; cursor: pointer; padding: 0.2rem 0.3rem;
+            min-width: 28px; min-height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 4px; flex-shrink: 0;
+        }
+        .log-entry-delete:active { background: rgba(239,68,68,0.1); }
+
+        .log-infusion-badge {
+            display: inline-flex; align-items: center; gap: 0.2rem;
+            background: rgba(168,85,247,0.15);
+            border: 1px solid var(--accent-purple);
+            border-radius: 4px; padding: 0.1rem 0.35rem;
+            font-size: 0.62rem; color: var(--accent-purple);
+            white-space: nowrap;
+        }
+        .log-stop-btn {
+            background: none; border: 1px solid var(--accent-purple);
+            border-radius: 4px; color: var(--accent-purple);
+            font-size: 0.65rem; cursor: pointer; padding: 0.15rem 0.35rem;
+            white-space: nowrap;
+        }
+
+        .log-manual-row {
+            display: grid;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+        .log-manual-row.drug-row { grid-template-columns: 1fr 4rem 3.5rem 4rem; }
+        .log-manual-row.fluid-row { grid-template-columns: 1fr 5rem; }
+        .log-manual-row input, .log-manual-row select {
+            font-size: 0.82rem; padding: 0.5rem 0.4rem;
+        }
+        .log-add-btn {
+            background: var(--accent-cyan); color: var(--bg-primary);
+            border: none; border-radius: 8px; padding: 0.55rem 0.75rem;
+            font-weight: 700; cursor: pointer;
+            min-height: 42px; font-size: 0.82rem;
+            white-space: nowrap;
+        }
+        .log-add-row { display: flex; gap: 0.4rem; margin-top: 0.4rem; }
+        .log-add-row .log-add-btn { flex: 1; }
+
+        .log-balance-bar {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+            text-align: center;
+        }
+        .log-balance-item .lbi-label { font-size: 0.62rem; color: var(--text-secondary); }
+        .log-balance-item .lbi-value { font-size: 1rem; font-weight: 700; margin-top: 0.1rem; }
+        .lbi-positive { color: var(--accent-cyan); }
+        .lbi-negative { color: var(--danger); }
+        .lbi-neutral  { color: var(--text-primary); }
+
+        .log-meta-note { font-size: 0.7rem; color: var(--text-secondary); text-align: center; margin-top: 0.4rem; }
+
+        .log-undo-toast {
+            position: fixed; bottom: 1.5rem; left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            display: flex; align-items: center; gap: 1rem;
+            z-index: 500; font-size: 0.85rem;
+            opacity: 0; transition: opacity 0.2s;
+            pointer-events: none; white-space: nowrap;
+        }
+        .log-undo-toast.show { opacity: 1; pointer-events: auto; }
+        .log-undo-toast button {
+            background: var(--accent-cyan); color: var(--bg-primary);
+            border: none; border-radius: 6px;
+            padding: 0.4rem 0.75rem;
+            font-weight: 700; cursor: pointer;
+            width: auto; min-height: 36px;
+        }
+
+        .log-copy-area {
+            background: var(--bg-card); border-radius: 8px;
+            padding: 0.75rem; font-family: monospace;
+            font-size: 0.72rem; white-space: pre-wrap;
+            line-height: 1.5; color: var(--text-primary);
+            margin-bottom: 0.75rem; min-height: 80px;
+        }
+        .log-copy-btn {
+            width: 100%; padding: 0.75rem; border: none;
+            border-radius: 8px; font-size: 0.875rem;
+            font-weight: 600; cursor: pointer;
+            background: var(--bg-card); color: var(--text-primary);
+        }
+        .log-copy-btn:hover { background: #475569; }
+
+        .log-empty { color: var(--text-secondary); font-size: 0.78rem; text-align: center; padding: 0.75rem 0; }
     </style>
 </head>
 <body>
@@ -476,6 +710,7 @@
                 <button class="tab" onclick="showTab('emergencias')">🚨 Emergências</button>
                 <button class="tab" onclick="showTab('ventilacao')">Ventilação</button>
                 <button class="tab" onclick="showTab('last')">LAST</button>
+                <button class="tab" onclick="showTab('registro')">📋 Registro</button>
             </div>
             
             <div id="indutores" class="tab-content active"></div>
@@ -487,6 +722,7 @@
             <div id="emergencias" class="tab-content"></div>
             <div id="ventilacao" class="tab-content"></div>
             <div id="last" class="tab-content"></div>
+            <div id="registro" class="tab-content"></div>
             
             <div class="result-section">
                 <h3>📋 Ficha Rápida</h3>
@@ -520,8 +756,16 @@
             <p class="pix-note">Qualquer valor é bem-vindo! 🙏</p>
         </div>
     </div>
-    
+
+    <!-- Undo toast (Registro module) -->
+    <div id="log-undo-toast" class="log-undo-toast">
+        <span id="log-undo-msg">Entrada removida</span>
+        <button onclick="logUndo()">Desfazer</button>
+    </div>
+
     <script>
+        loadLogState(); // Registro: restaura estado salvo antes de qualquer renderização
+
         // Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -568,6 +812,26 @@
         }
         
         // ─────────────────────────────────────────────
+        // ── REGISTRO INTRAOPERATÓRIO — ESTADO GLOBAL ──────────────────
+        let pesos_global = null;
+        let doses_global = null;
+        let LOG_TIMER_INTERVAL = null;
+        let LOG_UNDO_TIMEOUT = null;
+
+        const LOG_STATE = {
+            pacienteKey: '',
+            timers: {
+                anestesia_inicio: null,
+                cirurgia_inicio:  null,
+                cirurgia_fim:     null,
+                anestesia_fim:    null
+            },
+            fluidos:    [],   // { id, tipo, nome, volume_ml, timestamp }
+            perdas:     [],   // { id, tipo, nome, volume_ml, timestamp }
+            drogas:     [],   // { id, nome, dose, unidade, via, infusao_inicio, infusao_fim, timestamp }
+            undo_stack: []    // max 1: { type:'fluido'|'perda'|'droga', entry }
+        };
+
         // DRUG_CONFIG — Fonte única de verdade para doses
         // Para alterar uma dose: edite APENAS aqui.
         // Referências inline por fármaco.
@@ -698,6 +962,40 @@
                 ref: 'ARDSnet | Miller\'s Anesthesia 9th ed., Cap.41'
             }
         };
+
+        // ── REGISTRO — LOOKUP MAPS ───────────────────────────────────────────────
+
+        const DRUG_QUICK_MAP = [
+            { key:'propofol',     label:'Propofol',     getDose: d=>`${d.propofol}`,      unit:'mg',  via:'bolus' },
+            { key:'rocuronio',    label:'Rocurônio',    getDose: d=>`${d.rocuronio}`,     unit:'mg',  via:'bolus' },
+            { key:'fentanil',     label:'Fentanil',     getDose: d=>`${d.fentanil}`,      unit:'mcg', via:'bolus' },
+            { key:'cetamina',     label:'Cetamina',     getDose: d=>`${d.cetamina}`,      unit:'mg',  via:'bolus' },
+            { key:'neostigmina',  label:'Neostigmina',  getDose: d=>`${d.neostigmina}`,   unit:'mg',  via:'bolus' },
+            { key:'sugammadex_2', label:'Sugam.TOF2',   getDose: d=>`${d.sugammadex_2}`,  unit:'mg',  via:'bolus' },
+            { key:'sugammadex_4', label:'Sugam.Prof',   getDose: d=>`${d.sugammadex_4}`,  unit:'mg',  via:'bolus' },
+            { key:'atropina',     label:'Atropina',     getDose: d=>`${d.atropina}`,      unit:'mg',  via:'bolus' },
+        ];
+
+        const FLUID_QUICK_MAP = [
+            { tipo:'cristaloide',  nome:'Ringer Lactato', vol:500 },
+            { tipo:'cristaloide',  nome:'Ringer Lactato', vol:250 },
+            { tipo:'cristaloide',  nome:'SF 0.9%',        vol:500 },
+            { tipo:'cristaloide',  nome:'SF 0.9%',        vol:250 },
+            { tipo:'cristaloide',  nome:'Glicose 5%',     vol:250 },
+            { tipo:'coloide',      nome:'Albumina 20%',   vol:100 },
+            { tipo:'coloide',      nome:'Gelafundina',    vol:500 },
+            { tipo:'hemoderivado', nome:'CH',             vol:300 },
+            { tipo:'hemoderivado', nome:'PFC',            vol:250 },
+            { tipo:'hemoderivado', nome:'Plaquetas',      vol:300 },
+        ];
+
+        const PERDA_QUICK_MAP = [
+            { tipo:'du',          nome:'Débito Urinário', vol:100 },
+            { tipo:'du',          nome:'Débito Urinário', vol:200 },
+            { tipo:'sangramento', nome:'Sangramento',     vol:100 },
+            { tipo:'sangramento', nome:'Sangramento',     vol:200 },
+            { tipo:'sangramento', nome:'Sangramento',     vol:500 },
+        ];
 
         // ── CALCULATION HELPERS ──────────────────────────────────────────────────
 
@@ -1515,6 +1813,570 @@ TCI: Propofol ${modelo_propofol} | Remi Minto TBW ${tbw} kg | Sufenta Gepts ${su
             `;
         }
 
+        // ── REGISTRO — PERSISTÊNCIA ──────────────────────────────────────────────
+
+        function loadLogState() {
+            try {
+                const saved = localStorage.getItem('anestcalc_log_v1');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    Object.assign(LOG_STATE, parsed);
+                }
+            } catch(e) { /* storage indisponível ou JSON inválido — ignora */ }
+        }
+
+        function saveLogState() {
+            try { localStorage.setItem('anestcalc_log_v1', JSON.stringify(LOG_STATE)); }
+            catch(e) {}
+        }
+
+        function resetLog() {
+            LOG_STATE.timers = { anestesia_inicio: null, cirurgia_inicio: null, cirurgia_fim: null, anestesia_fim: null };
+            LOG_STATE.fluidos     = [];
+            LOG_STATE.perdas      = [];
+            LOG_STATE.drogas      = [];
+            LOG_STATE.undo_stack  = [];
+            saveLogState();
+        }
+
+        function buildPacienteKey(nome, peso, altura) {
+            return `${(nome||'').trim().toLowerCase()}_${peso}_${altura}`;
+        }
+
+        // ── REGISTRO — TIMERS ────────────────────────────────────────────────────
+
+        function logSetTimer(timerKey) {
+            LOG_STATE.timers[timerKey] = new Date().toISOString();
+            saveLogState();
+            renderTimerSection();
+            if (timerKey === 'anestesia_inicio') startLiveTimer();
+            renderLogCopy();
+        }
+
+        function logClearTimer(timerKey) {
+            LOG_STATE.timers[timerKey] = null;
+            saveLogState();
+            renderTimerSection();
+            renderLogCopy();
+        }
+
+        function startLiveTimer() {
+            stopLiveTimer();
+            if (LOG_STATE.timers.anestesia_inicio) {
+                updateTimerDisplay();
+                LOG_TIMER_INTERVAL = setInterval(updateTimerDisplay, 1000);
+            }
+        }
+
+        function stopLiveTimer() {
+            if (LOG_TIMER_INTERVAL) { clearInterval(LOG_TIMER_INTERVAL); LOG_TIMER_INTERVAL = null; }
+        }
+
+        function updateTimerDisplay() {
+            const el = document.getElementById('log-elapsed-display');
+            if (!el) return;
+            if (!LOG_STATE.timers.anestesia_inicio) { el.textContent = '--:--:--'; return; }
+            const elapsed = Math.max(0, Math.floor((Date.now() - new Date(LOG_STATE.timers.anestesia_inicio).getTime()) / 1000));
+            const h = Math.floor(elapsed / 3600);
+            const m = Math.floor((elapsed % 3600) / 60);
+            const s = elapsed % 60;
+            el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+
+        function fmtHora(iso) {
+            if (!iso) return '--:--';
+            return new Date(iso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function logTimerStatus() {
+            const t = LOG_STATE.timers;
+            if (!t.anestesia_inicio) return 'Toque INÍCIO ANEST para iniciar';
+            if (!t.cirurgia_inicio)  return 'Pré-operatório / Indução';
+            if (!t.cirurgia_fim)     return '🔪 Cirurgia em andamento';
+            if (!t.anestesia_fim)    return '⏳ Pós-op / Recuperação';
+            return '✅ Anestesia encerrada';
+        }
+
+        // ── REGISTRO — DROGAS ────────────────────────────────────────────────────
+
+        function logAddDrugQuick(key) {
+            const map = DRUG_QUICK_MAP.find(m => m.key === key);
+            if (!map || !doses_global) return;
+            logAddDrug({ nome: map.label, dose: map.getDose(doses_global), unidade: map.unit, via: map.via });
+        }
+
+        function logAddDrug(entry) {
+            const full = {
+                id: (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Date.now() + Math.random().toString(36).slice(2),
+                nome: entry.nome, dose: entry.dose, unidade: entry.unidade,
+                via: entry.via,
+                infusao_inicio: entry.via === 'infusao' ? new Date().toISOString() : null,
+                infusao_fim: null,
+                timestamp: new Date().toISOString()
+            };
+            LOG_STATE.drogas.push(full);
+            LOG_STATE.undo_stack = [{ type: 'droga', entry: full }];
+            saveLogState();
+            renderDrugSection();
+            showUndoToast('Droga adicionada');
+            renderLogCopy();
+        }
+
+        function logRemoveDrug(id) {
+            const idx = LOG_STATE.drogas.findIndex(d => d.id === id);
+            if (idx === -1) return;
+            LOG_STATE.undo_stack = [{ type: 'droga', entry: LOG_STATE.drogas[idx] }];
+            LOG_STATE.drogas.splice(idx, 1);
+            saveLogState();
+            renderDrugSection();
+            showUndoToast('Droga removida');
+            renderLogCopy();
+        }
+
+        function logStopInfusion(id) {
+            const d = LOG_STATE.drogas.find(d => d.id === id);
+            if (d) { d.infusao_fim = new Date().toISOString(); saveLogState(); renderDrugSection(); renderLogCopy(); }
+        }
+
+        function logAddDrugManual() {
+            const nome = document.getElementById('log-drug-name').value.trim();
+            const dose = document.getElementById('log-drug-dose').value.trim();
+            const unit = document.getElementById('log-drug-unit').value;
+            const via  = document.getElementById('log-drug-via').value;
+            if (!nome || !dose) return;
+            logAddDrug({ nome, dose, unidade: unit, via });
+            document.getElementById('log-drug-name').value = '';
+            document.getElementById('log-drug-dose').value = '';
+        }
+
+        // ── REGISTRO — FLUIDOS ───────────────────────────────────────────────────
+
+        function logAddFluidQuick(tipo, nome, volume_ml) {
+            const entry = {
+                id: (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Date.now() + Math.random().toString(36).slice(2),
+                tipo, nome, volume_ml,
+                timestamp: new Date().toISOString()
+            };
+            LOG_STATE.fluidos.push(entry);
+            LOG_STATE.undo_stack = [{ type: 'fluido', entry }];
+            saveLogState();
+            renderFluidSection();
+            renderBalanceBar();
+            showUndoToast('Fluido adicionado');
+            renderLogCopy();
+        }
+
+        function logAddLossQuick(tipo, nome, volume_ml) {
+            const entry = {
+                id: (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Date.now() + Math.random().toString(36).slice(2),
+                tipo, nome, volume_ml,
+                timestamp: new Date().toISOString()
+            };
+            LOG_STATE.perdas.push(entry);
+            LOG_STATE.undo_stack = [{ type: 'perda', entry }];
+            saveLogState();
+            renderFluidSection();
+            renderBalanceBar();
+            showUndoToast('Perda registrada');
+            renderLogCopy();
+        }
+
+        function logRemoveFluid(id) {
+            const idx = LOG_STATE.fluidos.findIndex(f => f.id === id);
+            if (idx === -1) return;
+            LOG_STATE.undo_stack = [{ type: 'fluido', entry: LOG_STATE.fluidos[idx] }];
+            LOG_STATE.fluidos.splice(idx, 1);
+            saveLogState();
+            renderFluidSection();
+            renderBalanceBar();
+            showUndoToast('Fluido removido');
+            renderLogCopy();
+        }
+
+        function logRemoveLoss(id) {
+            const idx = LOG_STATE.perdas.findIndex(p => p.id === id);
+            if (idx === -1) return;
+            LOG_STATE.undo_stack = [{ type: 'perda', entry: LOG_STATE.perdas[idx] }];
+            LOG_STATE.perdas.splice(idx, 1);
+            saveLogState();
+            renderFluidSection();
+            renderBalanceBar();
+            showUndoToast('Perda removida');
+            renderLogCopy();
+        }
+
+        function logAddFluidManual() {
+            const nome = document.getElementById('log-fluid-name').value.trim();
+            const vol  = parseInt(document.getElementById('log-fluid-vol').value);
+            const tipo = document.getElementById('log-fluid-tipo').value;
+            if (!nome || !vol || vol <= 0) return;
+            logAddFluidQuick(tipo, nome, vol);
+            document.getElementById('log-fluid-name').value = '';
+            document.getElementById('log-fluid-vol').value = '';
+        }
+
+        function logAddLossManual() {
+            const nome = document.getElementById('log-loss-name').value.trim();
+            const vol  = parseInt(document.getElementById('log-loss-vol').value);
+            if (!nome || !vol || vol <= 0) return;
+            logAddLossQuick('outro', nome, vol);
+            document.getElementById('log-loss-name').value = '';
+            document.getElementById('log-loss-vol').value = '';
+        }
+
+        function calcFluidBalance() {
+            const entradas_ml = LOG_STATE.fluidos.reduce((s, f) => s + f.volume_ml, 0);
+            const perdas_ml   = LOG_STATE.perdas.reduce((s, p) => s + p.volume_ml, 0);
+            const balanco_ml  = entradas_ml - perdas_ml;
+            let duracao_h = 0, target_min = 0, target_max = 0;
+            if (LOG_STATE.timers.anestesia_inicio) {
+                const fim = LOG_STATE.timers.anestesia_fim ? new Date(LOG_STATE.timers.anestesia_fim) : new Date();
+                duracao_h = Math.max(0, (fim - new Date(LOG_STATE.timers.anestesia_inicio)) / 3600000);
+                if (pesos_global) {
+                    target_min = Math.round(pesos_global.tbw * 4 * duracao_h);
+                    target_max = Math.round(pesos_global.tbw * 8 * duracao_h);
+                }
+            }
+            return { entradas_ml, perdas_ml, balanco_ml, target_min, target_max, duracao_h };
+        }
+
+        // ── REGISTRO — UNDO ──────────────────────────────────────────────────────
+
+        function showUndoToast(msg) {
+            const toast = document.getElementById('log-undo-toast');
+            const msgEl = document.getElementById('log-undo-msg');
+            if (!toast || !msgEl) return;
+            msgEl.textContent = msg;
+            toast.classList.add('show');
+            if (LOG_UNDO_TIMEOUT) clearTimeout(LOG_UNDO_TIMEOUT);
+            LOG_UNDO_TIMEOUT = setTimeout(() => { toast.classList.remove('show'); }, 4000);
+        }
+
+        function logUndo() {
+            const toast = document.getElementById('log-undo-toast');
+            if (toast) toast.classList.remove('show');
+            if (!LOG_STATE.undo_stack.length) return;
+            const { type, entry } = LOG_STATE.undo_stack[0];
+            LOG_STATE.undo_stack = [];
+            if (type === 'droga') {
+                if (!LOG_STATE.drogas.find(d => d.id === entry.id)) LOG_STATE.drogas.push(entry);
+                LOG_STATE.drogas.sort((a,b) => a.timestamp.localeCompare(b.timestamp));
+                saveLogState(); renderDrugSection();
+            } else if (type === 'fluido') {
+                if (!LOG_STATE.fluidos.find(f => f.id === entry.id)) LOG_STATE.fluidos.push(entry);
+                LOG_STATE.fluidos.sort((a,b) => a.timestamp.localeCompare(b.timestamp));
+                saveLogState(); renderFluidSection(); renderBalanceBar();
+            } else if (type === 'perda') {
+                if (!LOG_STATE.perdas.find(p => p.id === entry.id)) LOG_STATE.perdas.push(entry);
+                LOG_STATE.perdas.sort((a,b) => a.timestamp.localeCompare(b.timestamp));
+                saveLogState(); renderFluidSection(); renderBalanceBar();
+            }
+            renderLogCopy();
+        }
+
+        // ── REGISTRO — RENDER ────────────────────────────────────────────────────
+
+        function renderLog(pesos, doses) {
+            pesos_global = pesos;
+            doses_global = doses;
+
+            const drugBtns = DRUG_QUICK_MAP.map(m =>
+                `<button class="log-quick-btn" onclick="logAddDrugQuick('${m.key}')">
+                    <span class="qb-name">${m.label}</span>
+                    <span class="qb-dose">${m.getDose(doses)} ${m.unit}</span>
+                </button>`
+            ).join('') +
+            `<button class="log-quick-btn" onclick="document.getElementById('log-drug-name').focus()">
+                <span class="qb-name">+ Outro</span>
+                <span class="qb-dose">manual</span>
+            </button>`;
+
+            const fluidBtns = (tipo) => FLUID_QUICK_MAP.filter(f => f.tipo === tipo).map(f =>
+                `<button class="log-fluid-btn" onclick="logAddFluidQuick('${f.tipo}','${f.nome}',${f.vol})">
+                    ${f.nome}<br><span class="fb-vol">${f.vol} ml</span>
+                </button>`
+            ).join('');
+
+            const perdaBtns = PERDA_QUICK_MAP.map(p =>
+                `<button class="log-fluid-btn" onclick="logAddLossQuick('${p.tipo}','${p.nome}',${p.vol})">
+                    ${p.nome}<br><span class="fb-vol">${p.vol} ml</span>
+                </button>`
+            ).join('');
+
+            document.getElementById('registro').innerHTML = `
+                <!-- TIMER HERO -->
+                <div class="log-timer-hero">
+                    <div class="log-timer-display" id="log-elapsed-display">--:--:--</div>
+                    <div class="log-timer-label">Tempo de anestesia</div>
+                    <div class="log-timer-status" id="log-timer-status"></div>
+                </div>
+
+                <!-- BOTÕES DE TEMPO -->
+                <div class="log-times-grid" id="log-times-grid"></div>
+
+                <!-- BALANÇO HÍDRICO -->
+                <div class="log-balance-bar" id="log-balance-bar">
+                    <div class="log-balance-item"><div class="lbi-label">Entradas</div><div class="lbi-value lbi-positive">0 ml</div></div>
+                    <div class="log-balance-item"><div class="lbi-label">Perdas</div><div class="lbi-value lbi-negative">0 ml</div></div>
+                    <div class="log-balance-item"><div class="lbi-label">Balanço</div><div class="lbi-value lbi-neutral">0 ml</div></div>
+                </div>
+
+                <!-- DROGAS -->
+                <div class="log-section">
+                    <div class="log-section-header">
+                        <span class="log-section-title">💊 Drogas Administradas</span>
+                        <span class="log-section-total" id="log-drug-count">0 registros</span>
+                    </div>
+                    <div class="log-quick-grid">${drugBtns}</div>
+                    <div id="log-drogas-list"></div>
+                    <div class="log-manual-row drug-row">
+                        <input type="text"   id="log-drug-name" placeholder="Droga" />
+                        <input type="number" id="log-drug-dose" placeholder="Dose" step="any" />
+                        <select id="log-drug-unit">
+                            <option>mg</option><option>mcg</option><option>ml</option><option>U</option><option>mEq</option>
+                        </select>
+                        <select id="log-drug-via">
+                            <option value="bolus">Bolus</option>
+                            <option value="infusao">Infusão</option>
+                        </select>
+                    </div>
+                    <div class="log-add-row">
+                        <button class="log-add-btn" onclick="logAddDrugManual()">+ Adicionar</button>
+                    </div>
+                </div>
+
+                <!-- FLUIDOS -->
+                <div class="log-section">
+                    <div class="log-section-header">
+                        <span class="log-section-title">🩺 Fluidos Intraoperatórios</span>
+                        <span class="log-section-total" id="log-fluid-total">0 ml</span>
+                    </div>
+
+                    <div class="log-subsection-label">Cristaloides</div>
+                    <div class="log-fluid-grid">${fluidBtns('cristaloide')}</div>
+
+                    <div class="log-subsection-label">Coloides</div>
+                    <div class="log-fluid-grid">${fluidBtns('coloide')}</div>
+
+                    <div class="log-subsection-label">Hemoderivados</div>
+                    <div class="log-fluid-grid">${fluidBtns('hemoderivado')}</div>
+
+                    <div id="log-fluidos-list"></div>
+
+                    <div class="log-manual-row fluid-row">
+                        <input type="text"   id="log-fluid-name" placeholder="Nome do fluido" />
+                        <input type="number" id="log-fluid-vol"  placeholder="Vol ml" />
+                    </div>
+                    <div class="log-manual-row fluid-row" style="margin-top:0.3rem;">
+                        <select id="log-fluid-tipo">
+                            <option value="cristaloide">Cristaloide</option>
+                            <option value="coloide">Coloide</option>
+                            <option value="hemoderivado">Hemoderivado</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                        <button class="log-add-btn" onclick="logAddFluidManual()">+ Adicionar</button>
+                    </div>
+
+                    <div class="log-subsection-label" style="margin-top:1rem;">📉 Perdas</div>
+                    <div class="log-fluid-grid">${perdaBtns}</div>
+                    <div id="log-perdas-list"></div>
+                    <div class="log-manual-row fluid-row">
+                        <input type="text"   id="log-loss-name" placeholder="Tipo de perda" />
+                        <input type="number" id="log-loss-vol"  placeholder="Vol ml" />
+                    </div>
+                    <div class="log-add-row" style="margin-top:0.3rem;">
+                        <button class="log-add-btn" onclick="logAddLossManual()">+ Perda</button>
+                    </div>
+                    <div class="log-meta-note" id="log-meta-note"></div>
+                </div>
+
+                <!-- COPIAR REGISTRO -->
+                <div class="log-section">
+                    <div class="log-section-header">
+                        <span class="log-section-title">📋 Copiar Registro</span>
+                    </div>
+                    <div class="log-copy-area" id="log-copy-area"></div>
+                    <button class="log-copy-btn" id="log-copy-btn" onclick="copyLogText()">📋 Copiar Registro</button>
+                </div>
+            `;
+
+            renderTimerSection();
+            renderDrugSection();
+            renderFluidSection();
+            renderBalanceBar();
+            renderLogCopy();
+            startLiveTimer();
+        }
+
+        function renderTimerSection() {
+            const t = LOG_STATE.timers;
+            const defs = [
+                { key: 'anestesia_inicio', label: 'INÍCIO ANEST.' },
+                { key: 'cirurgia_inicio',  label: 'INÍCIO CIRURG.' },
+                { key: 'cirurgia_fim',     label: 'FIM CIRURGIA' },
+                { key: 'anestesia_fim',    label: 'FIM ANESTESIA' },
+            ];
+            const grid = document.getElementById('log-times-grid');
+            const status = document.getElementById('log-timer-status');
+            if (!grid) return;
+
+            grid.innerHTML = defs.map(d => {
+                const val = t[d.key];
+                const cls = val ? 'set' : 'unset';
+                const action = val
+                    ? `onclick="logClearTimer('${d.key}')" title="Toque para limpar"`
+                    : `onclick="logSetTimer('${d.key}')"`;
+                const valueHtml = val
+                    ? `<span class="lbt-value">${fmtHora(val)}</span>`
+                    : `<span class="lbt-value">-- : --</span><span class="lbt-tap">toque p/ registrar</span>`;
+                return `<button class="log-time-btn ${cls}" ${action}>
+                    <span class="lbt-label">${d.label}</span>${valueHtml}
+                </button>`;
+            }).join('');
+
+            if (status) status.textContent = logTimerStatus();
+        }
+
+        function renderDrugSection() {
+            const list = document.getElementById('log-drogas-list');
+            const count = document.getElementById('log-drug-count');
+            if (!list) return;
+            const n = LOG_STATE.drogas.length;
+            if (count) count.textContent = `${n} registro${n !== 1 ? 's' : ''}`;
+            if (n === 0) { list.innerHTML = '<div class="log-empty">Nenhuma droga registrada</div>'; return; }
+            list.innerHTML = LOG_STATE.drogas.map(d => {
+                const hora = fmtHora(d.timestamp);
+                const isActive = d.via === 'infusao' && !d.infusao_fim;
+                const badge = isActive
+                    ? `<span class="log-infusion-badge">▶ INFUSÃO</span>
+                       <button class="log-stop-btn" onclick="logStopInfusion('${d.id}')">Parar</button>`
+                    : `<span class="log-entry-detail">${d.dose} ${d.unidade} ${d.via}</span>`;
+                return `<div class="log-entry">
+                    <span class="log-entry-time">${hora}</span>
+                    <span class="log-entry-name">${d.nome}</span>
+                    ${badge}
+                    <button class="log-entry-delete" onclick="logRemoveDrug('${d.id}')">×</button>
+                </div>`;
+            }).join('');
+        }
+
+        function renderFluidSection() {
+            const fluidList = document.getElementById('log-fluidos-list');
+            const perdaList = document.getElementById('log-perdas-list');
+            const totalEl   = document.getElementById('log-fluid-total');
+            if (!fluidList) return;
+
+            const totalFluido = LOG_STATE.fluidos.reduce((s, f) => s + f.volume_ml, 0);
+            if (totalEl) totalEl.textContent = `${totalFluido} ml`;
+
+            if (LOG_STATE.fluidos.length === 0) {
+                fluidList.innerHTML = '<div class="log-empty">Nenhum fluido registrado</div>';
+            } else {
+                fluidList.innerHTML = LOG_STATE.fluidos.map(f =>
+                    `<div class="log-entry">
+                        <span class="log-entry-time">${fmtHora(f.timestamp)}</span>
+                        <span class="log-entry-name">${f.nome}</span>
+                        <span class="log-entry-detail">${f.volume_ml} ml</span>
+                        <button class="log-entry-delete" onclick="logRemoveFluid('${f.id}')">×</button>
+                    </div>`
+                ).join('');
+            }
+
+            if (!perdaList) return;
+            if (LOG_STATE.perdas.length === 0) {
+                perdaList.innerHTML = '<div class="log-empty">Nenhuma perda registrada</div>';
+            } else {
+                perdaList.innerHTML = LOG_STATE.perdas.map(p =>
+                    `<div class="log-entry">
+                        <span class="log-entry-time">${fmtHora(p.timestamp)}</span>
+                        <span class="log-entry-name">${p.nome}</span>
+                        <span class="log-entry-detail">${p.volume_ml} ml</span>
+                        <button class="log-entry-delete" onclick="logRemoveLoss('${p.id}')">×</button>
+                    </div>`
+                ).join('');
+            }
+        }
+
+        function renderBalanceBar() {
+            const bar = document.getElementById('log-balance-bar');
+            const meta = document.getElementById('log-meta-note');
+            if (!bar) return;
+            const b = calcFluidBalance();
+            const balClass = b.balanco_ml >= 0 ? 'lbi-positive' : 'lbi-negative';
+            const sign = b.balanco_ml >= 0 ? '+' : '';
+            bar.innerHTML = `
+                <div class="log-balance-item">
+                    <div class="lbi-label">Entradas</div>
+                    <div class="lbi-value lbi-positive">${b.entradas_ml} ml</div>
+                </div>
+                <div class="log-balance-item">
+                    <div class="lbi-label">Perdas</div>
+                    <div class="lbi-value lbi-negative">${b.perdas_ml} ml</div>
+                </div>
+                <div class="log-balance-item">
+                    <div class="lbi-label">Balanço</div>
+                    <div class="lbi-value ${balClass}">${sign}${b.balanco_ml} ml</div>
+                </div>`;
+            if (meta && pesos_global && b.duracao_h > 0) {
+                meta.textContent = `Meta cristal: ${b.target_min}–${b.target_max} ml (${pesos_global.tbw}kg × 4–8 ml/kg × ${b.duracao_h.toFixed(1)}h)`;
+            } else if (meta) {
+                meta.textContent = pesos_global ? `Meta: ${pesos_global.tbw} kg × 4–8 ml/kg/h (inicie o timer)` : '';
+            }
+        }
+
+        function renderLogCopy() {
+            const area = document.getElementById('log-copy-area');
+            if (!area) return;
+            const t = LOG_STATE.timers;
+            const lines = [];
+            const nome = pesos_global ? '' : '';
+            lines.push('=== REGISTRO ANESTÉSICO ===');
+            lines.push(`Data: ${new Date().toLocaleDateString('pt-BR')}`);
+            if (pesos_global) lines.push(`Paciente: TBW ${pesos_global.tbw}kg | IMC ${pesos_global.imc}`);
+            lines.push('');
+            lines.push('─ TEMPOS ─');
+            if (t.anestesia_inicio) lines.push(`Início Anest.: ${fmtHora(t.anestesia_inicio)}`);
+            if (t.cirurgia_inicio)  lines.push(`Início Cirurg: ${fmtHora(t.cirurgia_inicio)}`);
+            if (t.cirurgia_fim)     lines.push(`Fim Cirurgia:  ${fmtHora(t.cirurgia_fim)}`);
+            if (t.anestesia_fim)    lines.push(`Fim Anestesia: ${fmtHora(t.anestesia_fim)}`);
+
+            if (LOG_STATE.drogas.length) {
+                lines.push('');
+                lines.push('─ DROGAS ─');
+                LOG_STATE.drogas.forEach(d => {
+                    const inf = d.via === 'infusao' ? ` [INF ${fmtHora(d.infusao_inicio)}${d.infusao_fim ? '→'+fmtHora(d.infusao_fim) : '→ativo'}]` : '';
+                    lines.push(`${fmtHora(d.timestamp)}  ${d.nome.padEnd(14)} ${d.dose} ${d.unidade} ${d.via}${inf}`);
+                });
+            }
+
+            if (LOG_STATE.fluidos.length) {
+                lines.push('');
+                lines.push('─ FLUIDOS ─');
+                LOG_STATE.fluidos.forEach(f => lines.push(`${fmtHora(f.timestamp)}  ${f.nome.padEnd(18)} ${f.volume_ml} ml`));
+                const b = calcFluidBalance();
+                lines.push(`Total entradas: ${b.entradas_ml} ml`);
+            }
+
+            if (LOG_STATE.perdas.length) {
+                lines.push('');
+                lines.push('─ PERDAS ─');
+                LOG_STATE.perdas.forEach(p => lines.push(`${fmtHora(p.timestamp)}  ${p.nome.padEnd(18)} ${p.volume_ml} ml`));
+                const b = calcFluidBalance();
+                lines.push(`Total perdas: ${b.perdas_ml} ml  |  Balanço: ${b.balanco_ml >= 0 ? '+' : ''}${b.balanco_ml} ml`);
+            }
+
+            area.textContent = lines.join('\n');
+        }
+
+        function copyLogText() {
+            const text = document.getElementById('log-copy-area')?.textContent || '';
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('log-copy-btn');
+                if (btn) { btn.textContent = '✅ Copiado!'; setTimeout(() => { btn.textContent = '📋 Copiar Registro'; }, 2000); }
+            }).catch(() => {});
+        }
+
         // CALCULADORA
         function calcular() {
             const nome = document.getElementById('nome').value || 'Paciente';
@@ -1547,6 +2409,15 @@ TCI: Propofol ${modelo_propofol} | Remi Minto TBW ${tbw} kg | Sufenta Gepts ${su
             renderVentilacao(doses, pesos, vent);
             renderLAST(doses, pesos);
             renderFichaRapida(doses, pesos, vent, tci);
+
+            // Registro intraoperatório — detecta troca de paciente e renderiza
+            const key = buildPacienteKey(nome, peso, altura);
+            if (LOG_STATE.pacienteKey !== key) {
+                resetLog();
+                LOG_STATE.pacienteKey = key;
+                saveLogState();
+            }
+            renderLog(pesos, doses);
         }
 
         function voltar() {
@@ -1554,6 +2425,7 @@ TCI: Propofol ${modelo_propofol} | Remi Minto TBW ${tbw} kg | Sufenta Gepts ${su
             document.getElementById('results').style.display = 'none';
             document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===0));
             document.querySelectorAll('.tab-content').forEach((c,i) => c.classList.toggle('active', i===0));
+            stopLiveTimer();
         }
         
         function showTab(tabId) {
